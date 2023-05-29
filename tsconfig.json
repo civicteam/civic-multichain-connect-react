@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "baseUrl": "./src",
+    "esModuleInterop": true,
+    "rootDir": "src/",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "types": ["mocha", "chai"],
+    "target": "ES2015" /* Build to ES2015 */,
+    "module": "ES2015" /* using ES2015 modules */,
+    // "lib": ["es2015", "dom"] /* Using ES2015 features and DOM APIs  */,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "declaration": true /* Generates corresponding'.d.ts' files. */,
+    "declarationDir": "./dist/typings/" /* build '.d.ts' files to ./dist/typings */,
+    "outDir": "./dist/esm/" /* build to ./dist/esm/ */,
+  },
+  "files": ["./src/index.ts"],
+  "include": ["src", "test"],
+  "exclude": [
+    "node_modules",
+    "./node_modules",
+    "./node_modules/*",
+    "../../node_modules/",
+    "../../node_modules/*"
+  ],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
+}

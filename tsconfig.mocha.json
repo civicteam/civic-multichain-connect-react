@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "esModuleInterop": true,
+    "target": "ES6",
+    "rootDir": "src/",
+    "moduleResolution": "node",
+    "declaration": true,
+    "importHelpers": true,
+    "lib": ["es5", "dom", "dom.iterable", "esnext"],
+    "outDir": "dist",
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"],
+  "exclude": ["node_modules/", "../../node_modules/"],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
+}
