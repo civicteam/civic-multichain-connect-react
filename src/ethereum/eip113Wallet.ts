@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Ethereum } from "@wagmi/connectors";
 import type { Wallet, WalletIcon } from "@wallet-standard/base";
 

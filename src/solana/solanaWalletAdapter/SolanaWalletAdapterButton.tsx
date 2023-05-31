@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
+
 import React from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import {

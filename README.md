@@ -39,7 +39,7 @@ The library provides support for multiple chains by leveraging the [Wallet Stand
 
 ### Installation
 
-Install the component using `yarn install @civic/multichain-wallet-connect` or `npm i -S @civic/multichain-wallet-connect`.
+Install the component using `yarn install @civic/multichain-connect-react` or `npm i -S @civic/multichain-connect-react`.
 
 ### Architecture
 
@@ -70,7 +70,7 @@ sequenceDiagram
 
 ```javascript
 import React from 'react';
-import { MultichainWalletProvider, createChain } from '@civic/multichain-wallet-connect';
+import { MultichainWalletProvider, createChain } from '@civic/multichain-connect-react';
 
 const ExampleComponent: React.FC = () => {
   return (
@@ -90,10 +90,10 @@ export default ExampleComponent;
 1. Creating your own button with custom styling:
 
 ```javascript
-/* eslint-disable import/no-extraneous-dependencies */
+
 import React from "react";
 import styled from "styled-components";
-import { MultichainConnectedButton, useWallet, useModal } from "@civic/multichain-wallet-connect";
+import { MultichainConnectedButton, useWallet, useModal } from "@civic/multichain-connect-react";
 
 // Styled component named StyledButton
 const StyledButton = styled.button`

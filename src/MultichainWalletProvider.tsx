@@ -13,8 +13,6 @@ import ChainSelectorModalProvider from "./chainSelector/ChainSelectorProvider";
 import { defaultLabels } from "./constants";
 import LabelProvider from "./LabelProvider";
 import {
-  Chain,
-  ChainType,
   EVMChain,
   Labels,
   SolanaChain,
@@ -37,9 +35,9 @@ export default function MultichainWalletProvider({
   labels?: Labels;
   providers?: ChainProviderFn[];
 }): ReactElement {
-  const ethereumChains = chains?.filter(isEvmChain).map(mapToEvmChain);
-  const solanaChains = chains?.filter(isSolanaChain).map(mapToSolanaChain);
-  const mappedChains = ethereumChains?.concat(solanaChains);
+  const ethereumChains = chains?.filter(isEvmChain).map(mapToEvmChain) || [];
+  const solanaChains = chains?.filter(isSolanaChain).map(mapToSolanaChain) || [];
+  const mappedChains = solanaChains?.concat(ethereumChains);
 
   const initialEvmChain = isEvmChain(initialChain)
     ? mapToEvmChain(initialChain)

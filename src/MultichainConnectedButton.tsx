@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
+
 import React from "react";
 import { RainbowkitButton } from "./ethereum/rainbowkit/RainbowkitButton";
 import { SolanaWalletAdapterButton } from "./solana/solanaWalletAdapter/SolanaWalletAdapterButton";

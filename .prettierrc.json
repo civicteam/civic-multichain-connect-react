@@ -1,0 +1,10 @@
+{
+    "printWidth": 80,
+    "trailingComma": "es5",
+    "useTabs": false,
+    "singleQuote": false,
+    "jsxSingleQuote": false,
+    "arrowParens": "always",
+    "tabWidth": 2,
+    "tailwindConfig": "./packages/frontend/tailwind.config.js"
+}

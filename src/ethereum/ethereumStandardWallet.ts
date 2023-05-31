@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 // TODO: Migrate to https://github.com/wagmi-dev/references/tree/main/packages/connectors.
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

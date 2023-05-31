@@ -1,7 +1,6 @@
 // This file is copied with modifications from:
 // - https://github.com/rainbow-me/rainbowkit/blob/0d5640929326d65673596a11cd018a9c6524ff8c/packages/rainbowkit/src/wallets/getDefaultWallets.ts.
 // - https://github.com/wallet-standard/wallet-standard/blob/8ac98a8ac6001a34906d01eac2ae0825f7208b32/packages/react/core/src/WalletsProvider.tsx.
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useEffect, useMemo, useState } from "react";
 import {
   Chain,

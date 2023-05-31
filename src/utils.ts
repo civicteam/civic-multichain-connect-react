@@ -1,4 +1,3 @@
-import { Wallet as SolanaWallet } from "@solana/wallet-adapter-react";
 import { Wallet as EthersWallet } from "ethers";
 import { getIconInfo, SupportedSymbol } from "@civic/civic-chain-icons";
 import {
