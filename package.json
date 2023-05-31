@@ -1,6 +1,6 @@
 {
   "name": "@civic/multichain-connect-react",
-  "version": "0.0.1-beta.2",
+  "version": "0.0.1-beta.3",
   "description": "A multichain wallet connect library",
   "repository": "git@github.com:civicteam/civic-multichain-connect-react.git",
   "author": "civic.com",
@@ -25,13 +25,9 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
-  "resolutions": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
-  },
   "dependencies": {
-    "@civic/civic-chain-icons": "0.0.5",
-    "@civic/civic-eth-provider": "0.0.8",
+    "@civic/civic-chain-icons": "0.0.5-beta.0",
+    "@civic/civic-eth-provider": "0.0.8-beta.2",
     "@headlessui/react": "^1.7.14",
     "@rainbow-me/rainbowkit": "^0.12.14",
     "@solana/wallet-adapter-base": "^0.9.22",
@@ -70,8 +66,7 @@
     "ts-mocha": "^10.0.0",
     "ts-node": "^10.7.0",
     "tsconfig-paths": "^3.9.0",
-    "tslib": "^2.5.2",
-    "typescript": "^4.1.2"
+    "tslib": "^2.5.2"
   },
   "main": "./dist/umd/index.js",
   "module": "./dist/esm/index.js",
