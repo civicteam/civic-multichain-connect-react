@@ -1,4 +1,4 @@
-## @civic/multichain-connect-react
+## Library Specification: Multi-Chain Wallet Support
 
 ### Overview
 The library provides support for multiple chains by leveraging the [Wallet Standard](https://github.com/wallet-standard/wallet-standard). It enables the injection of wallets that conform to the wallet standard into Wallet Adapters. The Wallet Adapters serve as UI interfaces that allow users to select their preferred wallet for connecting to the dApp. The library currently supports the [Solana Wallet Adapter](https://github.com/solana-labs/wallet-adapter) and [Rainbowkit](https://www.rainbowkit.com), both of which implement the same interface. This design allows for easy switching between different Wallet Adapters.
@@ -39,7 +39,7 @@ The library provides support for multiple chains by leveraging the [Wallet Stand
 
 ### Installation
 
-Install the component using `yarn install @civic/multichain-connect-react` or `npm i -S @civic/multichain-connect-react`.
+Install the component using `yarn install @civic/multichain-wallet-connect` or `npm i -S @civic/multichain-wallet-connect`.
 
 ### Architecture
 
@@ -70,7 +70,7 @@ sequenceDiagram
 
 ```javascript
 import React from 'react';
-import { MultichainWalletProvider, createChain } from '@civic/multichain-connect-react';
+import { MultichainWalletProvider, createChain } from '@civic/multichain-wallet-connect';
 
 const ExampleComponent: React.FC = () => {
   return (
@@ -93,7 +93,7 @@ export default ExampleComponent;
 /* eslint-disable import/no-extraneous-dependencies */
 import React from "react";
 import styled from "styled-components";
-import { MultichainConnectedButton, useWallet, useModal } from "@civic/multichain-connect-react";
+import { MultichainConnectedButton, useWallet, useModal } from "@civic/multichain-wallet-connect";
 
 // Styled component named StyledButton
 const StyledButton = styled.button`

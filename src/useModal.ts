@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useContext } from "react";
 import { ChainSelectorModalContext } from "./chainSelector/ChainSelectorProvider";
-import { ModalContextType } from "./types";
+import { ChainSelectorContextType } from "./types";
 
-const useMultichainModal = (): ModalContextType => {
+const useMultichainModal = (): ChainSelectorContextType => {
   return useContext(ChainSelectorModalContext);
 };
 

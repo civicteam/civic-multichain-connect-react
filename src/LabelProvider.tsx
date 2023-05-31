@@ -8,14 +8,14 @@ export const LabelContext = React.createContext<LabelContextType>(
 
 export default function LabelProvider({
   children,
-  labels = defaultLabels,
+  labels,
 }: {
   children: React.ReactNode;
   labels: Labels | undefined;
-}): React.ReactElement {
+}): ReactElement {
   const context = useMemo(
     () => ({
-      labels,
+      labels: labels || defaultLabels,
     }),
     [labels]
   );
@@ -25,9 +25,6 @@ export default function LabelProvider({
   );
 }
 
-LabelProvider.defaultProps = {
-  labels: defaultLabels
-}
 export const useLabel = (): LabelContextType => {
   return useContext(LabelContext);
 };

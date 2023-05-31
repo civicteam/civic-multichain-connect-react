@@ -1,27 +1,35 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import React, { useEffect, useMemo } from "react";
-import { publicProvider } from "wagmi/providers/public";
 import {
   RainbowKitProvider,
   getDefaultWallets,
   Chain as RainbowkitChain,
 } from "@rainbow-me/rainbowkit";
 import { registerWallet } from "@wallet-standard/wallet";
-import { createClient, WagmiConfig, configureChains } from "wagmi";
+import {
+  createClient,
+  WagmiConfig,
+  configureChains,
+  ChainProviderFn,
+} from "wagmi";
 import { EIP1193Wallet } from "../eip113Wallet";
 import "@rainbow-me/rainbowkit/styles.css";
 import ModalContextProvider from "./RainbowkitModalProvider";
 import WalletContextProvider from "./RainbowkitWalletProvider";
-import { APP_NAME } from "../../config";
+import { APP_NAME, defaultProviders } from "../../config";
 import useChain from "../../useChain";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function RainbowkitConfig({
   children,
   chains,
+  initialChain,
+  providers,
 }: {
   children?: React.ReactNode;
   chains: RainbowkitChain[];
+  initialChain?: RainbowkitChain;
+  providers: ChainProviderFn[];
 }): JSX.Element | null {
   const { chain } = useChain();
   const client = useMemo(() => {
@@ -34,7 +42,10 @@ function RainbowkitConfig({
       chains,
     });
 
-    const { provider } = configureChains(chains, [publicProvider()]);
+    const { provider } = configureChains(
+      chains,
+      providers.length > 0 ? providers : defaultProviders
+    );
 
     // eslint-disable-next-line consistent-return
     return createClient({
@@ -64,7 +75,7 @@ function RainbowkitConfig({
 
   return (
     <WagmiConfig client={client}>
-      <RainbowKitProvider chains={filteredChains}>
+      <RainbowKitProvider chains={filteredChains} initialChain={initialChain}>
         <WalletContextProvider>
           <ModalContextProvider>{children}</ModalContextProvider>
         </WalletContextProvider>
@@ -75,6 +86,7 @@ function RainbowkitConfig({
 
 RainbowkitConfig.defaultProps = {
   children: null,
+  initialChain: undefined,
 };
 
 export default RainbowkitConfig;

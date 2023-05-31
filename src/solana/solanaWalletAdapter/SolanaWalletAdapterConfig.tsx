@@ -45,7 +45,8 @@ function SolanaWalletAdapterConfig({
   );
 
   if (chains.length === 0) {
-    return { children } as unknown as JSX.Element;
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    return <>{children}</>;
   }
 
   const chain = chains[0];
@@ -56,7 +57,7 @@ function SolanaWalletAdapterConfig({
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          <SolanaWalletAdapterProvider>
+          <SolanaWalletAdapterProvider chains={chains}>
             <SolanaWalletAdapterModalProvider>
               {children}
             </SolanaWalletAdapterModalProvider>

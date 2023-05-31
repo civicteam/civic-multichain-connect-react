@@ -5,16 +5,12 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { Chain, ChainSelectorContextType, ModalContextType } from "../types";
+import { groupBy } from "ramda";
+import { Chain, ChainSelectorContextType } from "../types";
 import { ChainSelectorModal } from "./ChainSelector";
 
-type ChainSelectorModalContextType = ModalContextType &
-  ChainSelectorContextType;
-
 export const ChainSelectorModalContext =
-  React.createContext<ChainSelectorModalContextType>(
-    {} as ChainSelectorModalContextType
-  );
+  React.createContext<ChainSelectorContextType>({} as ChainSelectorContextType);
 
 export type ChainSelectorModalProps = {
   chains: Chain[];
@@ -26,18 +22,27 @@ export default function ChainSelectorModalProvider({
 }: PropsWithChildren<ChainSelectorModalProps>): ReactElement {
   const [visible, setVisible] = useState(false);
   const [selectedChain, setSelectedChain] = useState<Chain>();
+  const supportedChains = groupBy((chain: Chain) => chain.type, chains);
 
   const openChainSelectorModal = useCallback(() => {
+    if (Object.keys(supportedChains).length === 1) {
+      // The user might have canceled out of the chain selector modal
+      // without selecting a chain so we need to check for that
+      setSelectedChain({ ...chains[0] });
+      return;
+    }
+
     setVisible(true);
-  }, [setVisible]);
+  }, [supportedChains, chains]);
 
   const context = useMemo(
     () => ({
       openConnectModal: openChainSelectorModal,
       chain: selectedChain,
       setSelectedChain,
+      chains,
     }),
-    [openChainSelectorModal, selectedChain]
+    [chains, openChainSelectorModal, selectedChain]
   );
 
   const onClose = useCallback(() => {
@@ -46,7 +51,9 @@ export default function ChainSelectorModalProvider({
   }, []);
 
   const onChainSelect = useCallback((chain: Chain) => {
-    setSelectedChain(chain);
+    // The user might have canceled out of the chain selector modal
+    // without selecting a chain so we need to check for that
+    setSelectedChain({ ...chain });
     setVisible(false);
   }, []);
 

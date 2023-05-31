@@ -16,6 +16,7 @@ import { useLabel } from "../LabelProvider";
 const ListItem = styled.li`
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
 `;
 
 const ListItemButton = styled.button`
@@ -34,12 +35,15 @@ const ListLabelWithIcon = styled.span`
   margin-right: 10px;
 `;
 
-const SelectChainTitle = styled.div`
-  margin-bottom: 10px;
+const SelectChainTitle = styled.h4`
+  margin-bottom: 20px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 24px;
 `;
 
 const SelectChainList = styled.ul`
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `;
 type ChainElementProps = {
   chain: Chain;
@@ -111,8 +115,7 @@ export function ChainSelectorContent({
 export type ChainSelectorModalProps = {
   chains: Chain[];
   isOpen: boolean;
-  onClose?: () => void;
-  contentClassName?: string;
+  onClose: () => void;
   onChainSelect: (chain: Chain) => void;
 };
 
@@ -120,22 +123,11 @@ export function ChainSelectorModal({
   chains,
   isOpen,
   onClose,
-  contentClassName,
   onChainSelect,
 }: ChainSelectorModalProps): JSX.Element {
   return (
-    <BaseDialog
-      isOpen={isOpen}
-      onClose={onClose}
-      contentClassName={contentClassName}
-    >
+    <BaseDialog isOpen={isOpen} onClose={onClose}>
       <ChainSelectorContent chains={chains} onChainSelect={onChainSelect} />
     </BaseDialog>
   );
 }
-
-ChainSelectorModal.defaultProps = {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onClose: () => {},
-  contentClassName: "max-w-lg",
-};

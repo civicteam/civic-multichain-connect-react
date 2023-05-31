@@ -1,7 +1,8 @@
 import { Connection } from "@solana/web3.js";
 import { Chain as RainbowkitChain } from "@rainbow-me/rainbowkit";
-import { Wallet as SolanaAdapterWallet } from "@solana/wallet-adapter-react";
+import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Wallet as EthersWallet } from "ethers";
+import { ChainProviderFn } from "wagmi";
 
 export interface ModalContextType {
   openConnectModal: (() => void) | undefined;
@@ -9,7 +10,9 @@ export interface ModalContextType {
 
 export interface ChainSelectorContextType {
   chain?: Chain;
+  chains: Chain[];
   setSelectedChain: (chain?: Chain) => void;
+  openConnectModal: (() => void) | undefined;
 }
 
 export interface DisconnectContextType {
@@ -30,13 +33,15 @@ export interface LabelContextType {
   labels: Labels;
 }
 
-export type SupportedWallets = SolanaAdapterWallet | EthersWallet;
+export type SupportedWallets = WalletContextState | EthersWallet;
 export interface WalletContextType {
   wallet?: SupportedWallets;
+  chain?: Chain;
   connected: boolean;
 }
 
-export type MultichainContextType = ModalContextType & WalletContextType;
+export type MultichainContextType = ChainSelectorContextType &
+  WalletContextType;
 
 export enum ChainType {
   Solana = "solana",
@@ -51,21 +56,10 @@ export type SolanaChain = {
 };
 
 export type EVMChain = RainbowkitChain;
-export type Chain = (EVMChain | SolanaChain) & { type: ChainType };
-
-// create a factory function that either creates a SolanaChain or am EVMChain. Solana should take in a connection and icon and EVMChain should accept a RainbowkitChain
-export const createChain = {
-  solana: (
-    connection: Connection,
-    iconUrl?: string | (() => Promise<string>) | null
-  ): Chain => ({
-    name: "solana",
-    type: ChainType.Solana,
-    connection,
-    iconUrl,
-  }),
-  ethereum: (chain: EVMChain): Chain => ({
-    ...chain,
-    type: ChainType.Ethereum,
-  }),
+export type SupportedChains = SolanaChain | EVMChain;
+export type EVMChainsWithProviders = {
+  chains: EVMChain[];
+  providers: ChainProviderFn[];
 };
+
+export type Chain = (EVMChain | SolanaChain) & { type: ChainType };
