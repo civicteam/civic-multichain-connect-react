@@ -31,7 +31,7 @@ export default function RainbowkitWalletProvider({
     if (!isConnected) {
       setWallet(undefined);
     }
-  }, [isConnected, address, ]);
+  }, [isConnected, address, chain]);
 
   const context = useMemo(
     () => ({
