@@ -1212,30 +1212,19 @@
     "@chainsafe/as-sha256" "^0.4.1"
     "@chainsafe/persistent-merkle-tree" "^0.6.1"
 
-"@civic/civic-chain-icons@0.0.5-beta.0":
-  version "0.0.5-beta.0"
-  resolved "https://registry.yarnpkg.com/@civic/civic-chain-icons/-/civic-chain-icons-0.0.5-beta.0.tgz#c019d73d05233cb5d4ea9af7455b4c02cefe5b64"
-  integrity sha512-1vh6qWRxKFYzgcwQCEsWtAVSzEhzY8/sa1BFhVN3my8koLNuFuds2OOhiVChWlghGhN+d+VpbGHKlMMEUZzTOQ==
+"@civic/civic-chain-icons@0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@civic/civic-chain-icons/-/civic-chain-icons-0.0.6.tgz#c02e3ba9d1b59a700bd6f8464ccc0efc7239a26b"
+  integrity sha512-a6PLmKKnp99VyvH7iGwHZdV3nUvycpA0fG0Faw6kP2thERohdYYbi1LfvUrrcgLTc2Gz6g4YQ18tUqG/kF0c0g==
   dependencies:
-    "@civic/civic-eth-provider" "^0.0.7"
+    "@civic/civic-eth-provider" "^0.0.8"
     ramda "^0.28.0"
     tslib "^2.3.1"
 
-"@civic/civic-eth-provider@0.0.8-beta.2":
-  version "0.0.8-beta.2"
-  resolved "https://registry.yarnpkg.com/@civic/civic-eth-provider/-/civic-eth-provider-0.0.8-beta.2.tgz#609d635908a77c83f94b4eb1174a07676c15037c"
-  integrity sha512-x14OvM80p5beCC4S/UXXfYvtCQHzyUTAIEZ6E2LovLnELYSrRmy/OEdAf60utTujf+nP8/7XupsP7biRnaf+kA==
-  dependencies:
-    "@ethersproject/abstract-provider" "^5.6.0"
-    "@ethersproject/networks" "^5.7.1"
-    "@ethersproject/providers" "^5.7.2"
-    ramda "^0.28.0"
-    tslib "^2.3.1"
-
-"@civic/civic-eth-provider@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@civic/civic-eth-provider/-/civic-eth-provider-0.0.7.tgz#05f490c061e06f841fecba9da3d0f81f242843ff"
-  integrity sha512-SiovuE2ZG2+hrF9I9iEShJ9nJlDavE7cBvTVf68ORwQ+8uhaarYi1bjU1oACasjanM9+m3dbqPvPj42zKj7uEA==
+"@civic/civic-eth-provider@0.0.8", "@civic/civic-eth-provider@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@civic/civic-eth-provider/-/civic-eth-provider-0.0.8.tgz#9a85ac8a7c67af7f5dae234678e2b756965435cb"
+  integrity sha512-CwN8hn+0IqchUTLM5TCh8y7w9bBSH9GUMv+OI8FBO49qiW5IGhMYKQDkEwo+kaJhC1t7lkUzk1uMzUnY3RXjyg==
   dependencies:
     "@ethersproject/abstract-provider" "^5.6.0"
     "@ethersproject/networks" "^5.7.1"
@@ -1685,13 +1674,6 @@
     "@fractalwagmi/popup-connection" "^1.0.18"
     "@solana/wallet-adapter-base" "^0.9.17"
     bs58 "^5.0.0"
-
-"@headlessui/react@^1.7.14":
-  version "1.7.14"
-  resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.7.14.tgz#75f19552c535113640fe8a3a40e71474f49e89c9"
-  integrity sha512-znzdq9PG8rkwcu9oQ2FwIy0ZFtP9Z7ycS+BAqJ3R5EIqC/0bJGvhT7193rFf+45i9nnPsYvCQVW4V/bB9Xc+gA==
-  dependencies:
-    client-only "^0.0.1"
 
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
@@ -4692,11 +4674,6 @@ clean-stack@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/clean-stack/-/clean-stack-2.2.0.tgz#ee8472dbb129e727b31e8a10a427dee9dfe4008b"
   integrity sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==
-
-client-only@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/client-only/-/client-only-0.0.1.tgz#38bba5d403c41ab150bff64a95c85013cf73bca1"
-  integrity sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==
 
 cliui@^5.0.0:
   version "5.0.0"

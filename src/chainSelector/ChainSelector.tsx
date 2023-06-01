@@ -7,11 +7,12 @@ import {
   SupportedSymbolArray,
   SupportedSymbol,
 } from "@civic/civic-chain-icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import BaseDialog from "../components/BaseDialog";
 import { Chain, ChainType, EVMChain, LabelEntry } from "../types";
 import { useLabel } from "../LabelProvider";
+import * as R from "ramda";
 
 const ListItem = styled.li`
   display: flex;
@@ -75,12 +76,22 @@ export function ChainElement({
       }
     }
   }
-
   const symbol = (ethSymbol as SupportedSymbol) || "SOL";
+  const [iconUrl, setIconUrl] = useState<string | undefined>(
+    getIconInfo(symbol)?.icon
+  );
+  useEffect(() => {
+    if (chain.iconUrl && R.type(chain.iconUrl) === "Function") {
+      (chain.iconUrl as () => Promise<string>)().then(setIconUrl);
+    } else if (chain.iconUrl && R.type(chain.iconUrl) === "String") {
+      setIconUrl(chain.iconUrl as string);
+    }
+  }, [chain]);
+
   return (
     <ListItem>
       <ListItemButton type="button" onClick={() => onChainSelect(chain)}>
-        <Icon src={getIconInfo(symbol)?.icon} alt="" />
+        <Icon src={iconUrl} alt="" />
         <ListLabelWithIcon>{chain.name}</ListLabelWithIcon>
       </ListItemButton>
     </ListItem>
@@ -97,7 +108,7 @@ export function ChainSelectorContent({
   onChainSelect,
 }: ChainSelectorProps): JSX.Element | null {
   const { labels } = useLabel();
-  console.log('chains', chains);
+  console.log("chains", chains);
   return (
     <div>
       <SelectChainTitle>{labels[LabelEntry.SELECT_CHAIN]}</SelectChainTitle>

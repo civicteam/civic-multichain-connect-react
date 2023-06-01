@@ -1,6 +1,6 @@
 {
   "name": "@civic/multichain-connect-react",
-  "version": "0.0.2-beta.8",
+  "version": "0.0.2-beta.12",
   "description": "A multichain wallet connect library",
   "repository": "git@github.com:civicteam/civic-multichain-connect-react.git",
   "author": "civic.com",
@@ -15,8 +15,8 @@
     "test:mocha": "STAGE=${STAGE:-local} FORCE_COLOR=1 LOG_LEVEL=error LOCAL=true nyc --reporter=text --reporter=html mocha",
     "test:watch": "ts-mocha -p tsconfig.mocha.json 'test/**/*.ts' -w --watch-files '**/**/*.ts'",
     "build": "tsc -b tsconfig.build.json && tsc -b tsconfig.umd.json",
-    "lint": "eslint '{src,test}/**/*.ts'",
-    "lint:fix": "eslint --fix '{src,test}/**/*.ts'"
+    "lint": "eslint -c .eslintrc.yaml '{src,test}/**/*.ts'",
+    "lint:fix": "eslint -c .eslintrc.yaml --fix '{src,test}/**/*.ts'"
   },
   "engines": {
     "node": ">=16"
@@ -26,9 +26,8 @@
     "react-dom": "^17.0.2"
   },
   "dependencies": {
-    "@civic/civic-chain-icons": "0.0.5-beta.0",
-    "@civic/civic-eth-provider": "0.0.8-beta.2",
-    "@headlessui/react": "^1.7.14",
+    "@civic/civic-chain-icons": "0.0.6",
+    "@civic/civic-eth-provider": "0.0.8",
     "@rainbow-me/rainbowkit": "^0.12.14",
     "@solana/wallet-adapter-base": "^0.9.22",
     "@solana/wallet-adapter-react": "^0.15.32",

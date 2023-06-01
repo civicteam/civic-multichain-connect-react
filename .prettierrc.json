@@ -5,6 +5,5 @@
     "singleQuote": false,
     "jsxSingleQuote": false,
     "arrowParens": "always",
-    "tabWidth": 2,
-    "tailwindConfig": "./packages/frontend/tailwind.config.js"
+    "tabWidth": 2
 }
