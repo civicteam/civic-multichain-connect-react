@@ -1,10 +1,11 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import React, { useEffect, useMemo } from "react";
 import {
   RainbowKitProvider,
   getDefaultWallets,
+  connectorsForWallets,
   Chain as RainbowkitChain,
 } from "@rainbow-me/rainbowkit";
+import { phantomWallet } from "@rainbow-me/rainbowkit/wallets";
 import { registerWallet } from "@wallet-standard/wallet";
 import {
   createClient,
@@ -18,8 +19,9 @@ import ModalContextProvider from "./RainbowkitModalProvider";
 import WalletContextProvider from "./RainbowkitWalletProvider";
 import { APP_NAME, defaultProviders } from "../../config";
 import useChain from "../../useChain";
+import { useLabel } from "../../LabelProvider";
+import { LabelEntry } from "../../types";
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function RainbowkitConfig({
   children,
   chains,
@@ -32,15 +34,21 @@ function RainbowkitConfig({
   providers: ChainProviderFn[];
 }): JSX.Element | null {
   const { chain } = useChain();
+  const { labels } = useLabel();
+
   const client = useMemo(() => {
     if (chains && chains.length === 0) {
       return;
     }
 
-    const { connectors } = getDefaultWallets({
-      appName: APP_NAME,
-      chains,
-    });
+    const { wallets } = getDefaultWallets({ appName: APP_NAME, chains });
+    const connectors = connectorsForWallets([
+      ...wallets,
+      {
+        groupName: labels[LabelEntry.OTHER],
+        wallets: [phantomWallet({ chains })],
+      },
+    ]);
 
     const { provider } = configureChains(
       chains,
@@ -55,7 +63,6 @@ function RainbowkitConfig({
     });
     // There is an issue when recreating the client on every render
     // Check this when updating to the latest version of Rainbowkit
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -67,7 +74,6 @@ function RainbowkitConfig({
   }, []);
 
   if (!client) {
-    // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{children}</>;
   }
 

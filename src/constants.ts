@@ -6,4 +6,5 @@ export const defaultLabels: Record<LabelEntry, string> = {
   [LabelEntry.DISCONNECT]: "Disconnect",
   [LabelEntry.DISCONNECTED]: "Disconnected",
   [LabelEntry.SELECT_CHAIN]: "Connect to a chain",
+  [LabelEntry.OTHER]: "Other",
 };

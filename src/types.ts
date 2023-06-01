@@ -20,11 +20,12 @@ export interface DisconnectContextType {
 }
 
 export enum LabelEntry {
-  CONNECT,
-  CONNECTED,
-  DISCONNECT,
-  DISCONNECTED,
-  SELECT_CHAIN,
+  CONNECT = "CONNECT",
+  CONNECTED = "CONNECTED",
+  DISCONNECT = "DISCONNECT",
+  DISCONNECTED = "DISCONNECTED",
+  SELECT_CHAIN = "SELECT_CHAIN",
+  OTHER = "OTHER",
 }
 
 export type Labels = Record<LabelEntry, string>;
