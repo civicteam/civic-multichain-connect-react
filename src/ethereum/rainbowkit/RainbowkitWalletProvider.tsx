@@ -25,13 +25,13 @@ export default function RainbowkitWalletProvider({
     connector?.getSigner().then((connectedWallet) => {
       setWallet(connectedWallet);
     });
-  }, [connector, address]);
+  }, [connector, address, chain]);
 
   useEffect(() => {
     if (!isConnected) {
       setWallet(undefined);
     }
-  }, [isConnected, address]);
+  }, [isConnected, address, ]);
 
   const context = useMemo(
     () => ({
