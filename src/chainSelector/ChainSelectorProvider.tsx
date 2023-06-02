@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import { groupBy } from "ramda";
-import { Chain, ChainSelectorContextType } from "../types";
+import { Chain, ChainSelectorContextType, SupportedChains } from "../types";
 import { ChainSelectorModal } from "./ChainSelector";
 
 export const ChainSelectorModalContext =
@@ -14,11 +14,13 @@ export const ChainSelectorModalContext =
 
 export type ChainSelectorModalProps = {
   chains: Chain[];
+  initialChain?: SupportedChains;
 };
 // Create the context provider component
 export default function ChainSelectorModalProvider({
   children,
   chains,
+  initialChain,
 }: PropsWithChildren<ChainSelectorModalProps>): ReactElement {
   const [visible, setVisible] = useState(false);
   const [selectedChain, setSelectedChain] = useState<Chain>();
@@ -28,7 +30,11 @@ export default function ChainSelectorModalProvider({
     if (Object.keys(supportedChains).length === 1) {
       // The user might have canceled out of the chain selector modal
       // without selecting a chain so we need to check for that
-      setSelectedChain({ ...chains[0] });
+      const selectedChain = initialChain
+        ? { ...initialChain }
+        : { ...chains[0] };
+
+      setSelectedChain(selectedChain as Chain);
       return;
     }
 
