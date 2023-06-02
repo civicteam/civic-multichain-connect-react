@@ -14,6 +14,7 @@ export default function SolanaWalletAdapterModalProvider({
   children: React.ReactNode;
 }): ReactElement {
   const { wallet, connect } = useWallet();
+  const [canConnect, setcanConnect] = React.useState(false);
   const { setVisible } = useWalletModal();
   const { chain } = useChain();
 
@@ -22,16 +23,23 @@ export default function SolanaWalletAdapterModalProvider({
   }, [setVisible]);
 
   useEffect(() => {
-    if (wallet) {
+    if (canConnect) {
       connect();
     }
-  }, [connect, wallet]);
+  }, [canConnect]);
 
   useEffect(() => {
-    if (chain?.type === ChainType.Solana) {
-      setVisible(true);
+    if (!wallet?.adapter.publicKey) {
+      if (chain?.type === ChainType.Solana) {
+        setcanConnect(true);
+        setVisible(true);
+        return;
+      }
+
+      setVisible(false);
+      setcanConnect(false);
     }
-  }, [chain, setVisible]);
+  }, [chain, setVisible, wallet?.adapter]);
 
   const context = useMemo(
     () => ({

@@ -1,4 +1,3 @@
-
 import React, { useCallback, useEffect } from "react";
 import { getIconInfo, SupportedSymbol } from "@civic/civic-chain-icons";
 import {

@@ -12,12 +12,7 @@ import MultichainWalletDisconnectProvider from "./MultichainWalletDisconnectProv
 import ChainSelectorModalProvider from "./chainSelector/ChainSelectorProvider";
 import { defaultLabels } from "./constants";
 import LabelProvider from "./LabelProvider";
-import {
-  EVMChain,
-  Labels,
-  SolanaChain,
-  SupportedChains,
-} from "./types";
+import { EVMChain, Labels, SolanaChain, SupportedChains } from "./types";
 import SolanaWalletAdapterConfig from "./solana/solanaWalletAdapter/SolanaWalletAdapterConfig";
 import RainbowkitConfig from "./ethereum/rainbowkit/RainbowkitConfig";
 
@@ -36,7 +31,8 @@ export default function MultichainWalletProvider({
   providers?: ChainProviderFn[];
 }): ReactElement {
   const ethereumChains = chains?.filter(isEvmChain).map(mapToEvmChain) || [];
-  const solanaChains = chains?.filter(isSolanaChain).map(mapToSolanaChain) || [];
+  const solanaChains =
+    chains?.filter(isSolanaChain).map(mapToSolanaChain) || [];
   const mappedChains = solanaChains?.concat(ethereumChains);
 
   const initialEvmChain = isEvmChain(initialChain)
