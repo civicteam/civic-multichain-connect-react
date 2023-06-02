@@ -29,7 +29,7 @@ export default function RainbowkitModalProvider({
     if (!isConnected && chain?.type === ChainType.Ethereum) {
       openConnectModal?.();
     }
-  }, [chain, openConnectModal]);
+  }, [chain, openConnectModal, isConnected]);
 
   return (
     <RainbowkitModalContext.Provider value={context}>
