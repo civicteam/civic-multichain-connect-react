@@ -108,7 +108,6 @@ export function ChainSelectorContent({
   onChainSelect,
 }: ChainSelectorProps): JSX.Element | null {
   const { labels } = useLabel();
-  console.log("chains", chains);
   return (
     <div>
       <SelectChainTitle>{labels[LabelEntry.SELECT_CHAIN]}</SelectChainTitle>

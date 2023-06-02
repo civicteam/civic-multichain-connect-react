@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import React, { useMemo } from "react";
 import {
   ConnectionProvider,
@@ -45,7 +44,6 @@ function SolanaWalletAdapterConfig({
   );
 
   if (chains.length === 0) {
-    // eslint-disable-next-line react/jsx-no-useless-fragment
     return <>{children}</>;
   }
 

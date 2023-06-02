@@ -1,7 +1,7 @@
 import { Wallet } from "ethers";
 import React, { ReactElement, useEffect, useMemo, useState } from "react";
 import { Chain as RainbowkitChain } from "@rainbow-me/rainbowkit";
-import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
+import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
 import { ChainType, EVMChain, WalletContextType } from "../../types";
 import useChain from "../../useChain";
 
@@ -16,6 +16,7 @@ export default function RainbowkitWalletProvider({
   children: React.ReactNode;
 }): ReactElement {
   const { connector, isConnected, address } = useAccount();
+  const { disconnect } = useDisconnect();
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
   const { setSelectedChain } = useChain();
@@ -37,6 +38,7 @@ export default function RainbowkitWalletProvider({
     () => ({
       wallet,
       connected: isConnected,
+      disconnect,
     }),
     [isConnected, wallet]
   );

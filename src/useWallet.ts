@@ -12,11 +12,15 @@ const useMultichainWallet = (): WalletContextType => {
   const connected = ethContext.connected || solanaContext.connected;
   const wallet = ethContext.wallet || solanaContext.wallet;
   const { chain } = chainContext;
+  const disconnect = ethContext.connected
+    ? ethContext.disconnect
+    : solanaContext.disconnect;
 
   return {
     wallet,
     connected,
     chain,
+    disconnect,
   };
 };
 

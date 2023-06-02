@@ -1,4 +1,3 @@
-
 import { ConnectButton as DefaultConnectButton } from "@rainbow-me/rainbowkit";
 import React from "react";
 import styled from "styled-components";
