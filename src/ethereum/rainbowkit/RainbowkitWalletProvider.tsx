@@ -15,12 +15,13 @@ export default function RainbowkitWalletProvider({
 }: {
   children: React.ReactNode;
 }): ReactElement {
-  const { connector, isConnected, address } = useAccount();
   const { disconnect } = useDisconnect();
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
   const { setSelectedChain } = useChain();
   const [wallet, setWallet] = useState<Wallet>();
+  const onDisconnect = () => setSelectedChain(undefined);
+  const { connector, isConnected, address } = useAccount({ onDisconnect });
 
   useEffect(() => {
     connector?.getSigner().then((connectedWallet) => {
