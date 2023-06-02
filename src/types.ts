@@ -39,6 +39,7 @@ export interface WalletContextType {
   wallet?: SupportedWallets;
   chain?: Chain;
   connected: boolean;
+  disconnect: (() => void) | undefined;
 }
 
 export type MultichainContextType = ChainSelectorContextType &
