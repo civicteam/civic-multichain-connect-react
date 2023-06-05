@@ -13,6 +13,7 @@ export interface ChainSelectorContextType {
   chains: Chain[];
   setSelectedChain: (chain?: Chain) => void;
   openConnectModal: (() => void) | undefined;
+  initialChain?: SupportedChains | undefined;
 }
 
 export interface DisconnectContextType {

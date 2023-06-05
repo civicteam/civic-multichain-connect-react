@@ -51,9 +51,10 @@ export default function ChainSelectorModalProvider({
       openConnectModal: openChainSelectorModal,
       chain: selectedChain,
       setSelectedChain,
+      initialChain,
       chains,
     }),
-    [chains, openChainSelectorModal, selectedChain]
+    [chains, openChainSelectorModal, selectedChain, initialChain]
   );
 
   const onClose = useCallback(() => {
@@ -71,22 +72,6 @@ export default function ChainSelectorModalProvider({
     setVisible(false);
   }, []);
 
-  useEffect(() => {
-    if (
-      initialChain &&
-      supportedChains &&
-      Object.keys(supportedChains).length === 1 &&
-      selectedChain?.name !== initialChain.name
-    ) {
-      console.log(
-        "ChainSelectorModalProvider initialChain and supportedChains have changed: useEffect setSelectedChain",
-        {
-          initialChain,
-        }
-      );
-      setSelectedChain(undefined);
-    }
-  }, [initialChain, supportedChains, selectedChain]);
   return (
     <ChainSelectorModalContext.Provider value={context}>
       <ChainSelectorModal

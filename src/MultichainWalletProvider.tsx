@@ -46,9 +46,6 @@ export default function MultichainWalletProvider({
         <ChainSelectorModalProvider initialChain={chain} chains={mappedChains}>
           <RainbowkitConfig
             chains={ethereumChains as EVMChain[]}
-            initialChain={
-              chain?.type === "ethereum" ? (chain as EVMChain) : undefined
-            }
             providers={providers}
           >
             <SolanaWalletAdapterConfig chains={solanaChains as SolanaChain[]}>

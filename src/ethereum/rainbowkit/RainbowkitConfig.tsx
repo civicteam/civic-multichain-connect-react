@@ -25,12 +25,10 @@ import { LabelEntry } from "../../types";
 function RainbowkitConfig({
   children,
   chains,
-  initialChain,
   providers,
 }: {
   children?: React.ReactNode;
   chains: RainbowkitChain[];
-  initialChain?: RainbowkitChain;
   providers: ChainProviderFn[];
 }): JSX.Element | null {
   const { chain } = useChain();
@@ -81,8 +79,8 @@ function RainbowkitConfig({
 
   return (
     <WagmiConfig client={client}>
-      <RainbowKitProvider chains={filteredChains} initialChain={initialChain}>
-        <WalletContextProvider initialChain={initialChain}>
+      <RainbowKitProvider chains={filteredChains}>
+        <WalletContextProvider>
           <ModalContextProvider>{children}</ModalContextProvider>
         </WalletContextProvider>
       </RainbowKitProvider>

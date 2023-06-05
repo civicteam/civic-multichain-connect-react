@@ -16,12 +16,6 @@ export default function MultichainWalletDisconnectProvider({
   const { connected, disconnect: walletDisconnect } = useWallet();
 
   const disconnect = useCallback(() => {
-    console.log(
-      "MultichainWalletDisconnectProvider disconnect setSelectedChain to undefined"
-    );
-    if (walletDisconnect) {
-      walletDisconnect();
-    }
     setSelectedChain(undefined);
   }, [setSelectedChain, walletDisconnect]);
 

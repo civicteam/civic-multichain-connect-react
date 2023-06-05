@@ -10,6 +10,7 @@ import { Chain as RainbowkitChain } from "@rainbow-me/rainbowkit";
 import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
 import { ChainType, EVMChain, WalletContextType } from "../../types";
 import useChain from "../../useChain";
+import { getChainType } from "utils";
 
 export const RainbowkitWalletContext = React.createContext<WalletContextType>(
   {} as WalletContextType
@@ -17,16 +18,14 @@ export const RainbowkitWalletContext = React.createContext<WalletContextType>(
 
 // Create the context provider component
 export default function RainbowkitWalletProvider({
-  initialChain,
   children,
 }: {
-  initialChain: RainbowkitChain | undefined;
   children: React.ReactNode;
 }): ReactElement {
   const { disconnect } = useDisconnect();
   const { chain } = useNetwork();
   const { switchNetwork, isLoading } = useSwitchNetwork();
-  const { setSelectedChain, chain: selectedChain } = useChain();
+  const { setSelectedChain, chain: selectedChain, initialChain } = useChain();
   const [wallet, setWallet] = useState<Wallet>();
   const onDisconnect = () => setSelectedChain(undefined);
   const { connector, isConnected, address } = useAccount({ onDisconnect });
@@ -79,7 +78,11 @@ export default function RainbowkitWalletProvider({
   );
 
   useEffect(() => {
-    if ((initialChain as RainbowkitChain) && switchNetwork) {
+    if (
+      initialChain &&
+      getChainType(initialChain) === ChainType.Ethereum &&
+      switchNetwork
+    ) {
       console.log(
         "RainbowkitWalletProvider useEffect initialChain",
         initialChain
