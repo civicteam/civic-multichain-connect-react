@@ -13,11 +13,17 @@ export default function MultichainWalletDisconnectProvider({
   children: React.ReactNode;
 }): ReactElement {
   const { setSelectedChain } = useChain();
-  const { connected } = useWallet();
+  const { connected, disconnect: walletDisconnect } = useWallet();
 
   const disconnect = useCallback(() => {
+    console.log(
+      "MultichainWalletDisconnectProvider disconnect setSelectedChain to undefined"
+    );
+    if (walletDisconnect) {
+      walletDisconnect();
+    }
     setSelectedChain(undefined);
-  }, [setSelectedChain]);
+  }, [setSelectedChain, walletDisconnect]);
 
   useEffect(() => {
     if (!connected) {

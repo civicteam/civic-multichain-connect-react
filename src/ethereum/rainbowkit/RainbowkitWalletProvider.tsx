@@ -1,5 +1,11 @@
 import { Wallet } from "ethers";
-import React, { ReactElement, useEffect, useMemo, useState } from "react";
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Chain as RainbowkitChain } from "@rainbow-me/rainbowkit";
 import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
 import { ChainType, EVMChain, WalletContextType } from "../../types";
@@ -11,14 +17,16 @@ export const RainbowkitWalletContext = React.createContext<WalletContextType>(
 
 // Create the context provider component
 export default function RainbowkitWalletProvider({
+  initialChain,
   children,
 }: {
+  initialChain: RainbowkitChain | undefined;
   children: React.ReactNode;
 }): ReactElement {
   const { disconnect } = useDisconnect();
   const { chain } = useNetwork();
-  const { switchNetwork } = useSwitchNetwork();
-  const { setSelectedChain } = useChain();
+  const { switchNetwork, isLoading } = useSwitchNetwork();
+  const { setSelectedChain, chain: selectedChain } = useChain();
   const [wallet, setWallet] = useState<Wallet>();
   const onDisconnect = () => setSelectedChain(undefined);
   const { connector, isConnected, address } = useAccount({ onDisconnect });
@@ -44,16 +52,71 @@ export default function RainbowkitWalletProvider({
     [isConnected, wallet]
   );
 
-  useEffect(() => {
-    const supportedChain = chain as EVMChain;
-    if ((chain as RainbowkitChain) && switchNetwork) {
-      switchNetwork(supportedChain.id);
-      setSelectedChain({
-        ...supportedChain,
-        type: ChainType.Ethereum,
+  const setChain = useCallback(
+    (supportedChain: RainbowkitChain) => {
+      console.log("RainbowkitWalletProvider setChain", {
+        initialChain,
+        chain,
+        isLoading,
+        selectedChain,
       });
+      if (
+        (supportedChain as RainbowkitChain) &&
+        switchNetwork &&
+        selectedChain?.name !== supportedChain.name
+      ) {
+        switchNetwork(supportedChain.id);
+        console.log("RainbowkitWalletProvider setChain setSelectedChain", {
+          supportedChain,
+        });
+        setSelectedChain({
+          ...supportedChain,
+          type: ChainType.Ethereum,
+        });
+      }
+    },
+    [switchNetwork, selectedChain]
+  );
+
+  useEffect(() => {
+    if ((initialChain as RainbowkitChain) && switchNetwork) {
+      console.log(
+        "RainbowkitWalletProvider useEffect initialChain",
+        initialChain
+      );
+      setChain(initialChain as EVMChain);
     }
-  }, [chain, setSelectedChain, switchNetwork]);
+  }, [initialChain]);
+
+  useEffect(() => {
+    if ((chain as RainbowkitChain) && switchNetwork) {
+      console.log("RainbowkitWalletProvider useEffect chain", chain);
+      setChain(chain as EVMChain);
+    }
+  }, [chain]);
+
+  // useEffect(() => {
+  //   if ((chain as RainbowkitChain) && switchNetwork) {
+  //     setChain(chain as EVMChain);
+  //   }
+  // }, [chain]);
+  // useEffect(() => {
+  //   let supportedChain = chain as EVMChain;
+  //   console.log("RainbowkitWalletProvider useEffect", {
+  //     initialChain,
+  //     chain,
+  //     firstLoad,
+  //     isLoading,
+  //   });
+
+  //   if (firstLoad && initialChain) {
+  //     supportedChain = initialChain;
+  //   }
+  //   if ((supportedChain as RainbowkitChain) && switchNetwork) {
+  //     setChain(supportedChain);
+  //   }
+  //   setFirstLoad(false);
+  // }, [initialChain, chain, setSelectedChain, switchNetwork]);
 
   return (
     <RainbowkitWalletContext.Provider value={context}>

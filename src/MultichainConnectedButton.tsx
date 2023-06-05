@@ -6,9 +6,13 @@ import { getWalletChainType } from "./utils";
 import { ChainType } from "./types";
 
 export function MultichainConnectedButton(): JSX.Element | null {
-  const { wallet } = useWallet();
-  const isSolanaChain = getWalletChainType(wallet) === ChainType.Solana;
-  const isEthersChain = getWalletChainType(wallet) === ChainType.Ethereum;
+  const { wallet, chain: selectedChain } = useWallet();
+  const isSolanaChain =
+    getWalletChainType(wallet) === ChainType.Solana &&
+    selectedChain?.type === ChainType.Solana;
+  const isEthersChain =
+    getWalletChainType(wallet) === ChainType.Ethereum &&
+    selectedChain?.type === ChainType.Ethereum;
 
   return (
     <>

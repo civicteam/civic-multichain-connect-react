@@ -35,14 +35,20 @@ export default function MultichainWalletProvider({
     chains?.filter(isSolanaChain).map(mapToSolanaChain) || [];
   const mappedChains = solanaChains?.concat(ethereumChains);
   const chain = mappedChains.find((c) => c.name === initialChain?.name);
-
+  console.log("MultichainWalletProvider", {
+    mappedChains,
+    chains,
+    initialChain,
+  });
   return (
     <LabelProvider labels={labels}>
       <WalletStandardProvider>
         <ChainSelectorModalProvider initialChain={chain} chains={mappedChains}>
           <RainbowkitConfig
             chains={ethereumChains as EVMChain[]}
-            initialChain={chain as EVMChain}
+            initialChain={
+              chain?.type === "ethereum" ? (chain as EVMChain) : undefined
+            }
             providers={providers}
           >
             <SolanaWalletAdapterConfig chains={solanaChains as SolanaChain[]}>

@@ -82,7 +82,7 @@ function RainbowkitConfig({
   return (
     <WagmiConfig client={client}>
       <RainbowKitProvider chains={filteredChains} initialChain={initialChain}>
-        <WalletContextProvider>
+        <WalletContextProvider initialChain={initialChain}>
           <ModalContextProvider>{children}</ModalContextProvider>
         </WalletContextProvider>
       </RainbowKitProvider>
