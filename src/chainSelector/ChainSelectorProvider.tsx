@@ -27,7 +27,6 @@ export default function ChainSelectorModalProvider({
   const [selectedChain, setSelectedChain] = useState<Chain>();
   const supportedChains = groupBy((chain: Chain) => chain.type, chains);
 
-  console.log("ChainSelectorModalProvider chains", chains);
   const openChainSelectorModal = useCallback(() => {
     if (Object.keys(supportedChains).length === 1) {
       // The user might have canceled out of the chain selector modal
@@ -36,9 +35,6 @@ export default function ChainSelectorModalProvider({
       const selectedChain = initialChain
         ? { ...initialChain }
         : { ...chains[0] };
-      console.log("openChainSelectorModal setSelectedChain", {
-        chain: selectedChain,
-      });
       setSelectedChain(selectedChain as Chain);
       return;
     }
@@ -65,9 +61,6 @@ export default function ChainSelectorModalProvider({
   const onChainSelect = useCallback((chain: Chain) => {
     // The user might have canceled out of the chain selector modal
     // without selecting a chain so we need to check for that
-    console.log("ChainSelectorModalProvider onChainSelect setSelectedChain", {
-      chain,
-    });
     setSelectedChain({ ...chain });
     setVisible(false);
   }, []);

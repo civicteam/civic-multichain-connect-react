@@ -34,9 +34,6 @@ export default function SolanaWalletAdapterProvider({
       const chain = chains.filter(
         (c) => c.connection.rpcEndpoint === connection.rpcEndpoint
       );
-      console.log("SolanaWalletAdapterProvider useEffect setSelectedChain", {
-        chain: chain[0],
-      });
       setSelectedChain(chain[0] as Chain);
     }
   }, [chains, connection, setSelectedChain, wallet?.adapter.publicKey]);

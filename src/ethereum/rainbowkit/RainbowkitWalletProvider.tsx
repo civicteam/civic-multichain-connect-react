@@ -53,21 +53,12 @@ export default function RainbowkitWalletProvider({
 
   const setChain = useCallback(
     (supportedChain: RainbowkitChain) => {
-      console.log("RainbowkitWalletProvider setChain", {
-        initialChain,
-        chain,
-        isLoading,
-        selectedChain,
-      });
       if (
         (supportedChain as RainbowkitChain) &&
         switchNetwork &&
         selectedChain?.name !== supportedChain.name
       ) {
         switchNetwork(supportedChain.id);
-        console.log("RainbowkitWalletProvider setChain setSelectedChain", {
-          supportedChain,
-        });
         setSelectedChain({
           ...supportedChain,
           type: ChainType.Ethereum,
@@ -83,43 +74,15 @@ export default function RainbowkitWalletProvider({
       getChainType(initialChain) === ChainType.Ethereum &&
       switchNetwork
     ) {
-      console.log(
-        "RainbowkitWalletProvider useEffect initialChain",
-        initialChain
-      );
       setChain(initialChain as EVMChain);
     }
   }, [initialChain]);
 
   useEffect(() => {
     if ((chain as RainbowkitChain) && switchNetwork) {
-      console.log("RainbowkitWalletProvider useEffect chain", chain);
       setChain(chain as EVMChain);
     }
   }, [chain]);
-
-  // useEffect(() => {
-  //   if ((chain as RainbowkitChain) && switchNetwork) {
-  //     setChain(chain as EVMChain);
-  //   }
-  // }, [chain]);
-  // useEffect(() => {
-  //   let supportedChain = chain as EVMChain;
-  //   console.log("RainbowkitWalletProvider useEffect", {
-  //     initialChain,
-  //     chain,
-  //     firstLoad,
-  //     isLoading,
-  //   });
-
-  //   if (firstLoad && initialChain) {
-  //     supportedChain = initialChain;
-  //   }
-  //   if ((supportedChain as RainbowkitChain) && switchNetwork) {
-  //     setChain(supportedChain);
-  //   }
-  //   setFirstLoad(false);
-  // }, [initialChain, chain, setSelectedChain, switchNetwork]);
 
   return (
     <RainbowkitWalletContext.Provider value={context}>

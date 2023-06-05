@@ -35,11 +35,6 @@ export default function MultichainWalletProvider({
     chains?.filter(isSolanaChain).map(mapToSolanaChain) || [];
   const mappedChains = solanaChains?.concat(ethereumChains);
   const chain = mappedChains.find((c) => c.name === initialChain?.name);
-  console.log("MultichainWalletProvider", {
-    mappedChains,
-    chains,
-    initialChain,
-  });
   return (
     <LabelProvider labels={labels}>
       <WalletStandardProvider>
