@@ -24,7 +24,7 @@ export default function RainbowkitWalletProvider({
 }): ReactElement {
   const { disconnect } = useDisconnect();
   const { chain } = useNetwork();
-  const { switchNetwork, isLoading } = useSwitchNetwork();
+  const { switchNetwork } = useSwitchNetwork();
   const { setSelectedChain, chain: selectedChain, initialChain } = useChain();
   const [wallet, setWallet] = useState<Wallet>();
   const onDisconnect = () => setSelectedChain(undefined);
