@@ -10,7 +10,7 @@ import { Chain as RainbowkitChain } from "@rainbow-me/rainbowkit";
 import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
 import { ChainType, EVMChain, WalletContextType } from "../../types";
 import useChain from "../../useChain";
-import { getChainType } from "utils";
+import { getChainType } from "../../utils";
 
 export const RainbowkitWalletContext = React.createContext<WalletContextType>(
   {} as WalletContextType
