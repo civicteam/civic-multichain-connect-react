@@ -1,8 +1,10 @@
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import React, { ReactElement, useCallback, useEffect, useMemo } from "react";
-import { ChainType, ModalContextType } from "../../types";
-import useChain from "../../useChain";
+import {
+  ModalContextType,
+  useChain,
+} from "@civic/multichain-connect-react-core";
 
 export const SolanaWalletAdapterModalContext =
   React.createContext<ModalContextType>({} as ModalContextType);
@@ -30,7 +32,7 @@ export default function SolanaWalletAdapterModalProvider({
 
   useEffect(() => {
     if (!wallet?.adapter.publicKey) {
-      if (chain?.type === ChainType.Solana) {
+      if (chain?.type === "solana") {
         setcanConnect(true);
         setVisible(true);
         return;
@@ -39,7 +41,7 @@ export default function SolanaWalletAdapterModalProvider({
       setVisible(false);
       setcanConnect(false);
     }
-  }, [chain, setVisible, wallet?.adapter]);
+  }, [chain?.name, setVisible, wallet?.adapter.publicKey?.toBase58()]);
 
   const context = useMemo(
     () => ({

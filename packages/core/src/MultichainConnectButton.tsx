@@ -1,9 +1,8 @@
 import React from "react";
-// import React, { useEffect } from "react";
 import styled from "styled-components";
 import useModal from "./useModal";
 import { LabelEntry } from "./types";
-import { useLabel } from "./LabelProvider";
+import { useLabel } from "./MultichainLabelProvider";
 import useWallet from "./useWallet";
 import { MultichainConnectedButton } from "./MultichainConnectedButton";
 

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { ReactElement, useContext, useEffect, useMemo } from "react";
 import {
   ConnectionProvider,
   WalletProvider,
@@ -14,19 +14,44 @@ import {
   SolflareWalletAdapter,
   TorusWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
-import { SolanaChain } from "../../types";
-import SolanaWalletAdapterModalProvider from "./SolanaWalletAdapterModalProvider";
-import SolanaWalletAdapterProvider from "./SolanaWalletAdapterProvider";
+import SolanaWalletAdapterModalProvider, {
+  SolanaWalletAdapterModalContext,
+} from "./SolanaWalletAdapterModalProvider";
+import SolanaWalletAdapterProvider, {
+  SolanaWalletAdapterContext,
+} from "./SolanaWalletAdapterProvider";
+import {
+  SolanaChain,
+  useChain,
+  useWalletAdapters,
+} from "@civic/multichain-connect-react-core";
+import { SolanaWalletAdapterButton } from "./SolanaWalletAdapterButton";
+import "@solana/wallet-adapter-react-ui/styles.css";
 
-require("@solana/wallet-adapter-react-ui/styles.css");
+function SolanaWalletAdapterPluginProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}): ReactElement {
+  const { setWalletAdapter } = useWalletAdapters();
+  const wallet = useContext(SolanaWalletAdapterContext);
+  const modal = useContext(SolanaWalletAdapterModalContext);
+
+  useEffect(() => {
+    setWalletAdapter("solana", {
+      context: { ...wallet, ...modal },
+      button: <SolanaWalletAdapterButton />,
+    });
+  }, [wallet, modal]);
+
+  return <>{children}</>;
+}
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function SolanaWalletAdapterConfig({
   children,
-  chains,
 }: {
   children?: React.ReactNode;
-  chains: SolanaChain[];
 }): JSX.Element | null {
   // For now support only a single chain
   const wallets = useMemo(
@@ -43,11 +68,16 @@ function SolanaWalletAdapterConfig({
     []
   );
 
-  if (chains.length === 0) {
+  const { chains } = useChain();
+  const solanaChains = chains.filter(
+    (c) => c.type === "solana"
+  ) as SolanaChain[];
+
+  if (solanaChains.length === 0) {
     return <>{children}</>;
   }
 
-  const chain = chains[0];
+  const chain = solanaChains[0];
   const { connection } = chain;
   const endpoint = connection.rpcEndpoint;
 
@@ -55,9 +85,11 @@ function SolanaWalletAdapterConfig({
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          <SolanaWalletAdapterProvider chains={chains}>
+          <SolanaWalletAdapterProvider chains={solanaChains}>
             <SolanaWalletAdapterModalProvider>
-              {children}
+              <SolanaWalletAdapterPluginProvider>
+                {children}
+              </SolanaWalletAdapterPluginProvider>
             </SolanaWalletAdapterModalProvider>
           </SolanaWalletAdapterProvider>
         </WalletModalProvider>

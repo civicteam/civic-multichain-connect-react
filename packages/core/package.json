@@ -1,0 +1,51 @@
+{
+  "name": "@civic/multichain-connect-react-core",
+  "version": "0.0.6",
+  "description": "A multichain wallet connect library",
+  "repository": "git@github.com:civicteam/civic-multichain-connect-react.git",
+  "author": "civic.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "lib",
+    "src",
+    "LICENSE"
+  ],
+  "type": "module",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "types": "./lib/types/index.d.ts",
+  "exports": {
+    "require": "./lib/cjs/index.js",
+    "import": "./lib/esm/index.js",
+    "types": "./lib/types/index.d.ts"
+  },
+  "scripts": {
+    "build": "tsc --build --verbose",
+    "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "peerDependencies": {
+    "react": "^18.0.2",
+    "react-dom": "^18.0.2"
+  },
+  "dependencies": {
+    "@civic/civic-chain-icons": "0.0.6",
+    "@civic/civic-eth-provider": "0.0.8",
+    "@solana/web3.js": "^1.76.0",
+    "@types/styled-components": "^5.1.26",
+    "@wallet-standard/app": "^1.0.1",
+    "@wallet-standard/core": "^1.0.3",
+    "@wallet-standard/react-core": "^0.1.4",
+    "@wallet-standard/wallet": "^1.0.1",
+    "ramda": "^0.28.0",
+    "styled-components": "6.0.0-rc.3"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "^2.6.4"
+  }
+}

@@ -7,12 +7,12 @@ import {
   SupportedSymbolArray,
   SupportedSymbol,
 } from "@civic/civic-chain-icons";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import BaseDialog from "../components/BaseDialog";
 import { Chain, ChainType, EVMChain, LabelEntry } from "../types";
-import { useLabel } from "../LabelProvider";
-import * as R from "ramda";
+import { useLabel } from "../MultichainLabelProvider";
+import React from "react";
 
 const ListItem = styled.li`
   display: flex;
@@ -81,9 +81,9 @@ export function ChainElement({
     getIconInfo(symbol)?.icon
   );
   useEffect(() => {
-    if (chain.iconUrl && R.type(chain.iconUrl) === "Function") {
+    if (chain.iconUrl && typeof chain.iconUrl === "function") {
       (chain.iconUrl as () => Promise<string>)().then(setIconUrl);
-    } else if (chain.iconUrl && R.type(chain.iconUrl) === "String") {
+    } else if (chain.iconUrl && typeof chain.iconUrl === "string") {
       setIconUrl(chain.iconUrl as string);
     }
   }, [chain]);

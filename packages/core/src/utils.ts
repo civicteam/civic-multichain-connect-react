@@ -1,4 +1,3 @@
-import { Wallet as EthersWallet } from "ethers";
 import { getIconInfo, SupportedSymbol } from "@civic/civic-chain-icons";
 import {
   getNetwork,
@@ -10,22 +9,7 @@ import {
   EVMChain,
   SolanaChain,
   SupportedChains,
-  SupportedWallets,
 } from "./types";
-
-const isSolanaWallet = (wallet?: SupportedWallets): boolean => {
-  return wallet?.publicKey !== undefined;
-};
-
-const isEthersWallet = (wallet?: SupportedWallets): boolean => {
-  return (wallet as EthersWallet)?.provider !== undefined;
-};
-
-export const getWalletChainType = (wallet?: SupportedWallets): ChainType => {
-  if (isSolanaWallet(wallet)) return ChainType.Solana;
-  if (isEthersWallet(wallet)) return ChainType.Ethereum;
-  return ChainType.Unknown;
-};
 
 export const mapToEvmChain = (chain: EVMChain): Chain => {
   const chainNetwork = (chain as EVMChain)

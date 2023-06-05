@@ -1,0 +1,43 @@
+{
+  "name": "@civic/multichain-connect-react-solana-wallet-adapter",
+  "version": "0.0.21",
+  "description": "A multichain wallet connect library",
+  "repository": "git@github.com:civicteam/civic-multichain-connect-react.git",
+  "author": "civic.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "lib",
+    "src",
+    "LICENSE"
+  ],
+  "type": "module",
+  "main": "./lib/cjs/index",
+  "module": "./lib/esm/index.js",
+  "types": "./lib/types/index.d.ts",
+  "exports": {
+    "require": "./lib/cjs/index.js",
+    "import": "./lib/esm/index.js",
+    "types": "./lib/types/index.d.ts"
+  },
+  "scripts": {
+    "build": "tsc --build --verbose",
+    "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "peerDependencies": {
+    "react": "^18.0.2",
+    "react-dom": "^18.0.2"
+  },
+  "dependencies": {
+    "@civic/multichain-connect-react-core": "/Users/tyroneavnit/Projects/civic-multichain-connect-react/packages/core/civic-multichain-connect-react-core-0.0.6.tgz",
+    "@solana/wallet-adapter-react": "^0.15.32",
+    "@solana/wallet-adapter-react-ui": "^0.9.31",
+    "@solana/wallet-adapter-wallets": "^0.19.16",
+    "@solana/web3.js": "^1.76.0"
+  }
+}
