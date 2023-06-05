@@ -16,7 +16,8 @@
     "test:watch": "ts-mocha -p tsconfig.mocha.json 'test/**/*.ts' -w --watch-files '**/**/*.ts'",
     "build": "tsc -b tsconfig.build.json && tsc -b tsconfig.umd.json",
     "lint": "eslint -c .eslintrc.yaml '{src,test}/**/*.ts'",
-    "lint:fix": "eslint -c .eslintrc.yaml --fix '{src,test}/**/*.ts'"
+    "lint:fix": "eslint -c .eslintrc.yaml --fix '{src,test}/**/*.ts'",
+    "prepublish": "yarn build"
   },
   "engines": {
     "node": ">=16"
