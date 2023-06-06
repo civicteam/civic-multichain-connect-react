@@ -6,6 +6,7 @@ import useModal from "./useModal";
 import { MultichainConnectedButton } from "./MultichainConnectedButton";
 import { MultichainConnectButton } from "./MultichainConnectButton";
 import { MultichainChainSelector } from "./MultichainChainSelector";
+import { VERSION } from "version";
 
 export {
   MultichainWalletProvider,
@@ -18,3 +19,5 @@ export {
   SupportedChains,
   getChainType,
 };
+
+console.log(VERSION);
