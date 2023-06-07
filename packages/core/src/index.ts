@@ -15,6 +15,7 @@ import { MultichainChainSelector } from "./MultichainChainSelector";
 import useChain from "./useChain";
 import useWalletAdapters from "./useWalletAdapters";
 import LabelProvider, { useLabel } from "./MultichainLabelProvider";
+import { VERSION } from "./version";
 
 export {
   MultichainWalletProvider,
@@ -32,3 +33,4 @@ export {
 };
 
 export type { Chain, WalletContextType, ModalContextType, BaseChain };
+console.log(VERSION);
