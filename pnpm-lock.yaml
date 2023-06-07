@@ -108,8 +108,8 @@ importers:
   packages/rainbowkit-wallet-adapter:
     dependencies:
       '@civic/multichain-connect-react-core':
-        specifier: /Users/tyroneavnit/Projects/civic-multichain-connect-react/packages/core/civic-multichain-connect-react-core-0.0.28.tgz
-        version: file:packages/core/civic-multichain-connect-react-core-0.0.28.tgz(aws-sdk@2.1390.0)(react-dom@18.1.0)(react@18.1.0)
+        specifier: 0.0.1-beta.2
+        version: link:../core
       '@rainbow-me/rainbowkit':
         specifier: ^0.12.14
         version: 0.12.14(@types/react@17.0.0)(ethers@6.4.1)(react-dom@18.1.0)(react@18.1.0)(wagmi@0.12.13)
@@ -147,8 +147,8 @@ importers:
   packages/solana-wallet-adapter:
     dependencies:
       '@civic/multichain-connect-react-core':
-        specifier: /Users/tyroneavnit/Projects/civic-multichain-connect-react/packages/core/civic-multichain-connect-react-core-0.0.28.tgz
-        version: file:packages/core/civic-multichain-connect-react-core-0.0.28.tgz(aws-sdk@2.1390.0)(react-dom@18.1.0)(react@18.1.0)
+        specifier: 0.0.1-beta.2
+        version: link:../core
       '@solana/wallet-adapter-react':
         specifier: ^0.15.32
         version: 0.15.32(@solana/web3.js@1.76.0)(bs58@4.0.1)(react-native@0.71.8)(react@18.1.0)
@@ -11756,31 +11756,6 @@ packages:
     dependencies:
       react: 18.1.0
       use-sync-external-store: 1.2.0(react@18.1.0)
-    dev: false
-
-  file:packages/core/civic-multichain-connect-react-core-0.0.28.tgz(aws-sdk@2.1390.0)(react-dom@18.1.0)(react@18.1.0):
-    resolution: {integrity: sha512-hVDOUGihUahMVU6lrUVMym/HucO9CdHyMhdPoswP3fHe6O+EMMq/5G9TM0rJFa0ufp3973d1UkdhgV42TiNqkg==, tarball: file:packages/core/civic-multichain-connect-react-core-0.0.28.tgz}
-    id: file:packages/core/civic-multichain-connect-react-core-0.0.28.tgz
-    name: '@civic/multichain-connect-react-core'
-    version: 0.0.28
-    engines: {node: '>=16'}
-    peerDependencies:
-      react: ^18.0.2
-      react-dom: ^18.0.2
-    dependencies:
-      '@civic/civic-chain-icons': 0.0.6(aws-sdk@2.1390.0)
-      '@civic/civic-eth-provider': 0.0.8(aws-sdk@2.1390.0)
-      '@wallet-standard/react-core': 0.1.4(react-dom@18.1.0)(react@18.1.0)
-      ramda: 0.28.0
-      react: 18.1.0
-      react-dom: 18.1.0(react@18.1.0)
-      styled-components: 6.0.0-rc.3(react-dom@18.1.0)(react@18.1.0)
-    transitivePeerDependencies:
-      - aws-sdk
-      - babel-plugin-styled-components
-      - bufferutil
-      - supports-color
-      - utf-8-validate
     dev: false
 
   github.com/ricmoo/ens-normalize.js/2d040533e57e4f25f9a7cc4715e219658ad454b5:
