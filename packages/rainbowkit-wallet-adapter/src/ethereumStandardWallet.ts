@@ -177,7 +177,7 @@ export class WalletStandardConnector extends Connector<
     }
   }
 
-  async switchChain(chainId: number) {
+  async switchChain(chainId: number): Promise<Chain> {
     const provider = await this.getProvider();
     if (!provider) throw new ConnectorNotFoundError();
     const id = hexValue(chainId);

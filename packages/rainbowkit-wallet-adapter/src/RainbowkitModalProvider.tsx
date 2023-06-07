@@ -1,8 +1,11 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import React, { ReactElement, useEffect, useMemo } from "react";
-import { ChainType, ModalContextType } from "../../types";
-import useChain from "../../useChain";
 import { useAccount } from "wagmi";
+import {
+  ModalContextType,
+  SupportedChains,
+  useChain,
+} from "@civic/multichain-connect-react-core";
 
 export const RainbowkitModalContext = React.createContext<ModalContextType>(
   {} as ModalContextType
@@ -16,7 +19,7 @@ export default function RainbowkitModalProvider({
 }): ReactElement {
   const { openConnectModal } = useConnectModal();
   const { isConnected } = useAccount();
-  const { chain } = useChain();
+  const { selectedChain } = useChain();
 
   const context = useMemo(
     () => ({
@@ -26,10 +29,10 @@ export default function RainbowkitModalProvider({
   );
 
   useEffect(() => {
-    if (!isConnected && chain?.type === ChainType.Ethereum) {
+    if (!isConnected && selectedChain?.type === SupportedChains.Ethereum) {
       openConnectModal?.();
     }
-  }, [chain, openConnectModal, isConnected]);
+  }, [selectedChain, openConnectModal, isConnected]);
 
   return (
     <RainbowkitModalContext.Provider value={context}>

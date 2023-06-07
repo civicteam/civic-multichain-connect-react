@@ -20,13 +20,13 @@ const StyledButton = styled.button`
 
 export function MultichainConnectButton(): JSX.Element | null {
   const { connected } = useWallet();
-  const { openConnectModal } = useModal();
+  const { openChainModal } = useModal();
 
   const { labels } = useLabel();
   return (
     <>
       {!connected && (
-        <StyledButton type="button" onClick={openConnectModal}>
+        <StyledButton type="button" onClick={openChainModal}>
           {labels[LabelEntry.CONNECT]}
         </StyledButton>
       )}

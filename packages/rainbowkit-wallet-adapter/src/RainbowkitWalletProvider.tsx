@@ -1,13 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Wallet } from "ethers";
 import React, { ReactElement, useEffect, useMemo, useState } from "react";
-import { Chain as RainbowkitChain } from "@rainbow-me/rainbowkit";
 import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
-import { ChainType, EVMChain, WalletContextType } from "../../types";
-import useChain from "../../useChain";
+import {
+  SupportedChains,
+  WalletContextType,
+  useChain,
+} from "@civic/multichain-connect-react-core";
 
-export const RainbowkitWalletContext = React.createContext<WalletContextType>(
-  {} as WalletContextType
-);
+export const RainbowkitWalletContext = React.createContext<
+  WalletContextType<any, any, any>
+>({} as WalletContextType<any, any, any>);
 
 // Create the context provider component
 export default function RainbowkitWalletProvider({
@@ -45,12 +48,11 @@ export default function RainbowkitWalletProvider({
   );
 
   useEffect(() => {
-    const supportedChain = chain as EVMChain;
-    if ((chain as RainbowkitChain) && switchNetwork) {
-      switchNetwork(supportedChain.id);
+    if (chain && switchNetwork) {
+      switchNetwork(chain.id);
       setSelectedChain({
-        ...supportedChain,
-        type: ChainType.Ethereum,
+        ...chain,
+        type: SupportedChains.Ethereum,
       });
     }
   }, [chain, setSelectedChain, switchNetwork]);

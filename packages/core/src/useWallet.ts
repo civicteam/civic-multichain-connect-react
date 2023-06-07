@@ -1,10 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useContext, useEffect } from "react";
-import { WalletContextType } from "./types";
+import { SupportedChains, WalletContextType } from "./types";
 import useWalletAdapters from "./useWalletAdapters";
 
-const useMultichainWallet = (): WalletContextType => {
-  const { getWalletAdapters } = useWalletAdapters();
+const useMultichainWallet = <
+  T extends SupportedChains,
+  S,
+  E
+>(): WalletContextType<T, S, E> => {
+  const { getWalletAdapters } = useWalletAdapters<T, S, E>();
   const adapters = getWalletAdapters().map((a) => a.context);
   const adapter = adapters.find((a) => a?.connected);
 
@@ -12,6 +14,7 @@ const useMultichainWallet = (): WalletContextType => {
     wallet: adapter?.wallet,
     connected: adapter?.connected ?? false,
     disconnect: adapter?.disconnect,
+    chain: adapter?.chain,
   };
 };
 

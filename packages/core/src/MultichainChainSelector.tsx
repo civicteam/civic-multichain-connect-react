@@ -5,9 +5,9 @@ import {
   lookupEvmChainNetworkById,
 } from "@civic/civic-eth-provider";
 import styled from "styled-components";
-import { EVMChain } from "./types";
 import useModal from "./useModal";
 import useWallet from "./useWallet";
+import { chain } from "ramda";
 
 // Styled component named StyledButton
 const StyledButton = styled.button`
@@ -22,13 +22,13 @@ const StyledButton = styled.button`
 `;
 
 export function MultichainChainSelector(): JSX.Element | null {
-  const { chain, openConnectModal } = useModal();
+  const { selectedChain, openChainModal } = useModal();
   const { wallet } = useWallet();
   const [iconUrl, setIconUrl] = React.useState<string | undefined>();
 
   const getDefaultIcon = useCallback(() => {
-    const chainNetwork = (chain as EVMChain)
-      ? lookupEvmChainNetworkById((chain as EVMChain).id)
+    const chainNetwork = selectedChain?.id
+      ? lookupEvmChainNetworkById(selectedChain.id)
       : undefined;
 
     if (chainNetwork) {
@@ -39,12 +39,12 @@ export function MultichainChainSelector(): JSX.Element | null {
   }, [chain]);
 
   const getIcon = useCallback(async () => {
-    if (chain) {
+    if (selectedChain) {
       // if icon url is a function execute it otherwise return string value
       const url =
-        typeof chain.iconUrl === "function"
-          ? await chain.iconUrl()
-          : chain.iconUrl;
+        typeof selectedChain.iconUrl === "function"
+          ? await selectedChain.iconUrl()
+          : selectedChain.iconUrl;
 
       if (url) {
         setIconUrl(url);
@@ -56,7 +56,7 @@ export function MultichainChainSelector(): JSX.Element | null {
   }, [chain, getDefaultIcon]);
 
   useEffect(() => {
-    if (chain) {
+    if (selectedChain) {
       getIcon();
     }
   }, [chain, getIcon]);
@@ -66,7 +66,7 @@ export function MultichainChainSelector(): JSX.Element | null {
   }
 
   return (
-    <StyledButton type="button" onClick={openConnectModal}>
+    <StyledButton type="button" onClick={openChainModal}>
       <img src={iconUrl} alt="" />
     </StyledButton>
   );

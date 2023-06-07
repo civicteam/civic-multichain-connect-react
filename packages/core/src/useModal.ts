@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useContext } from "react";
-import { ChainSelectorModalContext } from "./chainSelector/ChainSelectorProvider";
-import { ChainSelectorContextType } from "./types";
+import { ChainSelectorModalContext } from "./MultichainSelectorProvider";
+import { SupportedChains, ChainContextType, BaseChain } from "./types";
 
-const useMultichainModal = (): ChainSelectorContextType => {
+const useMultichainModal = <
+  T extends SupportedChains,
+  S extends BaseChain,
+  E extends BaseChain
+>(): ChainContextType<T, S, E> => {
   return useContext(ChainSelectorModalContext);
 };
 

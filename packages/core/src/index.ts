@@ -1,14 +1,10 @@
-import { getChainType } from "./utils";
 import {
-  MultichainContextType,
   SupportedChains,
   Chain,
   WalletContextType,
-  SolanaChain,
-  EVMChain,
-  SupportedWallets,
-  ChainType,
   ModalContextType,
+  LabelEntry,
+  BaseChain,
 } from "./types";
 import MultichainWalletProvider from "./MultichainWalletProvider";
 import useWallet from "./useWallet";
@@ -18,6 +14,7 @@ import { MultichainConnectButton } from "./MultichainConnectButton";
 import { MultichainChainSelector } from "./MultichainChainSelector";
 import useChain from "./useChain";
 import useWalletAdapters from "./useWalletAdapters";
+import LabelProvider, { useLabel } from "./MultichainLabelProvider";
 
 export {
   MultichainWalletProvider,
@@ -26,19 +23,12 @@ export {
   MultichainChainSelector,
   useWallet,
   useModal,
-  getChainType,
+  useLabel,
   useChain,
   useWalletAdapters,
+  LabelProvider,
+  LabelEntry,
+  SupportedChains,
 };
 
-export type {
-  MultichainContextType,
-  SupportedChains,
-  Chain,
-  WalletContextType,
-  SolanaChain,
-  EVMChain,
-  SupportedWallets,
-  ChainType,
-  ModalContextType,
-};
+export type { Chain, WalletContextType, ModalContextType, BaseChain };

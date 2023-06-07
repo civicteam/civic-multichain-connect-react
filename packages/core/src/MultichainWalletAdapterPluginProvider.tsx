@@ -1,20 +1,29 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // pluginRegistry.js
 import React, { ReactElement, createContext, useMemo, useState } from "react";
-import { WalletAdapterContextType, WalletAdpaterPlugin } from "./types";
+import {
+  SupportedChains,
+  WalletAdapterContextType,
+  WalletAdpaterPlugin,
+} from "./types";
 
-export const MultichainWalletAdapterPluginContext =
-  createContext<WalletAdapterContextType>({} as WalletAdapterContextType);
+export const MultichainWalletAdapterPluginContext = createContext<
+  WalletAdapterContextType<any, any, any>
+>({} as WalletAdapterContextType<any, any, any>);
 
-export default function MultichainWalletAdapterPluginProvider({
+export default function MultichainWalletAdapterPluginProvider<S, E>({
   children,
 }: {
   children: React.ReactNode;
 }): ReactElement {
-  const [adapers, setAdapters] = useState<Record<string, WalletAdpaterPlugin>>(
-    {}
-  );
+  const [adapers, setAdapters] = useState<
+    Record<string, WalletAdpaterPlugin<SupportedChains, S, E>>
+  >({});
 
-  const setWalletAdapter = (name: string, adapter: WalletAdpaterPlugin) => {
+  const setWalletAdapter = (
+    name: string,
+    adapter: WalletAdpaterPlugin<SupportedChains, S, E>
+  ) => {
     setAdapters((prevAdapters) => ({
       ...prevAdapters,
       [name]: adapter,

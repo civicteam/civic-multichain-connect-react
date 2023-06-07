@@ -1,15 +1,58 @@
-import { Connection, PublicKey } from "@solana/web3.js";
 import { ReactElement } from "react";
 
-export interface ModalContextType {
-  openConnectModal: (() => void) | undefined;
+export enum SupportedChains {
+  Solana = "solana",
+  Ethereum = "ethereum",
+  Unknown = "unknown",
 }
 
-export interface ChainSelectorContextType {
-  chain?: Chain;
-  chains: Chain[];
-  initialChain?: SupportedChains;
-  setSelectedChain: (chain?: Chain) => void;
+export type Wallet<
+  T extends SupportedChains,
+  S,
+  E
+> = T extends SupportedChains.Solana
+  ? S
+  : T extends SupportedChains.Ethereum
+  ? E
+  : never;
+
+export type BaseChain = {
+  id?: number;
+  name: string;
+  iconUrl?: string | (() => Promise<string>) | null;
+  type: SupportedChains;
+};
+
+export type Chain<
+  T extends SupportedChains,
+  S extends BaseChain,
+  E extends BaseChain
+> = T extends SupportedChains.Solana
+  ? S
+  : T extends SupportedChains.Ethereum
+  ? E
+  : never;
+
+export interface WalletContextType<T extends SupportedChains, S, E> {
+  chain?: T;
+  wallet?: Wallet<T, S, E>;
+  connected: boolean;
+  disconnect: (() => void) | undefined;
+}
+
+export interface ChainContextType<
+  T extends SupportedChains,
+  S extends BaseChain,
+  E extends BaseChain
+> {
+  selectedChain?: Chain<T, S, E>;
+  chains: Chain<T, S, E>[];
+  setSelectedChain: (chain?: Chain<T, S, E>) => void;
+  openChainModal: (() => void) | undefined;
+  setChains: (chains: Chain<T, S, E>[], type: SupportedChains) => void;
+}
+
+export interface ModalContextType {
   openConnectModal: (() => void) | undefined;
 }
 
@@ -32,62 +75,16 @@ export interface LabelContextType {
   labels: Labels;
 }
 
-// TODO: Return the standard wallet type from wallet adapters once interface finaliswd
-export interface Wallet {
-  adapter: unknown;
-  readyState: string;
-}
-
-export interface WalletContextState {
-  wallet?: Wallet;
-  publicKey?: PublicKey;
-}
-
-export interface EthersWallet {
-  address: string;
-}
-
-export type SupportedWallets = WalletContextState | EthersWallet;
-
-export interface WalletContextType {
-  wallet?: SupportedWallets;
-  connected: boolean;
-  disconnect: (() => void) | undefined;
-}
-
-export type MultichainContextType = ChainSelectorContextType &
-  WalletContextType;
-
-export enum ChainType {
-  Solana = "solana",
-  Ethereum = "ethereum",
-  Unknown = "unknown",
-}
-
-export type SolanaChain = {
-  name: string;
-  connection: Connection;
-  iconUrl?: string | (() => Promise<string>) | null;
-};
-
-export type EVMChain = {
-  id: number;
-  name: string;
-  iconUrl?: string | (() => Promise<string>) | null;
-  iconBackground?: string;
-};
-
-export type SupportedChains = SolanaChain | EVMChain;
-
-export type Chain = (EVMChain | SolanaChain) & { type: ChainType };
-
-export type WalletAdpaterPlugin = {
-  context: WalletContextType & ModalContextType;
+export type WalletAdpaterPlugin<T extends SupportedChains, S, E> = {
+  context: WalletContextType<T, S, E> & ModalContextType;
   button: ReactElement;
 };
 
-export type WalletAdapterContextType = {
-  setWalletAdapter: (name: string, plugin: WalletAdpaterPlugin) => void;
-  getWalletAdapter: (name: string) => WalletAdpaterPlugin;
-  getWalletAdapters: () => WalletAdpaterPlugin[];
+export type WalletAdapterContextType<T extends SupportedChains, S, E> = {
+  setWalletAdapter: (
+    name: string,
+    adapter: WalletAdpaterPlugin<T, S, E>
+  ) => void;
+  getWalletAdapter: (name: string) => WalletAdpaterPlugin<T, S, E>;
+  getWalletAdapters: () => WalletAdpaterPlugin<T, S, E>[];
 };

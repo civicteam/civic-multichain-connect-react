@@ -102,7 +102,7 @@ function useEthereumWallets({
 
   return {
     connectors: connectorsForWallets(wallets),
-    wallets: nonStandardWallets,
+    wallets: [...nonStandardWallets, ...standardWallets],
   };
 }
 

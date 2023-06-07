@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useContext } from "react";
-import { WalletAdapterContextType } from "./types";
+import { SupportedChains, WalletAdapterContextType } from "./types";
 import { MultichainWalletAdapterPluginContext } from "./MultichainWalletAdapterPluginProvider";
 
-const useWalletAdapters = (): WalletAdapterContextType => {
+const useWalletAdapters = <
+  T extends SupportedChains,
+  S,
+  E
+>(): WalletAdapterContextType<T, S, E> => {
   return useContext(MultichainWalletAdapterPluginContext);
 };
 

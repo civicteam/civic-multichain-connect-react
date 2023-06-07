@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import BaseDialog from "../components/BaseDialog";
-import { Chain, ChainType, EVMChain, LabelEntry } from "../types";
+import { BaseChain, Chain, LabelEntry, SupportedChains } from "../types";
 import { useLabel } from "../MultichainLabelProvider";
 import React from "react";
 
@@ -46,20 +46,25 @@ const SelectChainTitle = styled.h4`
 const SelectChainList = styled.ul`
   margin-bottom: 20px;
 `;
-type ChainElementProps = {
-  chain: Chain;
-  onChainSelect: (chain: Chain) => void;
+type ChainElementProps<
+  T extends SupportedChains,
+  S extends BaseChain,
+  E extends BaseChain
+> = {
+  chain: Chain<T, S, E>;
+  onChainSelect: (chain: Chain<T, S, E>) => void;
 };
 
-export function ChainElement({
-  chain,
-  onChainSelect,
-}: ChainElementProps): JSX.Element {
+export function ChainElement<
+  T extends SupportedChains,
+  S extends BaseChain,
+  E extends BaseChain
+>({ chain, onChainSelect }: ChainElementProps<T, S, E>): JSX.Element {
   const { type } = chain;
-
   let ethSymbol;
-  if (type === ChainType.Ethereum) {
-    const chainNetwork = lookupEvmChainNetworkById((chain as EVMChain).id);
+
+  if (type === SupportedChains.Ethereum) {
+    const chainNetwork = lookupEvmChainNetworkById(chain.id ?? 0);
     if (chainNetwork) {
       ethSymbol = getNetwork(chainNetwork)?.symbol;
       if (
@@ -98,15 +103,20 @@ export function ChainElement({
   );
 }
 
-export type ChainSelectorProps = {
-  chains: Chain[];
-  onChainSelect: (chain: Chain) => void;
+export type ChainSelectorProps<
+  T extends SupportedChains,
+  S extends BaseChain,
+  E extends BaseChain
+> = {
+  chains: Chain<T, S, E>[];
+  onChainSelect: (chain: Chain<T, S, E>) => void;
 };
 
-export function ChainSelectorContent({
-  chains,
-  onChainSelect,
-}: ChainSelectorProps): JSX.Element | null {
+export function ChainSelectorContent<
+  T extends SupportedChains,
+  S extends BaseChain,
+  E extends BaseChain
+>({ chains, onChainSelect }: ChainSelectorProps<T, S, E>): JSX.Element | null {
   const { labels } = useLabel();
   return (
     <div>
@@ -123,19 +133,27 @@ export function ChainSelectorContent({
     </div>
   );
 }
-export type ChainSelectorModalProps = {
-  chains: Chain[];
+export type ChainSelectorModalProps<
+  T extends SupportedChains,
+  S extends BaseChain,
+  E extends BaseChain
+> = {
+  chains: Chain<T, S, E>[];
   isOpen: boolean;
   onClose: () => void;
-  onChainSelect: (chain: Chain) => void;
+  onChainSelect: (chain: Chain<T, S, E>) => void;
 };
 
-export function ChainSelectorModal({
+export function ChainSelectorModal<
+  T extends SupportedChains,
+  S extends BaseChain,
+  E extends BaseChain
+>({
   chains,
   isOpen,
   onClose,
   onChainSelect,
-}: ChainSelectorModalProps): JSX.Element {
+}: ChainSelectorModalProps<T, S, E>): JSX.Element {
   return (
     <BaseDialog isOpen={isOpen} onClose={onClose}>
       <ChainSelectorContent chains={chains} onChainSelect={onChainSelect} />
