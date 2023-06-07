@@ -2,7 +2,7 @@
 import React, { ReactElement, useCallback, useMemo, useState } from "react";
 import { groupBy } from "ramda";
 import { BaseChain, Chain, ChainContextType, SupportedChains } from "./types";
-import { ChainSelectorModal } from "./chainSelector/ChainSelector";
+import { ChainSelectorModal } from "./components/ChainSelector";
 
 export const ChainSelectorModalContext = React.createContext<
   ChainContextType<any, any, any>
@@ -23,8 +23,7 @@ export default function ChainSelectorModalProvider<
     if (Object.keys(groupedChains).length === 1) {
       // The user might have canceled out of the chain selector modal
       // without selecting a chain so we need to check for that
-      const chain = selectedChain ? { ...selectedChain } : { ...chains[0] };
-      setSelectedChain(chain);
+      setSelectedChain({ ...chains[0] });
       return;
     }
 

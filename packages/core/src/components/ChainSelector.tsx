@@ -9,7 +9,7 @@ import {
 } from "@civic/civic-chain-icons";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import BaseDialog from "../components/BaseDialog";
+import BaseDialog from "./BaseDialog";
 import { BaseChain, Chain, LabelEntry, SupportedChains } from "../types";
 import { useLabel } from "../MultichainLabelProvider";
 import React from "react";

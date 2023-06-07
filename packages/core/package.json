@@ -1,6 +1,6 @@
 {
   "name": "@civic/multichain-connect-react-core",
-  "version": "0.0.1",
+  "version": "0.0.1-beta.2",
   "description": "A multichain wallet connect library",
   "repository": "git@github.com:civicteam/civic-multichain-connect-react.git",
   "author": "civic.com",
