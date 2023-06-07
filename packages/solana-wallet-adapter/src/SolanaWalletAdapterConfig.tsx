@@ -28,7 +28,7 @@ import {
 } from "@civic/multichain-connect-react-core";
 import { SolanaWalletAdapterButton } from "./SolanaWalletAdapterButton";
 import "@solana/wallet-adapter-react-ui/styles.css";
-import { Chain } from "./types";
+import { Chain, DEFAULT_ENDPOINT } from "./types";
 
 function SolanaWalletAdapterPluginProvider<T>({
   children,
@@ -45,7 +45,7 @@ function SolanaWalletAdapterPluginProvider<T>({
   const modal = useContext(SolanaWalletAdapterModalContext);
 
   useEffect(() => {
-    setWalletAdapter("solana", {
+    setWalletAdapter(SupportedChains.Solana, {
       context: { ...wallet, ...modal, chain: SupportedChains.Solana },
       button: <SolanaWalletAdapterButton />,
     });
@@ -63,11 +63,20 @@ function SolanaWalletAdapterConfig({
   chains: Chain[];
 }): JSX.Element | null {
   // For now support only a single chain
-  const { setChains, chains: existingChains } = useChain<
+  const { setChains } = useChain<
     SupportedChains.Solana,
     Chain & BaseChain,
     never
   >();
+
+  const endpoint = useMemo(() => {
+    if (chains.length === 0) {
+      return DEFAULT_ENDPOINT;
+    }
+
+    const { connection } = chains[0];
+    return connection.rpcEndpoint;
+  }, [chains]);
 
   const wallets = useMemo(
     () => [
@@ -90,14 +99,6 @@ function SolanaWalletAdapterConfig({
     }));
     setChains(solanaChains, SupportedChains.Solana);
   }, [chains]);
-
-  if (chains.length === 0) {
-    return <>{children}</>;
-  }
-
-  const chain = chains[0];
-  const { connection } = chain;
-  const endpoint = connection.rpcEndpoint;
 
   return (
     <ConnectionProvider endpoint={endpoint}>
