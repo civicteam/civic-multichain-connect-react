@@ -43,7 +43,7 @@ function RainbowkitPluginProvider({
   const modal = useContext(RainbowkitModalContext);
 
   useEffect(() => {
-    setWalletAdapter("solana", {
+    setWalletAdapter(SupportedChains.Ethereum, {
       context: { ...wallet, ...modal, chain: SupportedChains.Ethereum },
       button: <RainbowkitButton />,
     });
@@ -66,17 +66,13 @@ function RainbowkitConfig({
   initialChain?: Chain;
 }): JSX.Element | null {
   const { labels } = useLabel();
-  const { setChains } = useChain<
+  const { setChains, selectedChain } = useChain<
     SupportedChains.Ethereum,
     never,
     Chain & BaseChain
   >();
 
   const client = useMemo(() => {
-    if (chains.length === 0) {
-      return;
-    }
-
     const { wallets } = getDefaultWallets({
       appName: "rainbowkit",
       chains: chains,
@@ -121,18 +117,15 @@ function RainbowkitConfig({
     setChains(evmChains, SupportedChains.Ethereum);
   }, [chains]);
 
-  if (!client) {
-    return <>{children}</>;
-  }
-
   return (
     <WagmiConfig client={client}>
       <RainbowKitProvider
         chains={chains}
-        initialChain={initialChain}
+        // if initialChain is not provided, use the selectedChain from the ChainContext
+        initialChain={initialChain ?? selectedChain}
         theme={theme}
       >
-        <WalletContextProvider>
+        <WalletContextProvider initialChain={initialChain}>
           <ModalContextProvider>
             <RainbowkitPluginProvider>{children}</RainbowkitPluginProvider>
           </ModalContextProvider>

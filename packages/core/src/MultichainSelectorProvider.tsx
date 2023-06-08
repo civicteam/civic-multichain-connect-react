@@ -23,12 +23,12 @@ export default function ChainSelectorModalProvider<
     if (Object.keys(groupedChains).length === 1) {
       // The user might have canceled out of the chain selector modal
       // without selecting a chain so we need to check for that
-      setSelectedChain({ ...chains[0] });
+      setSelectedChain(selectedChain ? { ...selectedChain } : { ...chains[0] });
       return;
     }
 
     setVisible(true);
-  }, [chains]);
+  }, [chains, selectedChain]);
 
   // Replace all chains of the same type with the new set of chains
   const setChainsByType = useCallback(

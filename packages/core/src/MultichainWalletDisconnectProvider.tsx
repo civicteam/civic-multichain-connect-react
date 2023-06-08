@@ -2,6 +2,7 @@ import React, { ReactElement, useCallback, useEffect, useMemo } from "react";
 import { DisconnectContextType } from "./types";
 import useChain from "./useChain";
 import useWallet from "./useWallet";
+import useWalletAdapters from "./useWalletAdapters";
 
 export const MultichainWalletDisconnectContext =
   React.createContext<DisconnectContextType>({} as DisconnectContextType);
@@ -12,18 +13,27 @@ export default function MultichainWalletDisconnectProvider({
 }: {
   children: React.ReactNode;
 }): ReactElement {
-  const { setSelectedChain } = useChain();
-  const { connected } = useWallet();
+  const { setSelectedChain, chains } = useChain();
+  const { disconnect: disconnectWallet, chain, connected } = useWallet();
+  const { getWalletAdapters } = useWalletAdapters();
 
   const disconnect = useCallback(() => {
     setSelectedChain(undefined);
-  }, [setSelectedChain]);
+    disconnectWallet?.();
+  }, [setSelectedChain, disconnectWallet]);
 
   useEffect(() => {
     if (!connected) {
-      disconnect();
+      setSelectedChain(undefined);
     }
   }, [connected, disconnect]);
+
+  useEffect(() => {
+    // If the chain is not in the list of chains, disconnect the wallet
+    if (chain && !chains.map((c) => c.type).includes(chain)) {
+      disconnect();
+    }
+  }, [chains, disconnect, chain, getWalletAdapters]);
 
   const context = useMemo(
     () => ({

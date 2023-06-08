@@ -7,6 +7,7 @@ import {
   WalletContextType,
   useChain,
 } from "@civic/multichain-connect-react-core";
+import { Chain } from "./types";
 
 export const RainbowkitWalletContext = React.createContext<
   WalletContextType<any, any, any>
@@ -15,16 +16,17 @@ export const RainbowkitWalletContext = React.createContext<
 // Create the context provider component
 export default function RainbowkitWalletProvider({
   children,
+  initialChain,
 }: {
   children: React.ReactNode;
+  initialChain?: Chain;
 }): ReactElement {
   const { disconnect } = useDisconnect();
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
   const { setSelectedChain } = useChain();
   const [wallet, setWallet] = useState<Wallet>();
-  const onDisconnect = () => setSelectedChain(undefined);
-  const { connector, isConnected, address } = useAccount({ onDisconnect });
+  const { connector, isConnected, address } = useAccount();
 
   useEffect(() => {
     connector?.getSigner().then((connectedWallet) => {
@@ -56,6 +58,17 @@ export default function RainbowkitWalletProvider({
       });
     }
   }, [chain, setSelectedChain, switchNetwork]);
+
+  // Allow the chains to be switched at runtime
+  useEffect(() => {
+    if (isConnected && initialChain && switchNetwork) {
+      switchNetwork(initialChain.id);
+      setSelectedChain({
+        ...initialChain,
+        type: SupportedChains.Ethereum,
+      });
+    }
+  }, [isConnected, initialChain, setSelectedChain, switchNetwork]);
 
   return (
     <RainbowkitWalletContext.Provider value={context}>

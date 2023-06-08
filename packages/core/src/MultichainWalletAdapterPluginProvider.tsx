@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // pluginRegistry.js
-import React, { ReactElement, createContext, useMemo, useState } from "react";
+import React, {
+  ReactElement,
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import {
   SupportedChains,
   WalletAdapterContextType,
@@ -20,21 +27,27 @@ export default function MultichainWalletAdapterPluginProvider<S, E>({
     Record<string, WalletAdpaterPlugin<SupportedChains, S, E>>
   >({});
 
-  const setWalletAdapter = (
-    name: string,
-    adapter: WalletAdpaterPlugin<SupportedChains, S, E>
-  ) => {
-    setAdapters((prevAdapters) => ({
-      ...prevAdapters,
-      [name]: adapter,
-    }));
-  };
+  const setWalletAdapter = useCallback(
+    (name: string, adapter: WalletAdpaterPlugin<SupportedChains, S, E>) => {
+      setAdapters((prevAdapters) => ({
+        ...prevAdapters,
+        [name]: adapter,
+      }));
+    },
+    []
+  );
 
-  const getWalletAdapter = (name: string) => {
-    return adapers[name];
-  };
+  const getWalletAdapter = useCallback(
+    (name: string) => {
+      return adapers[name];
+    },
+    [adapers]
+  );
 
-  const getWalletAdapters = () => Object.values(adapers);
+  const getWalletAdapters = useCallback(
+    () => Object.values(adapers),
+    [adapers]
+  );
 
   const context = useMemo(
     () => ({
