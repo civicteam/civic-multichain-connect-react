@@ -9,9 +9,9 @@ import {
 } from "@civic/civic-chain-icons";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import BaseDialog from "./BaseDialog";
-import { BaseChain, Chain, LabelEntry, SupportedChains } from "../types";
-import { useLabel } from "../MultichainLabelProvider";
+import BaseDialog from "./BaseDialog.js";
+import { BaseChain, Chain, LabelEntry, SupportedChains } from "../types.js";
+import { useLabel } from "../MultichainLabelProvider.js";
 import React from "react";
 
 const ListItem = styled.li`
@@ -118,6 +118,7 @@ export function ChainSelectorContent<
   E extends BaseChain
 >({ chains, onChainSelect }: ChainSelectorProps<T, S, E>): JSX.Element | null {
   const { labels } = useLabel();
+  // TODO: CPASS-464 Fix the order of the diplayed chains
   return (
     <div>
       <SelectChainTitle>{labels[LabelEntry.SELECT_CHAIN]}</SelectChainTitle>

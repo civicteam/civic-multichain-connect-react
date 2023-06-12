@@ -1,5 +1,5 @@
-import { SupportedChains, WalletContextType } from "./types";
-import useWalletAdapters from "./useWalletAdapters";
+import { SupportedChains, WalletContextType } from "./types.js";
+import useWalletAdapters from "./useWalletAdapters.js";
 
 const useMultichainWallet = <
   T extends SupportedChains,

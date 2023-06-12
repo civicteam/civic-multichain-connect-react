@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { WalletStandardProvider } from "@wallet-standard/react-core";
 import React, { ReactElement } from "react";
-import ChainSelectorModalProvider from "./MultichainSelectorProvider";
-import { defaultLabels } from "./constants";
-import LabelProvider from "./MultichainLabelProvider";
-import MultichainWalletAdapterPluginProvider from "./MultichainWalletAdapterPluginProvider";
-import MultichainWalletDisconnectProvider from "./MultichainWalletDisconnectProvider";
-import { Labels } from "./types";
+import ChainSelectorModalProvider from "./MultichainSelectorProvider.js";
+import { defaultLabels } from "./constants.js";
+import LabelProvider from "./MultichainLabelProvider.js";
+import MultichainWalletAdapterPluginProvider from "./MultichainWalletAdapterPluginProvider.js";
+import MultichainWalletDisconnectProvider from "./MultichainWalletDisconnectProvider.js";
+import { Labels } from "./types.js";
 
 export default function MultichainWalletProvider({
   children,

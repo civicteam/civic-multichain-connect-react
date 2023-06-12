@@ -1,4 +1,4 @@
-import { LabelEntry } from "./types";
+import { LabelEntry } from "./types.js";
 
 export const defaultLabels: Record<LabelEntry, string> = {
   [LabelEntry.CONNECT]: "Connect",

@@ -1,8 +1,8 @@
 import React, { ReactElement, useCallback, useEffect, useMemo } from "react";
-import { DisconnectContextType } from "./types";
-import useChain from "./useChain";
-import useWallet from "./useWallet";
-import useWalletAdapters from "./useWalletAdapters";
+import { DisconnectContextType } from "./types.js";
+import useChain from "./useChain.js";
+import useWallet from "./useWallet.js";
+import useWalletAdapters from "./useWalletAdapters.js";
 
 export const MultichainWalletDisconnectContext =
   React.createContext<DisconnectContextType>({} as DisconnectContextType);

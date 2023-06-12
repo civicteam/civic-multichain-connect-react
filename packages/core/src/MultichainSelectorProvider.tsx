@@ -1,8 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactElement, useCallback, useMemo, useState } from "react";
 import { groupBy } from "ramda";
-import { BaseChain, Chain, ChainContextType, SupportedChains } from "./types";
-import { ChainSelectorModal } from "./components/ChainSelector";
+import {
+  BaseChain,
+  Chain,
+  ChainContextType,
+  SupportedChains,
+} from "./types.js";
+import { ChainSelectorModal } from "./components/ChainSelector.js";
 
 export const ChainSelectorModalContext = React.createContext<
   ChainContextType<any, any, any>

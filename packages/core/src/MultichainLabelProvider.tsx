@@ -1,6 +1,6 @@
 import React, { ReactElement, useContext, useMemo } from "react";
-import { defaultLabels } from "./constants";
-import { LabelContextType, Labels } from "./types";
+import { defaultLabels } from "./constants.js";
+import { LabelContextType, Labels } from "./types.js";
 
 export const LabelContext = React.createContext<LabelContextType>(
   {} as LabelContextType

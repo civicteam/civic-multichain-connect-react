@@ -19,7 +19,7 @@ import {
 } from "@rainbow-me/rainbowkit/wallets";
 import { getWallets } from "@wallet-standard/app";
 import type { Wallet as StandardWallet } from "@wallet-standard/base";
-import { standardEthereumWallet } from "./ethereumStandardWallet";
+import { standardEthereumWallet } from "./ethereumStandardWallet.js";
 
 function useNonStandardWallets({
   appName,

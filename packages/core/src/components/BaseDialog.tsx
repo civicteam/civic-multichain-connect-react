@@ -27,6 +27,7 @@ const CloseButton = styled.button`
   position: absolute;
   top: 10px;
   right: 10px;
+  cursor: pointer;
 `;
 
 // Modal Component

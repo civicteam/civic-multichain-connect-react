@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useContext } from "react";
-import { ChainSelectorModalContext } from "./MultichainSelectorProvider";
-import { BaseChain, ChainContextType, SupportedChains } from "./types";
+import { ChainSelectorModalContext } from "./MultichainSelectorProvider.js";
+import { BaseChain, ChainContextType, SupportedChains } from "./types.js";
 
 const useChain = <
   T extends SupportedChains,

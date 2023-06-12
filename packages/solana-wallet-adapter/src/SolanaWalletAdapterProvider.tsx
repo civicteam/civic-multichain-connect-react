@@ -7,7 +7,7 @@ import {
   WalletContextType,
   useChain,
 } from "@civic/multichain-connect-react-core";
-import { Chain } from "./types";
+import { Chain } from "./types.js";
 
 export const SolanaWalletAdapterContext = React.createContext<
   WalletContextType<any, any, never>
