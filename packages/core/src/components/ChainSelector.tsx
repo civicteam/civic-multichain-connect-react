@@ -118,7 +118,7 @@ export function ChainSelectorContent<
   E extends BaseChain
 >({ chains, onChainSelect }: ChainSelectorProps<T, S, E>): JSX.Element | null {
   const { labels } = useLabel();
-  chains.sort((a: BaseChain, b: BaseChain) => (a.id || 0) - (b.id || 0));
+  // TODO: CPASS-464 Fix the order of the diplayed chains
   return (
     <div>
       <SelectChainTitle>{labels[LabelEntry.SELECT_CHAIN]}</SelectChainTitle>

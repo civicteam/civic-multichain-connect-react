@@ -95,7 +95,6 @@ function SolanaWalletAdapterConfig({
   useEffect(() => {
     const solanaChains = chains.map((chain) => ({
       ...chain,
-      id: -1,
       type: SupportedChains.Solana,
     }));
     setChains(solanaChains, SupportedChains.Solana);
