@@ -1,4 +1,4 @@
-import useWalletAdapters from "./useWalletAdapters";
+import useWalletAdapters from "./useWalletAdapters.js";
 
 export function MultichainConnectedButton(): JSX.Element | null {
   const { getWalletAdapters } = useWalletAdapters();

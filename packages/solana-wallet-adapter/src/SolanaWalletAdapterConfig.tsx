@@ -16,19 +16,19 @@ import {
 } from "@solana/wallet-adapter-wallets";
 import SolanaWalletAdapterModalProvider, {
   SolanaWalletAdapterModalContext,
-} from "./SolanaWalletAdapterModalProvider";
+} from "./SolanaWalletAdapterModalProvider.js";
 import SolanaWalletAdapterProvider, {
   SolanaWalletAdapterContext,
-} from "./SolanaWalletAdapterProvider";
+} from "./SolanaWalletAdapterProvider.js";
 import {
   BaseChain,
   SupportedChains,
   useChain,
   useWalletAdapters,
 } from "@civic/multichain-connect-react-core";
-import { SolanaWalletAdapterButton } from "./SolanaWalletAdapterButton";
+import { SolanaWalletAdapterButton } from "./SolanaWalletAdapterButton.js";
 import "@solana/wallet-adapter-react-ui/styles.css";
-import { Chain, DEFAULT_ENDPOINT } from "./types";
+import { Chain, DEFAULT_ENDPOINT } from "./types.js";
 
 function SolanaWalletAdapterPluginProvider<T>({
   children,
@@ -95,6 +95,7 @@ function SolanaWalletAdapterConfig({
   useEffect(() => {
     const solanaChains = chains.map((chain) => ({
       ...chain,
+      id: -1,
       type: SupportedChains.Solana,
     }));
     setChains(solanaChains, SupportedChains.Solana);

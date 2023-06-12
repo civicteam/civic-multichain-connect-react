@@ -1,19 +1,21 @@
-parser: '@typescript-eslint/parser'
+parser: "@typescript-eslint/parser"
 plugins:
   - react
-  - '@typescript-eslint'
+  - "@typescript-eslint"
   - prettier
-  - 'no-only-tests'
+  - "no-only-tests"
+  - "require-extensions"
 extends:
-  - 'eslint:recommended'
-  - 'plugin:@typescript-eslint/recommended'
-  - 'plugin:prettier/recommended'
+  - "eslint:recommended"
+  - "plugin:@typescript-eslint/recommended"
+  - "plugin:prettier/recommended"
+  - "plugin:require-extensions/recommended"
 overrides:
   - files:
-    - "test/**/*.ts"
+      - "test/**/*.ts"
     rules:
-      '@typescript-eslint/no-explicit-any': 0
-      'no-only-tests/no-only-tests': 'error'
+      "@typescript-eslint/no-explicit-any": 0
+      "no-only-tests/no-only-tests": "error"
 env:
   node: true
   jest: true

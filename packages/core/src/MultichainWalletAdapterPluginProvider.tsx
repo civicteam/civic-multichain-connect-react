@@ -12,7 +12,7 @@ import {
   SupportedChains,
   WalletAdapterContextType,
   WalletAdpaterPlugin,
-} from "./types";
+} from "./types.js";
 
 export const MultichainWalletAdapterPluginContext = createContext<
   WalletAdapterContextType<any, any, any>

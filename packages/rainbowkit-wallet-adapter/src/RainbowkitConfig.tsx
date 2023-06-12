@@ -13,14 +13,14 @@ import {
   configureChains,
   ChainProviderFn,
 } from "wagmi";
-import { EIP1193Wallet } from "./eip113Wallet";
+import { EIP1193Wallet } from "./eip113Wallet.js";
 import "@rainbow-me/rainbowkit/styles.css";
 import ModalContextProvider, {
   RainbowkitModalContext,
-} from "./RainbowkitModalProvider";
+} from "./RainbowkitModalProvider.js";
 import WalletContextProvider, {
   RainbowkitWalletContext,
-} from "./RainbowkitWalletProvider";
+} from "./RainbowkitWalletProvider.js";
 import {
   useLabel,
   LabelEntry,
@@ -30,8 +30,8 @@ import {
   BaseChain,
 } from "@civic/multichain-connect-react-core";
 import { publicProvider } from "wagmi/providers/public";
-import { RainbowkitButton } from "./RainbowkitButton";
-import { Chain } from "./types";
+import { RainbowkitButton } from "./RainbowkitButton.js";
+import { Chain } from "./types.js";
 
 function RainbowkitPluginProvider({
   children,

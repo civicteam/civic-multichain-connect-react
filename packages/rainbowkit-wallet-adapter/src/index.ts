@@ -1,5 +1,5 @@
-import RainbowkitConfig from "./RainbowkitConfig";
-import { Chain } from "./types";
+import RainbowkitConfig from "./RainbowkitConfig.js";
+import { Chain } from "./types.js";
 
 export { RainbowkitConfig };
 export type { Chain };

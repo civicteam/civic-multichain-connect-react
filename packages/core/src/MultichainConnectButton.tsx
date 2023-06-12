@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import useModal from "./useModal";
-import { LabelEntry } from "./types";
-import { useLabel } from "./MultichainLabelProvider";
-import useWallet from "./useWallet";
-import { MultichainConnectedButton } from "./MultichainConnectedButton";
+import useModal from "./useModal.js";
+import { LabelEntry } from "./types.js";
+import { useLabel } from "./MultichainLabelProvider.js";
+import useWallet from "./useWallet.js";
+import { MultichainConnectedButton } from "./MultichainConnectedButton.js";
 
 // Styled component named StyledButton
 const StyledButton = styled.button`

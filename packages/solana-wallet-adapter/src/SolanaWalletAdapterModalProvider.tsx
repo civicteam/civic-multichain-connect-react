@@ -16,7 +16,7 @@ export default function SolanaWalletAdapterModalProvider({
 }: {
   children: React.ReactNode;
 }): ReactElement {
-  const { wallet, connect } = useWallet();
+  const { wallet, connect, select } = useWallet();
   const [canConnect, setcanConnect] = React.useState(false);
   const { setVisible } = useWalletModal();
   const { selectedChain } = useChain();
@@ -25,11 +25,15 @@ export default function SolanaWalletAdapterModalProvider({
     setVisible(true);
   }, [setVisible]);
 
-  useEffect(() => {
-    if (canConnect) {
-      connect();
-    }
-  }, [canConnect]);
+  // useEffect(() => {
+  //   if (canConnect) {
+  //     try {
+  //       connect();
+  //     } catch (e) {
+  //       // DO NOTHING
+  //     }
+  //   }
+  // }, [canConnect]);
 
   useEffect(() => {
     if (!wallet?.adapter.publicKey) {
