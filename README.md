@@ -10,12 +10,10 @@ The library offers a multi-chain wallet adapter that serves as a bridge between 
 Includes a pre-built React interface that simplifies the integration of wallet functionality into React applications. This interface offers intuitive components and hooks that developers can leverage to handle wallet interactions and user authentication with ease.
 
 #### Chain Customization:
-Developers can specify the chains they want to support within their application. MultiChainWalletAdapter allows for easy configuration of supported chains, such as EVM supported chains, Solana, etc. This flexibility enables dApps to cater to specific blockchain ecosystems while maintaining a consistent user experience.
+Developers can specify the chains they want to support within their application. Multichain Connect React allows for easy configuration of supported chains, such as EVM supported chains, Solana, etc. This flexibility enables dApps to cater to specific blockchain ecosystems while maintaining a consistent user experience.
 
 #### Extensibility:
 The library is designed with extensibility in mind. It provides a straightforward mechanism for adding additional wallet adapters, allowing developers to expand the range of supported wallets easily. By following the provided adapter interface and guidelines, new wallet integrations can be seamlessly incorporated into the existing framework. This also gives the user flexibility in which wallet adapters they choose to use.
-
-Certainly! Here's a README with an installation and usage section for the provided code:
 
 ## Installation
 
