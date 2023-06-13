@@ -4,5 +4,11 @@
         {
             "path": "./packages/core/tsconfig.json"
         },
+        {
+            "path": "./packages/solana-wallet-adapter/tsconfig.json"
+        },
+        {
+            "path": "./packages/rainbowkit-wallet-adapter/tsconfig.json"
+        },
     ]
 }
