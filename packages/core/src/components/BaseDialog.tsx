@@ -25,9 +25,14 @@ const ModalContent = styled.div`
 
 const CloseButton = styled.button`
   position: absolute;
+  background-color: transparent;
+  border-color: transparent;
+  border-width: 0px;
   top: 10px;
   right: 10px;
   cursor: pointer;
+  padding: 0px;
+  margin: 0px;
 `;
 
 // Modal Component
@@ -50,7 +55,7 @@ function Modal({
         {children}
         <CloseButton onClick={onClose}>
           <svg
-            className="h-5 w-5"
+            className="closeButtonSvg"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"

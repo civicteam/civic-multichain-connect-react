@@ -1,5 +1,6 @@
 /* eslint-disable require-extensions/require-extensions */
 import React from "react";
+import "./App.css";
 import {
   MultichainConnectButton,
   MultichainWalletProvider,
@@ -35,9 +36,7 @@ const Content = () => {
     <MultichainWalletProvider>
       <RainbowkitConfig chains={clientChains} providers={[publicProvider()]}>
         <SolanaWalletAdapterConfig chains={defaultSolanaChains}>
-          <div className="ml-1 full:ml-2 mb-3 text-secondary multi-connect-button">
-            {<MultichainConnectButton />}
-          </div>
+          <MultichainConnectButton />
         </SolanaWalletAdapterConfig>
       </RainbowkitConfig>
     </MultichainWalletProvider>

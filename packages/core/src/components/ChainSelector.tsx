@@ -22,6 +22,7 @@ const ListItem = styled.li`
 
 const ListItemButton = styled.button`
   display: flex;
+  border: 0;
 `;
 
 const Icon = styled.img`
@@ -41,6 +42,7 @@ const SelectChainTitle = styled.h4`
   margin-top: 20px;
   text-align: center;
   font-size: 24px;
+  font-weight: 500;
 `;
 
 const SelectChainList = styled.ul`
