@@ -14,9 +14,6 @@ export class EIP1193Wallet implements Wallet {
   readonly #provider: Ethereum | undefined = undefined;
 
   constructor(ethereumProvider: Ethereum | undefined) {
-    if (!ethereumProvider) {
-      throw new Error("Ethereum Provider is required!");
-    }
     this.#provider = ethereumProvider;
   }
 
