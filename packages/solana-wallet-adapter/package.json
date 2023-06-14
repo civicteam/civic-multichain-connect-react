@@ -1,6 +1,6 @@
 {
   "name": "@civic/multichain-connect-react-solana-wallet-adapter",
-  "version": "0.0.2-alpha.1",
+  "version": "0.0.3-beta.0",
   "description": "A multichain wallet connect library",
   "repository": "git@github.com:civicteam/civic-multichain-connect-react.git",
   "author": "civic.com",
