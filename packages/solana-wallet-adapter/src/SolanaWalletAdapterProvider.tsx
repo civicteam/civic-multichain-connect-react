@@ -30,7 +30,6 @@ export default function SolanaWalletAdapterProvider({
   >();
 
   const connection = useMemo(() => {
-    console.log('SolanaWalletAdapterProvider useMemo', { selectedChain });
     return new Connection(selectedChain?.rpcEndpoint || DEFAULT_ENDPOINT);
   }, [selectedChain?.rpcEndpoint]);
 
@@ -51,7 +50,6 @@ export default function SolanaWalletAdapterProvider({
         .filter((c) => c.type === SupportedChains.Solana)
         .filter((c) => c.rpcEndpoint === connection.rpcEndpoint);
 
-        console.log('SolanaWalletAdapterProvider useMemo', { selectedChain, chain, chains });
       if (selectedChain?.name !== chain[0]?.name) {
         setSelectedChain(chain[0]);
       }
