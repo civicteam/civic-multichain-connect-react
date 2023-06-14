@@ -1,0 +1,14 @@
+{
+    "include": [],
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "ESNext",
+        "esModuleInterop": true,
+        "isolatedModules": true,
+        "noEmitOnError": true,
+        "strict": true,
+        "stripInternal": false,
+        "noUncheckedIndexedAccess": true,
+        "jsx": "react"
+    }
+}
