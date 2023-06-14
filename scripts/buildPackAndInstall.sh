@@ -3,7 +3,9 @@
 # This script can be used to build and pack a library and install it in a target directory project. It is expected to work with
 # beta versions of the library where the package.json version is of the form x.x.x-beta.x. It will increment the beta version during the process
 # so that the target library gets an updated version
-# Usage:  scripts/buildPackAndInstall.sh packages/rainbowkit-wallet-adapter <external target directory>#
+# Usage:  scripts/buildPackAndInstall.sh packages/core <external target directory>
+# scripts/buildPackAndInstall.sh packages/rainbowkit-wallet-adapter <external target directory>
+# scripts/buildPackAndInstall.sh packages/solana-wallet-adapter <external target directory>
 SOURCE_DIR=${1:-.}
 TARGET_DIR=$2
 

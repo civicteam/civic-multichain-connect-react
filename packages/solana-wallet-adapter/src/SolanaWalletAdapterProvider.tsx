@@ -10,9 +10,9 @@ import {
 import { Chain, DEFAULT_ENDPOINT } from "./types.js";
 import { Connection } from "@solana/web3.js";
 
-export const SolanaProviderContext = {} as WalletContextType<any, any, never> & { connection: Connection };
+export const SolanaProviderContext = {} as WalletContextType<any, any, never> & { connection: Connection | undefined };
 export const SolanaWalletAdapterContext = React.createContext<
-  WalletContextType<any, any, never> & { connection: Connection }
+  WalletContextType<any, any, never> & { connection: Connection | undefined  }
 >(SolanaProviderContext)
 
 // Create the context provider component
@@ -30,7 +30,7 @@ export default function SolanaWalletAdapterProvider({
   >();
 
   const connection = useMemo(() => {
-    return new Connection(selectedChain?.rpcEndpoint || DEFAULT_ENDPOINT);
+    return selectedChain?.rpcEndpoint ? new Connection(selectedChain?.rpcEndpoint) : undefined;
   }, [selectedChain?.rpcEndpoint]);
 
   const context = useMemo(
@@ -41,14 +41,14 @@ export default function SolanaWalletAdapterProvider({
       disconnect,
       connection,
     }),
-    [wallet?.adapter.publicKey, connected, connection.rpcEndpoint]
+    [wallet?.adapter.publicKey, connected, connection?.rpcEndpoint]
   );
 
   useEffect(() => {
     if (wallet?.adapter.publicKey) {
       const chain = chains
         .filter((c) => c.type === SupportedChains.Solana)
-        .filter((c) => c.rpcEndpoint === connection.rpcEndpoint);
+        .filter((c) => c.rpcEndpoint === connection?.rpcEndpoint);
 
       if (selectedChain?.name !== chain[0]?.name) {
         setSelectedChain(chain[0]);
@@ -56,7 +56,7 @@ export default function SolanaWalletAdapterProvider({
     }
   }, [
     chains,
-    connection.rpcEndpoint,
+    connection?.rpcEndpoint,
     setSelectedChain,
     wallet?.adapter.publicKey?.toBase58(),
   ]);
