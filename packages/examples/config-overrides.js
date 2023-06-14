@@ -5,14 +5,7 @@ module.exports = function (config, env) {
     ...config,
     module: {
       ...config.module,
-      rules: [
-        ...config.module.rules,
-        {
-          test: /\.(m?js|ts)$/,
-          enforce: "pre",
-          use: ["source-map-loader"],
-        },
-      ],
+      rules: [...config.module.rules],
     },
     plugins: [
       ...config.plugins,
