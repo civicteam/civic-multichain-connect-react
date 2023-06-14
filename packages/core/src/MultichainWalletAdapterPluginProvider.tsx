@@ -4,7 +4,6 @@ import React, {
   ReactElement,
   createContext,
   useCallback,
-  useEffect,
   useMemo,
   useState,
 } from "react";

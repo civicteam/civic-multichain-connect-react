@@ -74,8 +74,8 @@ function SolanaWalletAdapterConfig({
       return DEFAULT_ENDPOINT;
     }
 
-    const { connection } = chains[0];
-    return connection.rpcEndpoint;
+    const { rpcEndpoint } = chains[0];
+    return rpcEndpoint;
   }, [chains]);
 
   const wallets = useMemo(

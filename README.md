@@ -59,7 +59,9 @@ To use the MultiChain Wallet Connect React components, follow these steps:
 2. Configure the Solana wallet adapter by using the `SolanaWalletAdapterConfig` component within the `MultichainWalletProvider`:
 
    ```javascript
-   const solanaChains = [{ name: 'Solana', connection: new Connection(clusterEndpoint('mainnet-beta')) }];
+   const solanaChains = [
+    { name: 'Solana', rpcEndpoint: clusterEndpoint('mainnet-beta') },
+    { name: 'Solana Devnet', rpcEndpoint: clusterEndpoint('devnet') }];
 
    <MultichainWalletProvider>
      <SolanaWalletAdapterConfig chains={solanaChains}>
