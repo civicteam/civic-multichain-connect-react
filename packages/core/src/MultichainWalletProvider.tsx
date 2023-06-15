@@ -33,6 +33,4 @@ export default function MultichainWalletProvider({
 MultichainWalletProvider.defaultProps = {
   children: null,
   labels: defaultLabels,
-  initialChain: undefined,
-  providers: [],
 };
