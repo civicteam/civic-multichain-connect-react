@@ -17,7 +17,7 @@ import React from "react";
 const ListItem = styled.li`
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
 `;
 
 const ListItemButton = styled.button`
@@ -32,10 +32,11 @@ const ListItemButton = styled.button`
   display: flex;
   font-size: 18px;
   line-height: 28px;
-  padding: 0px;
+  padding-top: 6px;
+  padding-bottom: 6px;
   cursor: pointer;
   &:hover {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.15);
   }
 `;
 
