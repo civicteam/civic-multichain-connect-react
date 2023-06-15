@@ -48,6 +48,8 @@ export interface ChainContextType<
   selectedChain?: Chain<T, S, E>;
   chains: Chain<T, S, E>[];
   setSelectedChain: (chain?: Chain<T, S, E>) => void;
+  initialChain?: Chain<T, S, E>;
+  setInitialChain: (chain?: Chain<T, S, E>) => void;
   openChainModal: (() => void) | undefined;
   setChains: (chains: Chain<T, S, E>[], type: SupportedChains) => void;
 }

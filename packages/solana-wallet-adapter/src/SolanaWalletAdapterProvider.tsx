@@ -10,10 +10,14 @@ import {
 import { Chain, DEFAULT_ENDPOINT } from "./types.js";
 import { Connection } from "@solana/web3.js";
 
-export const SolanaProviderContext = {} as WalletContextType<any, any, never> & { connection: Connection | undefined };
+export const SolanaProviderContext = {} as WalletContextType<
+  any,
+  any,
+  never
+> & { connection: Connection | undefined };
 export const SolanaWalletAdapterContext = React.createContext<
-  WalletContextType<any, any, never> & { connection: Connection | undefined  }
->(SolanaProviderContext)
+  WalletContextType<any, any, never> & { connection: Connection | undefined }
+>(SolanaProviderContext);
 
 // Create the context provider component
 export default function SolanaWalletAdapterProvider({
@@ -25,14 +29,16 @@ export default function SolanaWalletAdapterProvider({
 }): ReactElement {
   const { wallet, connected, disconnect } = useWallet();
   const adapter = useWallet();
-  const { setSelectedChain, selectedChain, chains } = useChain<
+  const { setSelectedChain, selectedChain, chains, setInitialChain } = useChain<
     SupportedChains.Solana,
     Chain & BaseChain,
     never
   >();
 
   const connection = useMemo(() => {
-    return selectedChain?.rpcEndpoint ? new Connection(selectedChain?.rpcEndpoint) : undefined;
+    return selectedChain?.rpcEndpoint
+      ? new Connection(selectedChain?.rpcEndpoint)
+      : undefined;
   }, [selectedChain?.rpcEndpoint]);
 
   const context = useMemo(
@@ -48,7 +54,7 @@ export default function SolanaWalletAdapterProvider({
 
   useEffect(() => {
     if (initialChain) {
-      setSelectedChain({ ...initialChain, type: SupportedChains.Solana });
+      setInitialChain({ ...initialChain, type: SupportedChains.Solana });
     }
   }, [initialChain]);
 
@@ -76,4 +82,5 @@ export default function SolanaWalletAdapterProvider({
   );
 }
 
-export const useSolanaWalletAdapterProvider = () => useContext(SolanaWalletAdapterContext);
+export const useSolanaWalletAdapterProvider = () =>
+  useContext(SolanaWalletAdapterContext);
