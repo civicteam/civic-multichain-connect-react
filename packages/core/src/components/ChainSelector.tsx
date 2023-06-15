@@ -17,11 +17,27 @@ import React from "react";
 const ListItem = styled.li`
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
 `;
 
 const ListItemButton = styled.button`
+  width: 100%;
   display: flex;
+  border: 0;
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  border-width: 0px;
+  border-radius: 20px;
+  display: flex;
+  font-size: 18px;
+  line-height: 28px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  cursor: pointer;
+  &:hover {
+    background: rgba(0, 0, 0, 0.15);
+  }
 `;
 
 const Icon = styled.img`
@@ -41,10 +57,14 @@ const SelectChainTitle = styled.h4`
   margin-top: 20px;
   text-align: center;
   font-size: 24px;
+  font-weight: 400;
 `;
 
 const SelectChainList = styled.ul`
   margin-bottom: 20px;
+  padding-inline-start: 0px;
+  margin-block-start: 0px;
+  margin-block-end: 0px;
 `;
 type ChainElementProps<
   T extends SupportedChains,
