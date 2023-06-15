@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactElement, useContext, useEffect, useMemo } from "react";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import {
   BaseChain,
   SupportedChains,
   WalletContextType,
   useChain,
 } from "@civic/multichain-connect-react-core";
-import { Chain, DEFAULT_ENDPOINT } from "./types.js";
+import { Chain } from "./types.js";
 import { Connection } from "@solana/web3.js";
 
 export const SolanaProviderContext = {} as WalletContextType<
@@ -39,7 +39,7 @@ export default function SolanaWalletAdapterProvider({
     return selectedChain?.rpcEndpoint
       ? new Connection(selectedChain?.rpcEndpoint)
       : undefined;
-  }, [selectedChain?.rpcEndpoint]);
+  }, [selectedChain?.rpcEndpoint, initialChain]);
 
   const context = useMemo(
     () => ({

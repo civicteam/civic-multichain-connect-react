@@ -1,14 +1,18 @@
 /* eslint-disable require-extensions/require-extensions */
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import { WalletContextState } from "@solana/wallet-adapter-react";
 import {
   MultichainConnectButton,
   MultichainWalletProvider,
+  SupportedChains,
+  useWallet,
 } from "@civic/multichain-connect-react-core";
 import { clusterApiUrl } from "@solana/web3.js";
 import {
   Chain as SolanaChain,
   SolanaWalletAdapterConfig,
+  useSolanaWalletAdapterProvider,
 } from "@civic/multichain-connect-react-solana-wallet-adapter";
 import {
   Chain as EthereumChain,
@@ -24,6 +28,23 @@ import {
   polygonMumbai,
 } from "wagmi/chains";
 import { useHash } from "./hooks/useHash";
+
+function Content() {
+  const { wallet: solanaWallet, chain: connectedChain } = useWallet<
+    SupportedChains.Solana,
+    WalletContextState,
+    never
+  >();
+  const { connection } = useSolanaWalletAdapterProvider();
+
+  return (
+    <>
+      {solanaWallet &&
+        connection &&
+        connectedChain === SupportedChains.Solana && <p>CONNECTED</p>}
+    </>
+  );
+}
 
 function App() {
   const defaultEvmChains = [
@@ -47,10 +68,10 @@ function App() {
   const defaultSolanaChains = [solanaMainnetChain, solanaDevnetChain];
 
   const { hash } = useHash();
-  const [solanaInitialChain, setSolanaInitialChain] = useState<
+  const [initialSolanaChain, setInitialSolanaChain] = useState<
     SolanaChain | undefined
   >(undefined);
-  const [evmInitialChain, setEvmInitialChain] = useState<
+  const [initialEvmChain, setInitialEvmChain] = useState<
     EthereumChain | undefined
   >(undefined);
   const [evmChains, setEvmChains] = useState<EthereumChain[]>(defaultEvmChains);
@@ -74,8 +95,8 @@ function App() {
       (c) => c.name.toLowerCase() === decodedKey
     )[0];
     if (selectedEvmChain) {
-      setEvmInitialChain(selectedEvmChain);
-      setSolanaInitialChain(undefined);
+      setInitialEvmChain(selectedEvmChain);
+      setInitialSolanaChain(undefined);
       setEvmChains(defaultEvmChains);
       setSolanaChains([]);
       return;
@@ -85,8 +106,8 @@ function App() {
       (c) => c.name.toLowerCase() === decodedKey
     )[0];
     if (selectedSolanaChain) {
-      setSolanaInitialChain(selectedSolanaChain);
-      setEvmInitialChain(undefined);
+      setInitialSolanaChain(selectedSolanaChain);
+      setInitialEvmChain(undefined);
       setSolanaChains(defaultSolanaChains);
       setEvmChains([]);
       return;
@@ -103,13 +124,14 @@ function App() {
           <RainbowkitConfig
             chains={evmChains}
             providers={[publicProvider()]}
-            initialChain={evmInitialChain}
+            initialChain={initialEvmChain}
           >
             <SolanaWalletAdapterConfig
               chains={solanaChains}
-              initialChain={solanaInitialChain}
+              initialChain={initialSolanaChain}
             >
               <MultichainConnectButton />
+              <Content />
             </SolanaWalletAdapterConfig>
           </RainbowkitConfig>
         </MultichainWalletProvider>
