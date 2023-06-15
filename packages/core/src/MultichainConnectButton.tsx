@@ -16,6 +16,10 @@ const StyledButton = styled.button`
   border: 2px solid black;
   background: white;
   color: black;
+  cursor: pointer;
+  &:hover {
+    background: rgba(0, 0, 0, 0.2);
+  }
 `;
 
 export function MultichainConnectButton(): JSX.Element | null {

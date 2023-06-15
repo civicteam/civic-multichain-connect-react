@@ -1,0 +1,54 @@
+{
+  "name": "@civic/multichain-connect-react-examples",
+  "private": true,
+  "description": "Example implementation of Civic's Multichain Connect library",
+  "author": "civic.com",
+  "license": "MIT",
+  "scripts": {
+    "start": "react-app-rewired start",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "react": "^18.0.2",
+    "react-dom": "^18.0.2",
+    "react-scripts": "^5.0.1",
+    "typescript": "^4.8.4",
+    "react-app-rewired": "^2.2.1",
+    "@civic/multichain-connect-react-core": "workspace:^",
+    "@civic/multichain-connect-react-solana-wallet-adapter": "workspace:^",
+    "@civic/multichain-connect-react-rainbowkit-wallet-adapter": "workspace:^",
+    "assert": "^2.0.0",
+    "buffer": "^6.0.3",
+    "ethers": "^5.7.2",
+    "process": "^0.11.10",
+    "url": "^0.11.0",
+    "wagmi": "^0.12.13",
+    "@rainbow-me/rainbowkit": "^1.0.1",
+    "@solana/web3.js": "^1.76.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.1",
+    "@types/react": "^18.0.21",
+    "@types/node": "^18.7.23",
+    "@types/react-dom": "^18.0.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "stream-browserify": "^3.0.0",
+    "constants-browserify": "^1.0.0",
+    "crypto-browserify": "^3.12.0",
+    "@babel/plugin-proposal-private-property-in-object": "^7.14.5"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
