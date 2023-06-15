@@ -57,21 +57,18 @@ function RainbowkitConfig({
   theme,
   chains,
   providers,
-  initialChain,
 }: {
   children?: React.ReactNode;
   theme?: Theme | null;
   providers?: ChainProviderFn[];
   chains: Chain[];
-  initialChain?: Chain;
 }): JSX.Element | null {
   const { labels } = useLabel();
-  const { setChains, selectedChain } = useChain<
+  const { setChains, selectedChain, initialChain } = useChain<
     SupportedChains.Ethereum,
     never,
     Chain & BaseChain
   >();
-
   const client = useMemo(() => {
     const { wallets } = getDefaultWallets({
       appName: "rainbowkit",
@@ -81,7 +78,7 @@ function RainbowkitConfig({
     const connectors = connectorsForWallets([
       ...wallets,
       {
-        groupName: labels[LabelEntry.OTHER],
+        groupName: (labels || [])[LabelEntry.OTHER],
         wallets: [phantomWallet({ chains })],
       },
     ]);
@@ -117,15 +114,16 @@ function RainbowkitConfig({
     setChains(evmChains, SupportedChains.Ethereum);
   }, [chains]);
 
+  const evmInitialChain = initialChain && chains.find((chain) => chain.id === initialChain?.id);
   return (
     <WagmiConfig client={client}>
       <RainbowKitProvider
         chains={chains}
         // if initialChain is not provided, use the selectedChain from the ChainContext
-        initialChain={initialChain ?? selectedChain}
+        initialChain={evmInitialChain ?? selectedChain}
         theme={theme}
       >
-        <WalletContextProvider initialChain={initialChain}>
+        <WalletContextProvider initialChain={evmInitialChain}>
           <ModalContextProvider>
             <RainbowkitPluginProvider>{children}</RainbowkitPluginProvider>
           </ModalContextProvider>

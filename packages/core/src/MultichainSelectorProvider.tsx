@@ -18,7 +18,7 @@ export default function ChainSelectorModalProvider<
   T extends SupportedChains,
   S extends BaseChain,
   E extends BaseChain
->({ children }: { children: React.ReactNode }): ReactElement {
+>({ children, initialChain }: { children: React.ReactNode, initialChain?: BaseChain }): ReactElement {
   const [visible, setVisible] = useState(false);
   const [selectedChain, setSelectedChain] = useState<Chain<T, S, E>>();
   const [chains, setChains] = useState<Chain<T, S, E>[]>([]);
@@ -55,8 +55,9 @@ export default function ChainSelectorModalProvider<
       setSelectedChain,
       chains,
       setChains: setChainsByType,
+      initialChain,
     }),
-    [chains, openChainModal, selectedChain, setChains, setSelectedChain]
+    [chains, openChainModal, selectedChain, setChains, setSelectedChain, initialChain]
   );
 
   const onClose = useCallback(() => {

@@ -6,19 +6,21 @@ import { defaultLabels } from "./constants.js";
 import LabelProvider from "./MultichainLabelProvider.js";
 import MultichainWalletAdapterPluginProvider from "./MultichainWalletAdapterPluginProvider.js";
 import MultichainWalletDisconnectProvider from "./MultichainWalletDisconnectProvider.js";
-import { Labels } from "./types.js";
+import { BaseChain, Labels } from "./types.js";
 
 export default function MultichainWalletProvider({
   children,
   labels,
+  initialChain,
 }: {
   children?: React.ReactNode;
   labels?: Labels;
+  initialChain?: BaseChain;
 }): ReactElement {
   return (
     <LabelProvider labels={labels}>
       <WalletStandardProvider>
-        <ChainSelectorModalProvider>
+        <ChainSelectorModalProvider initialChain={initialChain}>
           <MultichainWalletAdapterPluginProvider>
             <MultichainWalletDisconnectProvider>
               {children}

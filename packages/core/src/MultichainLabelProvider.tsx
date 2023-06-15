@@ -13,6 +13,7 @@ export default function LabelProvider({
   children: React.ReactNode;
   labels: Labels | undefined;
 }): ReactElement {
+  console.log("LabelProvider labels", { labels, defaultLabels });
   const context = useMemo(
     () => ({
       labels: labels || defaultLabels,
