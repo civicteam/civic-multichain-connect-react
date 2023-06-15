@@ -23,6 +23,14 @@ const ListItem = styled.li`
 const ListItemButton = styled.button`
   display: flex;
   border: 0;
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  border-width: 0px;
+  display: flex;
+  font-size: 18px;
+  line-height: 30px;
+  padding: 0px;
 `;
 
 const Icon = styled.img`
@@ -42,11 +50,14 @@ const SelectChainTitle = styled.h4`
   margin-top: 20px;
   text-align: center;
   font-size: 24px;
-  font-weight: 500;
+  font-weight: 400;
 `;
 
 const SelectChainList = styled.ul`
   margin-bottom: 20px;
+  padding-inline-start: 0px;
+  margin-block-start: 0px;
+  margin-block-end: 0px;
 `;
 type ChainElementProps<
   T extends SupportedChains,
