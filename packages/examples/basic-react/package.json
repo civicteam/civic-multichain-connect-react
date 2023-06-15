@@ -1,5 +1,5 @@
 {
-  "name": "@civic/multichain-connect-react-examples",
+  "name": "@civic/multichain-connect-react-examples-basic",
   "private": true,
   "description": "Example implementation of Civic's Multichain Connect library",
   "author": "civic.com",
