@@ -21,16 +21,22 @@ const ListItem = styled.li`
 `;
 
 const ListItemButton = styled.button`
+  width: 100%;
   display: flex;
   border: 0;
   background-color: transparent;
   background-image: none;
   border-color: transparent;
   border-width: 0px;
+  border-radius: 20px;
   display: flex;
   font-size: 18px;
-  line-height: 30px;
+  line-height: 28px;
   padding: 0px;
+  cursor: pointer;
+  &:hover {
+    background: rgba(0, 0, 0, 0.2);
+  }
 `;
 
 const Icon = styled.img`
