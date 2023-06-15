@@ -18,8 +18,10 @@ export const SolanaWalletAdapterContext = React.createContext<
 // Create the context provider component
 export default function SolanaWalletAdapterProvider({
   children,
+  initialChain,
 }: {
   children: React.ReactNode;
+  initialChain?: Chain;
 }): ReactElement {
   const { wallet, connected, disconnect } = useWallet();
   const adapter = useWallet();
@@ -43,6 +45,12 @@ export default function SolanaWalletAdapterProvider({
     }),
     [wallet?.adapter.publicKey, connected, connection?.rpcEndpoint]
   );
+
+  useEffect(() => {
+    if (initialChain) {
+      setSelectedChain({ ...initialChain, type: SupportedChains.Solana });
+    }
+  }, [initialChain]);
 
   useEffect(() => {
     if (wallet?.adapter.publicKey) {
