@@ -22,14 +22,12 @@ export const SolanaWalletAdapterContext = React.createContext<
 // Create the context provider component
 export default function SolanaWalletAdapterProvider({
   children,
-  initialChain,
 }: {
   children: React.ReactNode;
-  initialChain?: Chain;
 }): ReactElement {
   const { wallet, connected, disconnect } = useWallet();
   const adapter = useWallet();
-  const { setSelectedChain, selectedChain, chains, setInitialChain } = useChain<
+  const { setSelectedChain, selectedChain, chains, initialChain } = useChain<
     SupportedChains.Solana,
     Chain & BaseChain,
     never
@@ -53,18 +51,25 @@ export default function SolanaWalletAdapterProvider({
   );
 
   useEffect(() => {
-    if (initialChain) {
-      setInitialChain({ ...initialChain, type: SupportedChains.Solana });
-    }
-  }, [initialChain]);
-
-  useEffect(() => {
     if (wallet?.adapter.publicKey) {
       const chain = chains
         .filter((c) => c.type === SupportedChains.Solana)
         .filter((c) => c.rpcEndpoint === connection?.rpcEndpoint);
-
       if (selectedChain?.name !== chain[0]?.name) {
+        setSelectedChain(chain[0]);
+        return;
+      }
+      // If we're refreshing with an initialChain set then
+      // selectedChain will be lost, so reinstate it
+      if (
+        !selectedChain &&
+        wallet?.adapter.publicKey &&
+        connected &&
+        initialChain
+      ) {
+        const chain = chains
+          .filter((c) => c.type === SupportedChains.Solana)
+          .filter((c) => c.name === initialChain.name);
         setSelectedChain(chain[0]);
       }
     }
@@ -73,6 +78,7 @@ export default function SolanaWalletAdapterProvider({
     connection?.rpcEndpoint,
     setSelectedChain,
     wallet?.adapter.publicKey?.toBase58(),
+    connected,
   ]);
 
   return (

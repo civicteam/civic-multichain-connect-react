@@ -58,11 +58,9 @@ function SolanaWalletAdapterPluginProvider<T>({
 function SolanaWalletAdapterConfig({
   children,
   chains,
-  initialChain,
 }: {
   children?: React.ReactNode;
   chains: Chain[];
-  initialChain?: Chain;
 }): JSX.Element | null {
   // For now support only a single chain
   const { setChains } = useChain<
@@ -106,7 +104,7 @@ function SolanaWalletAdapterConfig({
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          <SolanaWalletAdapterProvider initialChain={initialChain}>
+          <SolanaWalletAdapterProvider>
             <SolanaWalletAdapterModalProvider>
               <SolanaWalletAdapterPluginProvider>
                 {children}

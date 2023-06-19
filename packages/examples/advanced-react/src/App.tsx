@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import {
+  BaseChain,
   MultichainConnectButton,
   MultichainWalletProvider,
   SupportedChains,
@@ -68,12 +69,9 @@ function App() {
   const defaultSolanaChains = [solanaMainnetChain, solanaDevnetChain];
 
   const { hash } = useHash();
-  const [initialSolanaChain, setInitialSolanaChain] = useState<
-    SolanaChain | undefined
-  >(undefined);
-  const [initialEvmChain, setInitialEvmChain] = useState<
-    EthereumChain | undefined
-  >(undefined);
+  const [initialChain, setInitialChain] = useState<BaseChain | undefined>(
+    undefined
+  );
   const [evmChains, setEvmChains] = useState<EthereumChain[]>(defaultEvmChains);
   const [solanaChains, setSolanaChains] =
     useState<SolanaChain[]>(defaultSolanaChains);
@@ -95,8 +93,7 @@ function App() {
       (c) => c.name.toLowerCase() === decodedKey
     )[0];
     if (selectedEvmChain) {
-      setInitialEvmChain(selectedEvmChain);
-      setInitialSolanaChain(undefined);
+      setInitialChain({ ...selectedEvmChain, type: SupportedChains.Ethereum });
       setEvmChains(defaultEvmChains);
       setSolanaChains([]);
       return;
@@ -106,8 +103,7 @@ function App() {
       (c) => c.name.toLowerCase() === decodedKey
     )[0];
     if (selectedSolanaChain) {
-      setInitialSolanaChain(selectedSolanaChain);
-      setInitialEvmChain(undefined);
+      setInitialChain({ ...selectedSolanaChain, type: SupportedChains.Solana });
       setSolanaChains(defaultSolanaChains);
       setEvmChains([]);
       return;
@@ -120,16 +116,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <MultichainWalletProvider>
-          <RainbowkitConfig
-            chains={evmChains}
-            providers={[publicProvider()]}
-            initialChain={initialEvmChain}
-          >
-            <SolanaWalletAdapterConfig
-              chains={solanaChains}
-              initialChain={initialSolanaChain}
-            >
+        <MultichainWalletProvider initialChain={initialChain}>
+          <RainbowkitConfig chains={evmChains} providers={[publicProvider()]}>
+            <SolanaWalletAdapterConfig chains={solanaChains}>
               <MultichainConnectButton />
               <Content />
             </SolanaWalletAdapterConfig>

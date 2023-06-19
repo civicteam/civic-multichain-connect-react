@@ -1,11 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, {
-  ReactElement,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { ReactElement, useCallback, useMemo, useState } from "react";
 import { groupBy } from "ramda";
 import {
   BaseChain,
@@ -24,16 +18,24 @@ export default function ChainSelectorModalProvider<
   T extends SupportedChains,
   S extends BaseChain,
   E extends BaseChain
->({ children }: { children: React.ReactNode }): ReactElement {
+>({
+  children,
+  initialChain,
+}: {
+  children: React.ReactNode;
+  initialChain?: BaseChain;
+}): ReactElement {
   const [visible, setVisible] = useState(false);
   const [selectedChain, setSelectedChain] = useState<Chain<T, S, E>>();
-  const [initialChain, setInitialChain] = useState<Chain<T, S, E>>();
   const [chains, setChains] = useState<Chain<T, S, E>[]>([]);
 
   const openChainModal = useCallback(() => {
     // If initialChain is set for Solana, we want to select that chain and hide the chain selector dialog
     if (initialChain && initialChain.type === SupportedChains.Solana) {
-      onChainSelect(initialChain);
+      const chain: Chain<SupportedChains.Solana, BaseChain, never> = {
+        ...initialChain,
+      };
+      onChainSelect(chain as Chain<T, S, E>);
       return;
     }
 
@@ -67,7 +69,6 @@ export default function ChainSelectorModalProvider<
       selectedChain,
       setSelectedChain,
       initialChain,
-      setInitialChain,
       chains,
       setChains: setChainsByType,
     }),
@@ -78,7 +79,6 @@ export default function ChainSelectorModalProvider<
       setChains,
       setSelectedChain,
       initialChain,
-      setInitialChain,
     ]
   );
 

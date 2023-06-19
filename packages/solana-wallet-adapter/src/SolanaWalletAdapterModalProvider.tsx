@@ -21,7 +21,7 @@ export default function SolanaWalletAdapterModalProvider({
   const { selectedChain, initialChain } = useChain();
 
   const openConnectModal = useCallback(() => {
-  // Don't show modal if initial chain is a solana one
+    // Don't show modal if initial chain is set to a solana one
     if (initialChain?.type === SupportedChains.Solana) {
       return;
     }
