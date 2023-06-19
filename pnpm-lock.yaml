@@ -112,6 +112,94 @@ importers:
         specifier: ^2.6.4
         version: 2.6.4
 
+  packages/examples/advanced-react:
+    dependencies:
+      '@civic/multichain-connect-react-core':
+        specifier: workspace:^
+        version: link:../../core
+      '@civic/multichain-connect-react-rainbowkit-wallet-adapter':
+        specifier: workspace:^
+        version: link:../../rainbowkit-wallet-adapter
+      '@civic/multichain-connect-react-solana-wallet-adapter':
+        specifier: workspace:^
+        version: link:../../solana-wallet-adapter
+      '@rainbow-me/rainbowkit':
+        specifier: ^1.0.1
+        version: 1.0.1(@types/react@18.0.21)(react-dom@18.1.0)(react@18.1.0)(viem@0.3.50)(wagmi@0.12.13)
+      '@solana/wallet-adapter-base':
+        specifier: ^0.9.22
+        version: 0.9.22(@solana/web3.js@1.77.0)
+      '@solana/wallet-adapter-react':
+        specifier: ^0.15.32
+        version: 0.15.32(@solana/web3.js@1.77.0)(bs58@4.0.1)(react-native@0.71.8)(react@18.1.0)
+      '@solana/web3.js':
+        specifier: ^1.77.0
+        version: 1.77.0
+      assert:
+        specifier: ^2.0.0
+        version: 2.0.0
+      buffer:
+        specifier: ^6.0.3
+        version: 6.0.3
+      ethers:
+        specifier: ^5.7.2
+        version: 5.7.2
+      process:
+        specifier: ^0.11.10
+        version: 0.11.10
+      react:
+        specifier: ^18.0.2
+        version: 18.1.0
+      react-app-rewired:
+        specifier: ^2.2.1
+        version: 2.2.1(react-scripts@5.0.1)
+      react-dom:
+        specifier: ^18.0.2
+        version: 18.1.0(react@18.1.0)
+      react-scripts:
+        specifier: ^5.0.1
+        version: 5.0.1(@babel/plugin-syntax-flow@7.21.4)(@babel/plugin-transform-react-jsx@7.22.3)(eslint@8.41.0)(react@18.1.0)(ts-node@10.7.0)(typescript@4.9.5)
+      typescript:
+        specifier: ^4.8.4
+        version: 4.9.5
+      url:
+        specifier: ^0.11.0
+        version: 0.11.0
+      wagmi:
+        specifier: ^0.12.13
+        version: 0.12.13(ethers@5.7.2)(react-dom@18.1.0)(react-native@0.71.8)(react@18.1.0)(typescript@4.9.5)
+    devDependencies:
+      '@babel/core':
+        specifier: ^7.22.1
+        version: 7.22.1
+      '@babel/plugin-proposal-private-property-in-object':
+        specifier: ^7.14.5
+        version: 7.21.10(@babel/core@7.22.1)
+      '@types/node':
+        specifier: ^18.7.23
+        version: 18.15.13
+      '@types/react':
+        specifier: ^18.0.21
+        version: 18.0.21
+      '@types/react-dom':
+        specifier: ^18.0.0
+        version: 18.0.0
+      constants-browserify:
+        specifier: ^1.0.0
+        version: 1.0.0
+      crypto-browserify:
+        specifier: ^3.12.0
+        version: 3.12.0
+      os-browserify:
+        specifier: ^0.3.0
+        version: 0.3.0
+      path-browserify:
+        specifier: ^1.0.1
+        version: 1.0.1
+      stream-browserify:
+        specifier: ^3.0.0
+        version: 3.0.0
+
   packages/examples/basic-react:
     dependencies:
       '@civic/multichain-connect-react-core':
@@ -161,7 +249,7 @@ importers:
         version: 0.11.0
       wagmi:
         specifier: ^0.12.13
-        version: 0.12.13(ethers@5.7.2)(react-dom@18.1.0)(react@18.1.0)(typescript@4.9.5)
+        version: 0.12.13(ethers@5.7.2)(react-dom@18.1.0)(react-native@0.71.8)(react@18.1.0)(typescript@4.9.5)
     devDependencies:
       '@babel/core':
         specifier: ^7.22.1
@@ -231,7 +319,7 @@ importers:
         version: 6.0.0-rc.3(react-dom@18.1.0)(react@18.1.0)
       wagmi:
         specifier: ^0.12.13
-        version: 0.12.13(ethers@5.7.2)(react-dom@18.1.0)(react@18.1.0)(typescript@4.9.5)
+        version: 0.12.13(ethers@5.7.2)(react-dom@18.1.0)(react-native@0.71.8)(react@18.1.0)(typescript@4.9.5)
 
   packages/solana-wallet-adapter:
     dependencies:
@@ -1802,7 +1890,7 @@ packages:
   /@censo-custody/solana-wallet-adapter@0.1.0:
     resolution: {integrity: sha512-iM1jFVzBMfk7iokgUVfA2xvGUegixklUISgMARa/VA2mFIjoi32t4xmD8PtWHht81fmg107aYhLnTV1cM7NkAg==}
     dependencies:
-      '@solana/web3.js': 1.76.0
+      '@solana/web3.js': 1.77.0
       bs58: 4.0.1
       eventemitter3: 4.0.7
       uuid: 8.3.2
@@ -1866,7 +1954,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     dependencies:
       '@metamask/safe-event-emitter': 2.0.0
-      '@solana/web3.js': 1.76.0
+      '@solana/web3.js': 1.77.0
       bind-decorator: 1.0.11
       bn.js: 5.2.1
       buffer: 6.0.3
@@ -2887,7 +2975,7 @@ packages:
       '@keystonehq/bc-ur-registry': 0.5.5
       '@keystonehq/bc-ur-registry-sol': 0.3.1
       '@keystonehq/sdk': 0.13.1
-      '@solana/web3.js': 1.76.0
+      '@solana/web3.js': 1.77.0
       bs58: 5.0.0
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -3190,7 +3278,7 @@ packages:
       react: 18.1.0
       react-dom: 18.1.0(react@18.1.0)
       react-remove-scroll: 2.5.4(@types/react@17.0.0)(react@18.1.0)
-      wagmi: 0.12.13(ethers@5.7.2)(react-dom@18.1.0)(react@18.1.0)(typescript@4.9.5)
+      wagmi: 0.12.13(ethers@5.7.2)(react-dom@18.1.0)(react-native@0.71.8)(react@18.1.0)(typescript@4.9.5)
     transitivePeerDependencies:
       - '@types/react'
     dev: false
@@ -3213,7 +3301,7 @@ packages:
       react-dom: 18.1.0(react@18.1.0)
       react-remove-scroll: 2.5.4(@types/react@18.0.21)(react@18.1.0)
       viem: 0.3.50(typescript@4.9.5)
-      wagmi: 0.12.13(ethers@5.7.2)(react-dom@18.1.0)(react@18.1.0)(typescript@4.9.5)
+      wagmi: 0.12.13(ethers@5.7.2)(react-dom@18.1.0)(react-native@0.71.8)(react@18.1.0)(typescript@4.9.5)
     transitivePeerDependencies:
       - '@types/react'
     dev: false
@@ -3603,6 +3691,19 @@ packages:
       - react-native
     dev: false
 
+  /@solana-mobile/mobile-wallet-adapter-protocol-web3js@2.0.0(@solana/web3.js@1.77.0)(react-native@0.71.8):
+    resolution: {integrity: sha512-cMADp/UIAN42QJVCM1oyj1wFM/9DTZNIa5z5eHXUXBksw/bNv2fWkiO+4ZUoQj1P4UoMoZJUBx9+qMVl18sPOA==}
+    peerDependencies:
+      '@solana/web3.js': ^1.58.0
+    dependencies:
+      '@solana-mobile/mobile-wallet-adapter-protocol': 2.0.0(react-native@0.71.8)
+      '@solana/web3.js': 1.77.0
+      bs58: 5.0.0
+      js-base64: 3.7.5
+    transitivePeerDependencies:
+      - react-native
+    dev: false
+
   /@solana-mobile/mobile-wallet-adapter-protocol@2.0.0(react-native@0.71.8):
     resolution: {integrity: sha512-mLK9B/AQgOxzbdRoOMH3G5wB5akWgGSBoVqIZ/6iDWY37uu/CuyX4lTwRyoRlOb8Cxs/tDwiovIGobkti2qF/w==}
     peerDependencies:
@@ -3620,6 +3721,20 @@ packages:
       '@solana-mobile/mobile-wallet-adapter-protocol-web3js': 2.0.0(@solana/web3.js@1.76.0)(react-native@0.71.8)
       '@solana/wallet-adapter-base': 0.9.22(@solana/web3.js@1.76.0)
       '@solana/web3.js': 1.76.0
+      js-base64: 3.7.5
+    transitivePeerDependencies:
+      - react-native
+    dev: false
+
+  /@solana-mobile/wallet-adapter-mobile@2.0.0(@solana/web3.js@1.77.0)(react-native@0.71.8):
+    resolution: {integrity: sha512-q/m0X+LUhoSYBUaQsw+9YhttbokA5+klrC2euLhbDu+Wy/n9hL4NXNvw7291bzVvNXVh9ovBi7DjoCdcfPXRWA==}
+    peerDependencies:
+      '@solana/web3.js': ^1.58.0
+    dependencies:
+      '@react-native-async-storage/async-storage': 1.18.1(react-native@0.71.8)
+      '@solana-mobile/mobile-wallet-adapter-protocol-web3js': 2.0.0(@solana/web3.js@1.77.0)(react-native@0.71.8)
+      '@solana/wallet-adapter-base': 0.9.22(@solana/web3.js@1.77.0)
+      '@solana/web3.js': 1.77.0
       js-base64: 3.7.5
     transitivePeerDependencies:
       - react-native
@@ -3670,6 +3785,19 @@ packages:
     dependencies:
       '@solana/wallet-standard-features': 1.0.1
       '@solana/web3.js': 1.76.0
+      '@wallet-standard/base': 1.0.1
+      '@wallet-standard/features': 1.0.3
+      eventemitter3: 4.0.7
+    dev: false
+
+  /@solana/wallet-adapter-base@0.9.22(@solana/web3.js@1.77.0):
+    resolution: {integrity: sha512-xbLEZPGSJFvgTeldG9D55evhl7QK/3e/F7vhvcA97mEt1eieTgeKMnGlmmjs3yivI3/gtZNZeSk1XZLnhKcQvw==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@solana/web3.js': ^1.58.0
+    dependencies:
+      '@solana/wallet-standard-features': 1.0.1
+      '@solana/web3.js': 1.77.0
       '@wallet-standard/base': 1.0.1
       '@wallet-standard/features': 1.0.3
       eventemitter3: 4.0.7
@@ -3989,6 +4117,23 @@ packages:
       - react-native
     dev: false
 
+  /@solana/wallet-adapter-react@0.15.32(@solana/web3.js@1.77.0)(bs58@4.0.1)(react-native@0.71.8)(react@18.1.0):
+    resolution: {integrity: sha512-dnbMVQeO2WBvK13M4kiUo1TBONJpfpO1r9JA5FuXG/Zwdt4RbGT+h6HSOaplHPO6pzDVk2nT/bU8wjqI9GxTYQ==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@solana/web3.js': ^1.58.0
+      react: '*'
+    dependencies:
+      '@solana-mobile/wallet-adapter-mobile': 2.0.0(@solana/web3.js@1.77.0)(react-native@0.71.8)
+      '@solana/wallet-adapter-base': 0.9.22(@solana/web3.js@1.77.0)
+      '@solana/wallet-standard-wallet-adapter-react': 1.0.2(@solana/wallet-adapter-base@0.9.22)(@solana/web3.js@1.77.0)(bs58@4.0.1)(react@18.1.0)
+      '@solana/web3.js': 1.77.0
+      react: 18.1.0
+    transitivePeerDependencies:
+      - bs58
+      - react-native
+    dev: false
+
   /@solana/wallet-adapter-safepal@0.5.17(@solana/web3.js@1.76.0):
     resolution: {integrity: sha512-Hp14EZ7UvNSiTfuCrvLRY4hqT40gSmRL+z5K7XpOW+oJgIpjhRfvv2o34rKL+qX1QoJUlUN3N6pRu570oytaGQ==}
     engines: {node: '>=16'}
@@ -4296,6 +4441,25 @@ packages:
       bs58: 4.0.1
     dev: false
 
+  /@solana/wallet-standard-wallet-adapter-base@1.0.2(@solana/web3.js@1.77.0)(bs58@4.0.1):
+    resolution: {integrity: sha512-QqkupdWvWuihX87W6ijt174u6ZdP5OSFlNhZhuhoMlIdyI/sj7MhGsdppuRlMh65oVO2WNWTL9y2bO5Pbx+dfg==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@solana/web3.js': ^1.58.0
+      bs58: ^4.0.1
+    dependencies:
+      '@solana/wallet-adapter-base': 0.9.22(@solana/web3.js@1.77.0)
+      '@solana/wallet-standard-chains': 1.0.0
+      '@solana/wallet-standard-features': 1.0.1
+      '@solana/wallet-standard-util': 1.0.0
+      '@solana/web3.js': 1.77.0
+      '@wallet-standard/app': 1.0.1
+      '@wallet-standard/base': 1.0.1
+      '@wallet-standard/features': 1.0.3
+      '@wallet-standard/wallet': 1.0.1
+      bs58: 4.0.1
+    dev: false
+
   /@solana/wallet-standard-wallet-adapter-react@1.0.2(@solana/wallet-adapter-base@0.9.22)(@solana/web3.js@1.76.0)(bs58@4.0.1)(react@18.1.0):
     resolution: {integrity: sha512-0YTPUnjiSG5ajDP2hK8EipxkeHhO3+nCtXeF1eS/ZP2QcFAgS/4luywrn/6CdfzQ2cQYPCFdnG/QculpUp6bBg==}
     engines: {node: '>=16'}
@@ -4313,8 +4477,51 @@ packages:
       - bs58
     dev: false
 
+  /@solana/wallet-standard-wallet-adapter-react@1.0.2(@solana/wallet-adapter-base@0.9.22)(@solana/web3.js@1.77.0)(bs58@4.0.1)(react@18.1.0):
+    resolution: {integrity: sha512-0YTPUnjiSG5ajDP2hK8EipxkeHhO3+nCtXeF1eS/ZP2QcFAgS/4luywrn/6CdfzQ2cQYPCFdnG/QculpUp6bBg==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@solana/wallet-adapter-base': '*'
+      react: '*'
+    dependencies:
+      '@solana/wallet-adapter-base': 0.9.22(@solana/web3.js@1.77.0)
+      '@solana/wallet-standard-wallet-adapter-base': 1.0.2(@solana/web3.js@1.77.0)(bs58@4.0.1)
+      '@wallet-standard/app': 1.0.1
+      '@wallet-standard/base': 1.0.1
+      react: 18.1.0
+    transitivePeerDependencies:
+      - '@solana/web3.js'
+      - bs58
+    dev: false
+
   /@solana/web3.js@1.76.0:
     resolution: {integrity: sha512-aJtF/nTs+9St+KtTK/wgVJ+SinfjYzn+3w1ygYIPw8ST6LH+qHBn8XkodgDTwlv/xzNkaVz1kkUDOZ8BPXyZWA==}
+    dependencies:
+      '@babel/runtime': 7.22.3
+      '@noble/curves': 1.1.0
+      '@noble/hashes': 1.3.1
+      '@solana/buffer-layout': 4.0.1
+      agentkeepalive: 4.3.0
+      bigint-buffer: 1.1.5
+      bn.js: 5.2.1
+      borsh: 0.7.0
+      bs58: 4.0.1
+      buffer: 6.0.3
+      fast-stable-stringify: 1.0.0
+      jayson: 3.7.0
+      node-fetch: 2.6.11
+      rpc-websockets: 7.5.1
+      superstruct: 0.14.2
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /@solana/web3.js@1.77.0:
+    resolution: {integrity: sha512-APV5ru9vsWSvIPEmL6YmF20cJexcoZXRQOkKSXoKFK2yoyxMiTfAUDSxuwou3WInLzjsuh9hveWE4q2iexgpOg==}
+    deprecated: This build contains a bad TypeScript definition for getProgramAccounts
     dependencies:
       '@babel/runtime': 7.22.3
       '@noble/curves': 1.1.0
@@ -4469,7 +4676,7 @@ packages:
   /@strike-protocols/solana-wallet-adapter@0.1.8:
     resolution: {integrity: sha512-8gZAfjkoFgwf5fLFzrVuE2MtxAc7Pc0loBgi0zfcb3ijOy/FEpm5RJKLruKOhcThS6CHrfFxDU80AsZe+msObw==}
     dependencies:
-      '@solana/web3.js': 1.76.0
+      '@solana/web3.js': 1.77.0
       bs58: 4.0.1
       eventemitter3: 4.0.7
       uuid: 8.3.2
@@ -4620,10 +4827,10 @@ packages:
       '@tanstack/react-query': 4.29.12
     dependencies:
       '@tanstack/query-persist-client-core': 4.29.11
-      '@tanstack/react-query': 4.29.12(react-dom@18.1.0)(react@18.1.0)
+      '@tanstack/react-query': 4.29.12(react-dom@18.1.0)(react-native@0.71.8)(react@18.1.0)
     dev: false
 
-  /@tanstack/react-query@4.29.12(react-dom@18.1.0)(react@18.1.0):
+  /@tanstack/react-query@4.29.12(react-dom@18.1.0)(react-native@0.71.8)(react@18.1.0):
     resolution: {integrity: sha512-zhcN6+zF6cxprxhTHQajHGlvxgK8npnp9uLe9yaWhGc6sYcPWXzyO4raL4HomUzQOPzu3jLvkriJQ7BOrDM8vA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -4638,6 +4845,7 @@ packages:
       '@tanstack/query-core': 4.29.11
       react: 18.1.0
       react-dom: 18.1.0(react@18.1.0)
+      react-native: 0.71.8(@babel/core@7.22.1)(@babel/preset-env@7.22.4)(react@18.1.0)
       use-sync-external-store: 1.2.0(react@18.1.0)
     dev: false
 
@@ -4785,7 +4993,7 @@ packages:
       '@babel/runtime': 7.x
     dependencies:
       '@babel/runtime': 7.22.3
-      '@solana/web3.js': 1.76.0
+      '@solana/web3.js': 1.77.0
       '@toruslabs/base-controllers': 2.9.0(@babel/runtime@7.22.3)
       '@toruslabs/http-helpers': 3.4.0(@babel/runtime@7.22.3)
       '@toruslabs/openlogin-jrpc': 3.2.0(@babel/runtime@7.22.3)
@@ -16230,7 +16438,7 @@ packages:
     dependencies:
       xml-name-validator: 3.0.0
 
-  /wagmi@0.12.13(ethers@5.7.2)(react-dom@18.1.0)(react@18.1.0)(typescript@4.9.5):
+  /wagmi@0.12.13(ethers@5.7.2)(react-dom@18.1.0)(react-native@0.71.8)(react@18.1.0)(typescript@4.9.5):
     resolution: {integrity: sha512-1J+F68MztodPUo2OIFImiC3OoZD4gdryxTidfwQz9LJawXdBNmAOFvq0LQClrrqgFk0Gd3EoLo/MKGiEn2RsMg==}
     peerDependencies:
       ethers: '>=5.5.1 <6'
@@ -16241,7 +16449,7 @@ packages:
         optional: true
     dependencies:
       '@tanstack/query-sync-storage-persister': 4.29.11
-      '@tanstack/react-query': 4.29.12(react-dom@18.1.0)(react@18.1.0)
+      '@tanstack/react-query': 4.29.12(react-dom@18.1.0)(react-native@0.71.8)(react@18.1.0)
       '@tanstack/react-query-persist-client': 4.29.12(@tanstack/react-query@4.29.12)
       '@wagmi/core': 0.10.11(ethers@5.7.2)(react@18.1.0)(typescript@4.9.5)
       abitype: 0.3.0(typescript@4.9.5)

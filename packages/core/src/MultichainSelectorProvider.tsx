@@ -18,12 +18,27 @@ export default function ChainSelectorModalProvider<
   T extends SupportedChains,
   S extends BaseChain,
   E extends BaseChain
->({ children }: { children: React.ReactNode }): ReactElement {
+>({
+  children,
+  initialChain,
+}: {
+  children: React.ReactNode;
+  initialChain?: BaseChain;
+}): ReactElement {
   const [visible, setVisible] = useState(false);
   const [selectedChain, setSelectedChain] = useState<Chain<T, S, E>>();
   const [chains, setChains] = useState<Chain<T, S, E>[]>([]);
 
   const openChainModal = useCallback(() => {
+    // If initialChain is set for Solana, we want to select that chain and hide the chain selector dialog
+    if (initialChain && initialChain.type === SupportedChains.Solana) {
+      const chain: Chain<SupportedChains.Solana, BaseChain, never> = {
+        ...initialChain,
+      };
+      onChainSelect(chain as Chain<T, S, E>);
+      return;
+    }
+
     const groupedChains = chains.length ? groupBy((c) => c.type, chains) : {};
     if (Object.keys(groupedChains).length === 1) {
       // The user might have canceled out of the chain selector modal
@@ -33,7 +48,7 @@ export default function ChainSelectorModalProvider<
     }
 
     setVisible(true);
-  }, [chains, selectedChain]);
+  }, [chains, selectedChain, initialChain]);
 
   // Replace all chains of the same type with the new set of chains
   const setChainsByType = useCallback(
@@ -53,10 +68,18 @@ export default function ChainSelectorModalProvider<
       openChainModal,
       selectedChain,
       setSelectedChain,
+      initialChain,
       chains,
       setChains: setChainsByType,
     }),
-    [chains, openChainModal, selectedChain, setChains, setSelectedChain]
+    [
+      chains,
+      openChainModal,
+      selectedChain,
+      setChains,
+      setSelectedChain,
+      initialChain,
+    ]
   );
 
   const onClose = useCallback(() => {

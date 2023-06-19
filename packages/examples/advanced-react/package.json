@@ -1,5 +1,5 @@
 {
-  "name": "@civic/multichain-connect-react-examples-basic",
+  "name": "@civic/multichain-connect-react-examples-advanced",
   "private": true,
   "description": "Example implementation of Civic's Multichain Connect library",
   "author": "civic.com",
@@ -25,7 +25,9 @@
     "url": "^0.11.0",
     "wagmi": "^0.12.13",
     "@rainbow-me/rainbowkit": "^1.0.1",
-    "@solana/web3.js": "^1.76.0"
+    "@solana/wallet-adapter-base": "^0.9.22",
+    "@solana/wallet-adapter-react": "^0.15.32",
+    "@solana/web3.js": "^1.77.0"
   },
   "devDependencies": {
     "@babel/core": "^7.22.1",

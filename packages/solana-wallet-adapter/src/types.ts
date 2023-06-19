@@ -1,8 +1,8 @@
-import { Connection, clusterApiUrl } from "@solana/web3.js";
+import { clusterApiUrl } from "@solana/web3.js";
 
 export type Chain = {
   name: string;
-  connection: Connection;
+  rpcEndpoint: string;
   iconUrl?: string | (() => Promise<string>) | null;
 };
 

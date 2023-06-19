@@ -50,6 +50,7 @@ export interface ChainContextType<
   setSelectedChain: (chain?: Chain<T, S, E>) => void;
   openChainModal: (() => void) | undefined;
   setChains: (chains: Chain<T, S, E>[], type: SupportedChains) => void;
+  initialChain?: BaseChain;
 }
 
 export interface ModalContextType {

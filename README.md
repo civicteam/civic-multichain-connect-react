@@ -59,7 +59,9 @@ To use the MultiChain Wallet Connect React components, follow these steps:
 2. Configure the Solana wallet adapter by using the `SolanaWalletAdapterConfig` component within the `MultichainWalletProvider`:
 
    ```javascript
-   const solanaChains = [{ name: 'Solana', connection: new Connection(clusterEndpoint('mainnet-beta')) }];
+   const solanaChains = [
+    { name: 'Solana', rpcEndpoint: clusterEndpoint('mainnet-beta') },
+    { name: 'Solana Devnet', rpcEndpoint: clusterEndpoint('devnet') }];
 
    <MultichainWalletProvider>
      <SolanaWalletAdapterConfig chains={solanaChains}>
@@ -77,17 +79,17 @@ To use the MultiChain Wallet Connect React components, follow these steps:
      mainnet,
      goerli,
    ];
+   const initialChain = { ...polygonMumbai, type: SupportedChains.Ethereum };
 
-   <MultichainWalletProvider>
+   <MultichainWalletProvider initialChain={initialChain}>
      <RainbowkitConfig
-       initialChain={initialChain}
        chains={evmChains}
        theme={myCustomTheme}
        providers={[publicProvider()]}
      >
        {/* Your application components */}
      </RainbowkitConfig>
-   </MultichainWalletProvider>
+   </MultichainWalletProvider>;
    ```
 
    Replace `initialChain`, `myCustomTheme`, and `publicProvider()` with the appropriate values and configurations for your project.
@@ -98,15 +100,13 @@ To use the MultiChain Wallet Connect React components, follow these steps:
    <MultichainWalletProvider>
      <RainbowkitConfig>
        <SolanaWalletAdapterConfig>
-         <MultichainConnectButton
-
- />
+         <MultichainConnectButton/>
        </SolanaWalletAdapterConfig>
      </RainbowkitConfig>
    </MultichainWalletProvider>
    ```
 
-   Customize the placement and appearance of the button as needed in your application's layout.
+Customize the placement and appearance of the button as needed in your application's layout.
 
 That's it! You can now integrate MultiChain Wallet Connect React components into your application to enable wallet connectivity and interactions with Solana and Ethereum-based chains.
 
@@ -138,7 +138,6 @@ sequenceDiagram
 1. Creating your own button with custom styling:
 
 ```javascript
-
 import React from "react";
 import styled from "styled-components";
 import { MultichainConnectedButton, useWallet, useModal } from "@civic/multichain-connect-react";

@@ -5,7 +5,7 @@ import {
   MultichainConnectButton,
   MultichainWalletProvider,
 } from "@civic/multichain-connect-react-core";
-import { Connection, clusterApiUrl } from "@solana/web3.js";
+import { clusterApiUrl } from "@solana/web3.js";
 import { SolanaWalletAdapterConfig } from "@civic/multichain-connect-react-solana-wallet-adapter";
 import { publicProvider } from "wagmi/providers/public";
 import { RainbowkitConfig } from "@civic/multichain-connect-react-rainbowkit-wallet-adapter";
@@ -27,9 +27,16 @@ const clientChains = [
   arbitrumGoerli,
 ];
 
-const defaultSolanaChains = [
-  { name: "Solana", connection: new Connection(clusterApiUrl("devnet")) },
-];
+const solanaMainnetChain = {
+  name: "Solana",
+  rpcEndpoint: clusterApiUrl("mainnet-beta"),
+};
+const solanaDevnetChain = {
+  name: "Solana Devnet",
+  rpcEndpoint: clusterApiUrl("devnet"),
+};
+
+const defaultSolanaChains = [solanaMainnetChain, solanaDevnetChain];
 
 const Content = () => {
   return (
