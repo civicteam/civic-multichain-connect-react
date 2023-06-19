@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -83,6 +83,9 @@ importers:
       tslib:
         specifier: ^2.5.2
         version: 2.5.2
+      typescript:
+        specifier: ^4.8.4
+        version: 4.9.5
 
   packages/core:
     dependencies:
