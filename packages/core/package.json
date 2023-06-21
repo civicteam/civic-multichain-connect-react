@@ -1,6 +1,6 @@
 {
   "name": "@civic/multichain-connect-react-core",
-  "version": "0.0.3-beta.6",
+  "version": "0.0.3-alpha.6",
   "description": "A multichain wallet connect library",
   "repository": "git@github.com:civicteam/civic-multichain-connect-react.git",
   "author": "civic.com",
@@ -30,17 +30,17 @@
     "node": ">=16"
   },
   "peerDependencies": {
-    "react": "^18.0.2",
-    "react-dom": "^18.0.2"
+    "react": "18.1.0",
+    "react-dom": "18.1.0"
   },
   "dependencies": {
     "@civic/civic-chain-icons": "0.0.6",
     "@civic/civic-eth-provider": "0.0.8",
-    "@wallet-standard/react-core": "^0.1.4",
-    "ramda": "^0.28.0",
+    "@wallet-standard/react-core": "0.1.4",
+    "ramda": "0.28.0",
     "styled-components": "6.0.0-rc.3"
   },
   "devDependencies": {
-    "@types/node-fetch": "^2.6.4"
+    "@types/node-fetch": "2.6.4"
   }
 }
