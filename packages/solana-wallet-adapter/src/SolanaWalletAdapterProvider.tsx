@@ -59,18 +59,19 @@ export default function SolanaWalletAdapterProvider({
         setSelectedChain(chain[0]);
         return;
       }
-      // If we're refreshing with an initialChain set then
-      // selectedChain will be lost, so reinstate it
-      if (
-        !selectedChain &&
-        wallet?.adapter.publicKey &&
-        connected &&
-        initialChain
-      ) {
-        const chain = chains
-          .filter((c) => c.type === SupportedChains.Solana)
-          .filter((c) => c.name === initialChain.name);
-        setSelectedChain(chain[0]);
+      // If we're refreshing while a wallet was connected
+      if (!selectedChain && wallet?.adapter.publicKey && connected) {
+        // If an initialChain was set then selectedChain will be lost, so reinstate it
+        if (initialChain) {
+          const chain = chains
+            .filter((c) => c.type === SupportedChains.Solana)
+            .filter((c) => c.name === initialChain.name);
+          setSelectedChain(chain[0]);
+        }
+        // Else we disconnect the wallet
+        else {
+          disconnect();
+        }
       }
     }
   }, [
