@@ -90,7 +90,7 @@ function App() {
     document.title = `Sample: ${formattedChainName}`;
 
     const selectedEvmChain = defaultEvmChains.filter(
-      (c) => c.name.toLowerCase() === decodedKey
+      (c) => c.name.toLowerCase() === decodedKey.toLowerCase()
     )[0];
     if (selectedEvmChain) {
       setInitialChain({ ...selectedEvmChain, type: SupportedChains.Ethereum });
@@ -100,7 +100,7 @@ function App() {
     }
 
     const selectedSolanaChain = defaultSolanaChains.filter(
-      (c) => c.name.toLowerCase() === decodedKey
+      (c) => c.name.toLowerCase() === decodedKey.toLowerCase()
     )[0];
     if (selectedSolanaChain) {
       setInitialChain({ ...selectedSolanaChain, type: SupportedChains.Solana });
@@ -122,7 +122,7 @@ function App() {
             providers={[publicProvider()]}
             options={{
               // Rainbowkit relies on WalletConnect which now needs to obtain a projectId from WalletConnect Cloud.
-              walletConnectProjectId: "*YOUR WALLET CONNECT PROJECT ID*",
+              walletConnectProjectId: "d3c7ae26209826865057c4a8299ed0b8",
             }}
           >
             <SolanaWalletAdapterConfig chains={solanaChains}>
