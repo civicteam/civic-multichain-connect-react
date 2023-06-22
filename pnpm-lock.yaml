@@ -107,6 +107,9 @@ importers:
       react-dom:
         specifier: ^18.0.2
         version: 18.1.0(react@18.1.0)
+      react-tabs:
+        specifier: 6.0.1
+        version: 6.0.1(react@18.1.0)
       styled-components:
         specifier: 6.0.0-rc.3
         version: 6.0.0-rc.3(react-dom@18.1.0)(react@18.1.0)
@@ -14830,6 +14833,16 @@ packages:
       invariant: 2.2.4
       react: 18.1.0
       tslib: 2.5.2
+    dev: false
+
+  /react-tabs@6.0.1(react@18.1.0):
+    resolution: {integrity: sha512-XE5D/iCcwUsr06wf6fWrjA/HbUaj3G2+6NMVJygZuKALHkWYp+D3ZPcG2VctuaOHHzMU48eSOuxwBALBnuXldA==}
+    peerDependencies:
+      react: ^18.0.0
+    dependencies:
+      clsx: 1.2.1
+      prop-types: 15.8.1
+      react: 18.1.0
     dev: false
 
   /react@16.13.1:

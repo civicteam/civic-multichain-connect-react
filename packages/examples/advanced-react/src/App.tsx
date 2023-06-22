@@ -48,14 +48,8 @@ function Content() {
 }
 
 function App() {
-  const defaultEvmChains = [
-    polygon,
-    polygonMumbai,
-    mainnet,
-    goerli,
-    arbitrum,
-    arbitrumGoerli,
-  ];
+  const defaultEvmChains = [polygon, mainnet, arbitrum];
+  const defaultEvmTestChains = [polygonMumbai, goerli, arbitrumGoerli];
 
   const solanaMainnetChain = {
     name: "Solana",
@@ -66,21 +60,33 @@ function App() {
     rpcEndpoint: clusterApiUrl("devnet"),
   };
 
-  const defaultSolanaChains = [solanaMainnetChain, solanaDevnetChain];
+  const defaultSolanaChains = [solanaMainnetChain];
+  const defaultSolanaTestChains = [solanaDevnetChain];
 
   const { hash } = useHash();
   const [initialChain, setInitialChain] = useState<BaseChain | undefined>(
     undefined
   );
-  const [evmChains, setEvmChains] = useState<EthereumChain[]>(defaultEvmChains);
-  const [solanaChains, setSolanaChains] =
-    useState<SolanaChain[]>(defaultSolanaChains);
+  const [evmChains, setEvmChains] = useState<{
+    chains: EthereumChain[];
+    testChains: EthereumChain[];
+  }>({ chains: defaultEvmChains, testChains: defaultEvmTestChains });
+  const [solanaChains, setSolanaChains] = useState<{
+    chains: SolanaChain[];
+    testChains: SolanaChain[];
+  }>({ chains: defaultSolanaChains, testChains: defaultSolanaTestChains });
 
   // If the url contains a hash, filter the chains to only show the selected chain for evm
   useEffect(() => {
     if (!hash) {
-      setEvmChains(defaultEvmChains);
-      setSolanaChains(defaultSolanaChains);
+      setEvmChains({
+        chains: defaultEvmChains,
+        testChains: defaultEvmTestChains,
+      });
+      setSolanaChains({
+        chains: defaultSolanaChains,
+        testChains: defaultSolanaTestChains,
+      });
       return;
     }
 
@@ -94,8 +100,11 @@ function App() {
     )[0];
     if (selectedEvmChain) {
       setInitialChain({ ...selectedEvmChain, type: SupportedChains.Ethereum });
-      setEvmChains(defaultEvmChains);
-      setSolanaChains([]);
+      setEvmChains({
+        chains: defaultEvmChains,
+        testChains: defaultEvmTestChains,
+      });
+      setSolanaChains({ chains: [], testChains: [] });
       return;
     }
 
@@ -104,13 +113,16 @@ function App() {
     )[0];
     if (selectedSolanaChain) {
       setInitialChain({ ...selectedSolanaChain, type: SupportedChains.Solana });
-      setSolanaChains(defaultSolanaChains);
-      setEvmChains([]);
+      setSolanaChains({
+        chains: defaultSolanaChains,
+        testChains: defaultSolanaTestChains,
+      });
+      setEvmChains({ chains: [], testChains: [] });
       return;
     }
 
-    setEvmChains([]);
-    setSolanaChains([]);
+    setEvmChains({ chains: [], testChains: [] });
+    setSolanaChains({ chains: [], testChains: [] });
   }, [hash]);
 
   return (
@@ -118,14 +130,18 @@ function App() {
       <header className="App-header">
         <MultichainWalletProvider initialChain={initialChain}>
           <RainbowkitConfig
-            chains={evmChains}
+            chains={evmChains.chains}
+            testnetChains={evmChains.testChains}
             providers={[publicProvider()]}
             options={{
               // Rainbowkit relies on WalletConnect which now needs to obtain a projectId from WalletConnect Cloud.
               walletConnectProjectId: "*YOUR WALLET CONNECT PROJECT ID*",
             }}
           >
-            <SolanaWalletAdapterConfig chains={solanaChains}>
+            <SolanaWalletAdapterConfig
+              chains={solanaChains.chains}
+              testnetChains={solanaChains.testChains}
+            >
               <MultichainConnectButton />
               <Content />
             </SolanaWalletAdapterConfig>

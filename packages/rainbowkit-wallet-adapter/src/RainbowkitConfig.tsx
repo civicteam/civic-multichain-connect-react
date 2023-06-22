@@ -56,6 +56,7 @@ function RainbowkitConfig({
   children,
   theme,
   chains,
+  testnetChains,
   providers,
   options,
 }: {
@@ -63,6 +64,7 @@ function RainbowkitConfig({
   theme?: Theme | null;
   providers?: ChainProviderFn[];
   chains: Chain[];
+  testnetChains?: Chain[];
   options: RainbowkitConfigOptions;
 }): JSX.Element | null {
   const { labels } = useLabel();
@@ -115,7 +117,17 @@ function RainbowkitConfig({
       ...chain,
       type: SupportedChains.Ethereum,
     }));
-    setChains(evmChains, SupportedChains.Ethereum);
+
+    const evmTestnetChains = testnetChains?.map((chain) => ({
+      ...chain,
+      type: SupportedChains.Ethereum,
+      testnet: true,
+    }));
+
+    setChains(
+      [...evmChains, ...(evmTestnetChains || [])],
+      SupportedChains.Ethereum
+    );
   }, [chains]);
 
   const evmInitialChain =

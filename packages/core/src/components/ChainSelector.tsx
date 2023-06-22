@@ -7,6 +7,8 @@ import {
   SupportedSymbolArray,
   SupportedSymbol,
 } from "@civic/civic-chain-icons";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import BaseDialog from "./BaseDialog.js";
@@ -66,6 +68,41 @@ const SelectChainList = styled.ul`
   margin-block-start: 0px;
   margin-block-end: 0px;
 `;
+
+const StyledTabList = styled(TabList)`
+  &&& {
+    border-bottom: 1px solid #aaa;
+    margin: 0 -30px 10px;
+  }
+`;
+
+const StyledTab = styled(Tab)`
+  display: inline-block;
+  border: none;
+  border-bottom: none;
+  bottom: -1px;
+  position: relative;
+  list-style: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: #a3a3a3;
+  font-size: 18px;
+  font-weight: 600;
+
+  &.react-tabs__tab--selected {
+    background: #fff;
+    border-color: #aaa;
+    color: black;
+    cursor: pointer;
+    border-radius: 0;
+    border-bottom: 4px solid #ff6b4e;
+  }
+
+  &.react-tabs__tab--disabled {
+    cursor: default;
+  }
+`;
+
 type ChainElementProps<
   T extends SupportedChains,
   S extends BaseChain,
@@ -142,15 +179,39 @@ export function ChainSelectorContent<
   return (
     <div>
       <SelectChainTitle>{labels[LabelEntry.SELECT_CHAIN]}</SelectChainTitle>
-      <SelectChainList>
-        {chains.map((chain) => (
-          <ChainElement
-            key={chain.name}
-            chain={chain}
-            onChainSelect={onChainSelect}
-          />
-        ))}
-      </SelectChainList>
+      <Tabs>
+        <StyledTabList>
+          <StyledTab>Mainnet</StyledTab>
+          <StyledTab>Testnet</StyledTab>
+        </StyledTabList>
+
+        <TabPanel>
+          <SelectChainList>
+            {chains
+              .filter((chain) => (chain.testnet || false) === false)
+              .map((chain) => (
+                <ChainElement
+                  key={chain.name}
+                  chain={chain}
+                  onChainSelect={onChainSelect}
+                />
+              ))}
+          </SelectChainList>
+        </TabPanel>
+        <TabPanel>
+          <SelectChainList>
+            {chains
+              .filter((chain) => chain.testnet === true)
+              .map((chain) => (
+                <ChainElement
+                  key={chain.name}
+                  chain={chain}
+                  onChainSelect={onChainSelect}
+                />
+              ))}
+          </SelectChainList>
+        </TabPanel>
+      </Tabs>
     </div>
   );
 }
