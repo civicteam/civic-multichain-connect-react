@@ -117,7 +117,14 @@ function App() {
     <div className="App">
       <header className="App-header">
         <MultichainWalletProvider initialChain={initialChain}>
-          <RainbowkitConfig chains={evmChains} providers={[publicProvider()]}>
+          <RainbowkitConfig
+            chains={evmChains}
+            providers={[publicProvider()]}
+            options={{
+              // Rainbowkit relies on WalletConnect which now needs to obtain a projectId from WalletConnect Cloud.
+              walletConnectProjectId: "*YOUR WALLET CONNECT PROJECT ID*",
+            }}
+          >
             <SolanaWalletAdapterConfig chains={solanaChains}>
               <MultichainConnectButton />
               <Content />

@@ -86,6 +86,10 @@ To use the MultiChain Wallet Connect React components, follow these steps:
        chains={evmChains}
        theme={myCustomTheme}
        providers={[publicProvider()]}
+       options={{
+         // Rainbowkit relies on WalletConnect which now needs to obtain a projectId from WalletConnect Cloud.
+         walletConnectProjectId: "*YOUR WALLET CONNECT PROJECT ID*",
+       }}
      >
        {/* Your application components */}
      </RainbowkitConfig>
