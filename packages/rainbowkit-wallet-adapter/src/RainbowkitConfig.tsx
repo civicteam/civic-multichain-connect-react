@@ -31,7 +31,7 @@ import {
 } from "@civic/multichain-connect-react-core";
 import { publicProvider } from "wagmi/providers/public";
 import { RainbowkitButton } from "./RainbowkitButton.js";
-import { Chain } from "./types.js";
+import { Chain, RainbowkitConfigOptions } from "./types.js";
 
 function RainbowkitPluginProvider({
   children,
@@ -57,11 +57,13 @@ function RainbowkitConfig({
   theme,
   chains,
   providers,
+  options,
 }: {
   children?: React.ReactNode;
   theme?: Theme | null;
   providers?: ChainProviderFn[];
   chains: Chain[];
+  options: RainbowkitConfigOptions;
 }): JSX.Element | null {
   const { labels } = useLabel();
   const { setChains, selectedChain, initialChain } = useChain<
@@ -74,6 +76,7 @@ function RainbowkitConfig({
     const { wallets } = getDefaultWallets({
       appName: "rainbowkit",
       chains: chains,
+      projectId: options.walletConnectProjectId,
     });
 
     const connectors = connectorsForWallets([

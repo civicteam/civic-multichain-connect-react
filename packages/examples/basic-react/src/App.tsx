@@ -41,7 +41,14 @@ const defaultSolanaChains = [solanaMainnetChain, solanaDevnetChain];
 const Content = () => {
   return (
     <MultichainWalletProvider>
-      <RainbowkitConfig chains={clientChains} providers={[publicProvider()]}>
+      <RainbowkitConfig
+        chains={clientChains}
+        providers={[publicProvider()]}
+        options={{
+          // Rainbowkit relies on WalletConnect which now needs to obtain a projectId from WalletConnect Cloud.
+          walletConnectProjectId: "*YOUR WALLET CONNECT PROJECT ID*",
+        }}
+      >
         <SolanaWalletAdapterConfig chains={defaultSolanaChains}>
           <MultichainConnectButton />
         </SolanaWalletAdapterConfig>
