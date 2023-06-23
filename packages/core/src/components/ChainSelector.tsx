@@ -38,7 +38,7 @@ const ListItemButton = styled.button`
   padding-bottom: 6px;
   cursor: pointer;
   &:hover {
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(255, 107, 78, 0.2);
   }
 `;
 
@@ -59,7 +59,7 @@ const SelectChainTitle = styled.h4`
   margin-top: 20px;
   text-align: center;
   font-size: 24px;
-  font-weight: 400;
+  font-weight: bold;
 `;
 
 const SelectChainList = styled.ul`
@@ -73,6 +73,7 @@ const StyledTabList = styled(TabList)`
   &&& {
     border-bottom: 1px solid #aaa;
     margin: 0 -30px 10px;
+    padding-inline-start: 0px;
   }
 `;
 

@@ -38,6 +38,7 @@ const CloseButton = styled.button`
 const CloseButtonSvg = styled.svg`
   height: 20px;
   width: 20px;
+  color: #a3a3a3;
 `;
 
 // Modal Component
