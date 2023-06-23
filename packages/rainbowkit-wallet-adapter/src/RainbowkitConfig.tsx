@@ -73,6 +73,9 @@ function RainbowkitConfig({
     never,
     Chain & BaseChain
   >();
+  const [evmInitialChain, setEvmInitialChain] = React.useState<
+    Chain | undefined
+  >(undefined);
 
   const client = useMemo(() => {
     const combinedChains = [...chains, ...(testnetChains || [])];
@@ -128,10 +131,11 @@ function RainbowkitConfig({
 
     const allChains = [...evmChains, ...(evmTestnetChains || [])];
     setChains(allChains, SupportedChains.Ethereum);
-  }, [chains]);
 
-  const evmInitialChain =
-    initialChain && chains.find((chain) => chain.id === initialChain?.id);
+    const chain =
+      initialChain && allChains.find((chain) => chain.id === initialChain?.id);
+    setEvmInitialChain(chain);
+  }, [chains, initialChain]);
 
   return (
     <WagmiConfig client={client}>
