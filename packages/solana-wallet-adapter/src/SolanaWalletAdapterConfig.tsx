@@ -65,19 +65,20 @@ function SolanaWalletAdapterConfig({
   testnetChains?: Chain[];
 }): JSX.Element | null {
   // For now support only a single chain
-  const { setChains } = useChain<
+  const { setChains, selectedChain } = useChain<
     SupportedChains.Solana,
     Chain & BaseChain,
     never
   >();
   const endpoint = useMemo(() => {
-    if (chains.length === 0) {
+    if (chains.length === 0 || !selectedChain?.rpcEndpoint) {
       return DEFAULT_ENDPOINT;
     }
 
-    const { rpcEndpoint } = chains[0];
+    const rpcEndpoint = selectedChain?.rpcEndpoint;
+
     return rpcEndpoint;
-  }, [chains]);
+  }, [chains, selectedChain]);
 
   const wallets = useMemo(
     () => [

@@ -75,9 +75,11 @@ function RainbowkitConfig({
   >();
 
   const client = useMemo(() => {
+    const combinedChains = [...chains, ...(testnetChains || [])];
+
     const { wallets } = getDefaultWallets({
       appName: "rainbowkit",
-      chains: chains,
+      chains: combinedChains,
       projectId: options.walletConnectProjectId,
     });
 
@@ -85,12 +87,12 @@ function RainbowkitConfig({
       ...wallets,
       {
         groupName: labels[LabelEntry.OTHER],
-        wallets: [phantomWallet({ chains })],
+        wallets: [phantomWallet({ chains: combinedChains })],
       },
     ]);
 
     const { provider } = configureChains(
-      chains,
+      combinedChains,
       providers && providers?.length > 0 ? providers : [publicProvider()]
     );
 
@@ -124,10 +126,8 @@ function RainbowkitConfig({
       testnet: true,
     }));
 
-    setChains(
-      [...evmChains, ...(evmTestnetChains || [])],
-      SupportedChains.Ethereum
-    );
+    const allChains = [...evmChains, ...(evmTestnetChains || [])];
+    setChains(allChains, SupportedChains.Ethereum);
   }, [chains]);
 
   const evmInitialChain =
@@ -136,7 +136,7 @@ function RainbowkitConfig({
   return (
     <WagmiConfig client={client}>
       <RainbowKitProvider
-        chains={chains}
+        chains={[...chains, ...(testnetChains || [])]}
         // if initialChain is not provided, use the selectedChain from the ChainContext
         initialChain={evmInitialChain ?? selectedChain}
         theme={theme}
