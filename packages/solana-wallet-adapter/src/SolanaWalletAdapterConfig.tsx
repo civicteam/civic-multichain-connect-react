@@ -58,9 +58,11 @@ function SolanaWalletAdapterPluginProvider<T>({
 function SolanaWalletAdapterConfig({
   children,
   chains,
+  testnetChains,
 }: {
   children?: React.ReactNode;
   chains: Chain[];
+  testnetChains?: Chain[];
 }): JSX.Element | null {
   // For now support only a single chain
   const { setChains } = useChain<
@@ -68,7 +70,6 @@ function SolanaWalletAdapterConfig({
     Chain & BaseChain,
     never
   >();
-
   const endpoint = useMemo(() => {
     if (chains.length === 0) {
       return DEFAULT_ENDPOINT;
@@ -97,7 +98,17 @@ function SolanaWalletAdapterConfig({
       ...chain,
       type: SupportedChains.Solana,
     }));
-    setChains(solanaChains, SupportedChains.Solana);
+
+    const solanaTestnetChains = testnetChains?.map((chain) => ({
+      ...chain,
+      type: SupportedChains.Solana,
+      testnet: true,
+    }));
+
+    setChains(
+      [...solanaChains, ...(solanaTestnetChains || [])],
+      SupportedChains.Solana
+    );
   }, [chains]);
 
   return (

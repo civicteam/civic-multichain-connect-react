@@ -7,6 +7,8 @@ import {
   SupportedSymbolArray,
   SupportedSymbol,
 } from "@civic/civic-chain-icons";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import BaseDialog from "./BaseDialog.js";
@@ -36,7 +38,7 @@ const ListItemButton = styled.button`
   padding-bottom: 6px;
   cursor: pointer;
   &:hover {
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(255, 107, 78, 0.2);
   }
 `;
 
@@ -57,7 +59,7 @@ const SelectChainTitle = styled.h4`
   margin-top: 20px;
   text-align: center;
   font-size: 24px;
-  font-weight: 400;
+  font-weight: bold;
 `;
 
 const SelectChainList = styled.ul`
@@ -66,6 +68,42 @@ const SelectChainList = styled.ul`
   margin-block-start: 0px;
   margin-block-end: 0px;
 `;
+
+const StyledTabList = styled(TabList)`
+  &&& {
+    border-bottom: 1px solid #aaa;
+    margin: 0 -30px 10px;
+    padding-inline-start: 0px;
+  }
+`;
+
+const StyledTab = styled(Tab)`
+  display: inline-block;
+  border: none;
+  border-bottom: none;
+  bottom: -1px;
+  position: relative;
+  list-style: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: #a3a3a3;
+  font-size: 18px;
+  font-weight: 600;
+
+  &.react-tabs__tab--selected {
+    background: #fff;
+    border-color: #aaa;
+    color: black;
+    cursor: pointer;
+    border-radius: 0;
+    border-bottom: 4px solid #ff6b4e;
+  }
+
+  &.react-tabs__tab--disabled {
+    cursor: default;
+  }
+`;
+
 type ChainElementProps<
   T extends SupportedChains,
   S extends BaseChain,
@@ -138,19 +176,54 @@ export function ChainSelectorContent<
   E extends BaseChain
 >({ chains, onChainSelect }: ChainSelectorProps<T, S, E>): JSX.Element | null {
   const { labels } = useLabel();
+
+  const [hasTestnetChains, setHasTestnetChains] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (chains.filter((chain) => chain.testnet === true)?.length >= 1) {
+      setHasTestnetChains(true);
+    }
+  }, [chains]);
+
   // TODO: CPASS-464 Fix the order of the diplayed chains
   return (
     <div>
       <SelectChainTitle>{labels[LabelEntry.SELECT_CHAIN]}</SelectChainTitle>
-      <SelectChainList>
-        {chains.map((chain) => (
-          <ChainElement
-            key={chain.name}
-            chain={chain}
-            onChainSelect={onChainSelect}
-          />
-        ))}
-      </SelectChainList>
+      <Tabs>
+        <StyledTabList>
+          <StyledTab>Mainnet</StyledTab>
+          {hasTestnetChains && <StyledTab>Testnet</StyledTab>}
+        </StyledTabList>
+
+        <TabPanel>
+          <SelectChainList>
+            {chains
+              .filter((chain) => (chain.testnet || false) === false)
+              .map((chain) => (
+                <ChainElement
+                  key={chain.name}
+                  chain={chain}
+                  onChainSelect={onChainSelect}
+                />
+              ))}
+          </SelectChainList>
+        </TabPanel>
+        {hasTestnetChains && (
+          <TabPanel>
+            <SelectChainList>
+              {chains
+                .filter((chain) => chain.testnet === true)
+                .map((chain) => (
+                  <ChainElement
+                    key={chain.name}
+                    chain={chain}
+                    onChainSelect={onChainSelect}
+                  />
+                ))}
+            </SelectChainList>
+          </TabPanel>
+        )}
+      </Tabs>
     </div>
   );
 }

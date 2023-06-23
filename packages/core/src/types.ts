@@ -21,6 +21,7 @@ export type BaseChain = {
   name: string;
   iconUrl?: string | (() => Promise<string>) | null;
   type: SupportedChains;
+  testnet?: boolean;
 };
 
 export type Chain<
