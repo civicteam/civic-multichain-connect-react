@@ -176,6 +176,15 @@ export function ChainSelectorContent<
   E extends BaseChain
 >({ chains, onChainSelect }: ChainSelectorProps<T, S, E>): JSX.Element | null {
   const { labels } = useLabel();
+
+  const [hasTestnetChains, setHasTestnetChains] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (chains.filter((chain) => chain.testnet === true)?.length >= 1) {
+      setHasTestnetChains(true);
+    }
+  }, [chains]);
+
   // TODO: CPASS-464 Fix the order of the diplayed chains
   return (
     <div>
@@ -183,7 +192,7 @@ export function ChainSelectorContent<
       <Tabs>
         <StyledTabList>
           <StyledTab>Mainnet</StyledTab>
-          <StyledTab>Testnet</StyledTab>
+          {hasTestnetChains && <StyledTab>Testnet</StyledTab>}
         </StyledTabList>
 
         <TabPanel>
@@ -199,19 +208,21 @@ export function ChainSelectorContent<
               ))}
           </SelectChainList>
         </TabPanel>
-        <TabPanel>
-          <SelectChainList>
-            {chains
-              .filter((chain) => chain.testnet === true)
-              .map((chain) => (
-                <ChainElement
-                  key={chain.name}
-                  chain={chain}
-                  onChainSelect={onChainSelect}
-                />
-              ))}
-          </SelectChainList>
-        </TabPanel>
+        {hasTestnetChains && (
+          <TabPanel>
+            <SelectChainList>
+              {chains
+                .filter((chain) => chain.testnet === true)
+                .map((chain) => (
+                  <ChainElement
+                    key={chain.name}
+                    chain={chain}
+                    onChainSelect={onChainSelect}
+                  />
+                ))}
+            </SelectChainList>
+          </TabPanel>
+        )}
       </Tabs>
     </div>
   );
