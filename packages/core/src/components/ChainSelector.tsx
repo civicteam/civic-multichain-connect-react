@@ -74,6 +74,7 @@ const StyledTabList = styled(TabList)`
     border-bottom: 1px solid #aaa;
     margin: 0 -30px 10px;
     padding-inline-start: 0px;
+    text-align: center;
   }
 `;
 

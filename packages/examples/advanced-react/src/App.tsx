@@ -95,9 +95,10 @@ function App() {
       decodedKey.charAt(0).toUpperCase() + decodedKey.slice(1);
     document.title = `Sample: ${formattedChainName}`;
 
-    const selectedEvmChain = defaultEvmChains.filter(
-      (c) => c.name.toLowerCase() === decodedKey
-    )[0];
+    const selectedEvmChain = [
+      ...defaultEvmChains,
+      ...defaultEvmTestChains,
+    ].filter((c) => c.name.toLowerCase() === decodedKey)[0];
     if (selectedEvmChain) {
       setInitialChain({ ...selectedEvmChain, type: SupportedChains.Ethereum });
       setEvmChains({
@@ -108,9 +109,10 @@ function App() {
       return;
     }
 
-    const selectedSolanaChain = defaultSolanaChains.filter(
-      (c) => c.name.toLowerCase() === decodedKey
-    )[0];
+    const selectedSolanaChain = [
+      ...defaultSolanaChains,
+      ...defaultSolanaTestChains,
+    ].filter((c) => c.name.toLowerCase() === decodedKey)[0];
     if (selectedSolanaChain) {
       setInitialChain({ ...selectedSolanaChain, type: SupportedChains.Solana });
       setSolanaChains({
