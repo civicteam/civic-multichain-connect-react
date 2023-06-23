@@ -71,7 +71,7 @@ function SolanaWalletAdapterConfig({
     never
   >();
   const endpoint = useMemo(() => {
-    if (chains.length === 0 || selectedChain?.rpcEndpoint === undefined) {
+    if (chains.length === 0 || !selectedChain?.rpcEndpoint) {
       return DEFAULT_ENDPOINT;
     }
 
