@@ -1,18 +1,23 @@
 ## Multichain Connect React
 
 ### Overview
+
 The Multichain Connect React library is a versatile TypeScript library that simplifies wallet integration for decentralized applications (dApps) by providing a unified interface for connecting to different wallets across multiple blockchains. It includes a React interface for seamless integration with React-based projects. The library allows developers to easily add new wallet adapters and supports customizable chain configurations. Once production ready, the library will consider porting over to the [following](https://github.com/wallet-standard/wallet-standard/tree/master/packages/react/core) Wallet Standard React interface.
 
 ### Core Functionality:
+
 The library offers a multi-chain wallet adapter that serves as a bridge between dApps and various wallet providers. It provides a standardized API for wallet interactions, enabling users to connect their preferred wallet across different blockchains seamlessly.
 
 #### React Interface:
+
 Includes a pre-built React interface that simplifies the integration of wallet functionality into React applications. This interface offers intuitive components and hooks that developers can leverage to handle wallet interactions and user authentication with ease.
 
 #### Chain Customization:
+
 Developers can specify the chains they want to support within their application. Multichain Connect React allows for easy configuration of supported chains, such as EVM supported chains, Solana, etc. This flexibility enables dApps to cater to specific blockchain ecosystems while maintaining a consistent user experience.
 
 #### Extensibility:
+
 The library is designed with extensibility in mind. It provides a straightforward mechanism for adding additional wallet adapters, allowing developers to expand the range of supported wallets easily. By following the provided adapter interface and guidelines, new wallet integrations can be seamlessly incorporated into the existing framework. This also gives the user flexibility in which wallet adapters they choose to use.
 
 ## Installation
@@ -34,12 +39,28 @@ To use the MultiChain Wallet Connect React components, follow these steps:
 2. Import the necessary components and dependencies into your code:
 
    ```javascript
-   import { MultichainWalletProvider, MultichainConnectButton } from '@civic/multichain-connect-react-core';
-   import { Chain as SolanaChain, SolanaWalletAdapterConfig } from '@civic/multichain-connect-react-solana-wallet-adapter';
-   import { Chain as EthereumChain, RainbowkitConfig } from '@civic/multichain-connect-react-rainbowkit-wallet-adapter';
-   import { publicProvider } from 'wagmi/providers/public';
-   import { Connection } from '@solana/web3.js';
-   import { mainnet, goerli, polygon, arbitrum, arbitrumGoerli, polygonMumbai } from 'wagmi/chains';
+   import {
+     MultichainWalletProvider,
+     MultichainConnectButton,
+   } from "@civic/multichain-connect-react-core";
+   import {
+     Chain as SolanaChain,
+     SolanaWalletAdapterConfig,
+   } from "@civic/multichain-connect-react-solana-wallet-adapter";
+   import {
+     Chain as EthereumChain,
+     RainbowkitConfig,
+   } from "@civic/multichain-connect-react-rainbowkit-wallet-adapter";
+   import { publicProvider } from "wagmi/providers/public";
+   import { Connection } from "@solana/web3.js";
+   import {
+     mainnet,
+     goerli,
+     polygon,
+     arbitrum,
+     arbitrumGoerli,
+     polygonMumbai,
+   } from "wagmi/chains";
    ```
 
    Note: Make sure you have the required dependencies installed, including `@solana/web3.js`.
@@ -60,30 +81,33 @@ To use the MultiChain Wallet Connect React components, follow these steps:
 
    ```javascript
    const solanaChains = [
-    { name: 'Solana', rpcEndpoint: clusterEndpoint('mainnet-beta') },
-    { name: 'Solana Devnet', rpcEndpoint: clusterEndpoint('devnet') }];
+     { name: "Solana", rpcEndpoint: clusterEndpoint("mainnet-beta") },
+   ];
+   const solanaTestChains = [
+     { name: "Solana Devnet", rpcEndpoint: clusterEndpoint("devnet") },
+   ];
 
    <MultichainWalletProvider>
-     <SolanaWalletAdapterConfig chains={solanaChains}>
+     <SolanaWalletAdapterConfig
+       chains={solanaChains}
+       testnetChains={solanaTestChains} // These will display unde the testnets tab
+     >
        {/* Your application components */}
      </SolanaWalletAdapterConfig>
-   </MultichainWalletProvider>
+   </MultichainWalletProvider>;
    ```
 
 3. Configure the Rainbowkit wallet adapter by using the `RainbowkitConfig` component within the `MultichainWalletProvider`:
 
    ```javascript
-   const evmChains = [
-     polygon,
-     polygonMumbai,
-     mainnet,
-     goerli,
-   ];
+   const evmChains = [polygon, mainnet];
+   const evmTestChains = [polygonMumbai, goerli];
    const initialChain = { ...polygonMumbai, type: SupportedChains.Ethereum };
 
    <MultichainWalletProvider initialChain={initialChain}>
      <RainbowkitConfig
        chains={evmChains}
+       testnetChains={evmTestChains} // These will display unde the testnets tab
        theme={myCustomTheme}
        providers={[publicProvider()]}
        options={{
@@ -104,7 +128,7 @@ To use the MultiChain Wallet Connect React components, follow these steps:
    <MultichainWalletProvider>
      <RainbowkitConfig>
        <SolanaWalletAdapterConfig>
-         <MultichainConnectButton/>
+         <MultichainConnectButton />
        </SolanaWalletAdapterConfig>
      </RainbowkitConfig>
    </MultichainWalletProvider>
@@ -133,7 +157,7 @@ sequenceDiagram
     User->>WalletAdapter: Select wallet
     WalletAdapter->>MultiChainConnect: Return connected Wallet
     MultiChainConnect->>MultiChainConnect: Store the connected Wallet
-    MultiChainConnect->>WalletAdapter: Get connect UI for showing the connected wallet 
+    MultiChainConnect->>WalletAdapter: Get connect UI for showing the connected wallet
     WalletAdapter->>UI: Show UI for connected wallet and button for disconnecting wallet
 ```
 
@@ -144,7 +168,11 @@ sequenceDiagram
 ```javascript
 import React from "react";
 import styled from "styled-components";
-import { MultichainConnectedButton, useWallet, useModal } from "@civic/multichain-connect-react";
+import {
+  MultichainConnectedButton,
+  useWallet,
+  useModal,
+} from "@civic/multichain-connect-react";
 
 // Styled component named StyledButton
 const StyledButton = styled.button`
