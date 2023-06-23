@@ -1,10 +1,4 @@
-import React, {
-  ReactElement,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { ReactElement, useContext, useEffect, useMemo } from "react";
 import {
   RainbowKitProvider,
   getDefaultWallets,
