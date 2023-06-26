@@ -1,20 +1,14 @@
 /* eslint-disable require-extensions/require-extensions */
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 import {
   MultichainConnectButton,
   MultichainWalletProvider,
 } from "@civic/multichain-connect-react-core";
 import { clusterApiUrl } from "@solana/web3.js";
-import {
-  SolanaWalletAdapterConfig,
-  Chain as SolanaChain,
-} from "@civic/multichain-connect-react-solana-wallet-adapter";
+import { SolanaWalletAdapterConfig } from "@civic/multichain-connect-react-solana-wallet-adapter";
 import { publicProvider } from "wagmi/providers/public";
-import {
-  RainbowkitConfig,
-  Chain as EthereumChain,
-} from "@civic/multichain-connect-react-rainbowkit-wallet-adapter";
+import { RainbowkitConfig } from "@civic/multichain-connect-react-rainbowkit-wallet-adapter";
 import {
   mainnet,
   goerli,
@@ -23,15 +17,6 @@ import {
   arbitrumGoerli,
   polygonMumbai,
 } from "wagmi/chains";
-
-const clientChains = [
-  polygon,
-  polygonMumbai,
-  mainnet,
-  goerli,
-  arbitrum,
-  arbitrumGoerli,
-];
 
 const solanaMainnetChain = {
   name: "Solana",
