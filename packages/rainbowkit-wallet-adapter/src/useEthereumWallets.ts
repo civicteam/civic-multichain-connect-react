@@ -23,18 +23,20 @@ import { standardEthereumWallet } from "./ethereumStandardWallet.js";
 
 function useNonStandardWallets({
   appName,
+  walletConnectProjectId,
   chains,
 }: {
   appName: string;
+  walletConnectProjectId: string;
   chains: Chain[];
 }): Wallet[] {
   return [
     injectedWallet({ chains }),
     safeWallet({ chains }),
-    rainbowWallet({ chains }),
+    rainbowWallet({ chains, projectId: walletConnectProjectId }),
     coinbaseWallet({ appName, chains }),
-    metaMaskWallet({ chains }),
-    walletConnectWallet({ chains }),
+    metaMaskWallet({ chains, projectId: walletConnectProjectId }),
+    walletConnectWallet({ chains, projectId: walletConnectProjectId }),
     braveWallet({ chains }),
   ];
 }
@@ -74,15 +76,21 @@ function useStandardWallets({
 
 function useEthereumWallets({
   appName,
+  walletConnectProjectId,
   chains,
 }: {
   appName: string;
+  walletConnectProjectId: string;
   chains: Chain[];
 }): {
   connectors: [] | ReturnType<typeof connectorsForWallets>;
   wallets: Wallet[];
 } {
-  const nonStandardWallets = useNonStandardWallets({ appName, chains });
+  const nonStandardWallets = useNonStandardWallets({
+    appName,
+    walletConnectProjectId,
+    chains,
+  });
   const standardWallets = useStandardWallets({ chains });
 
   // Wait for the `standardWallets` to be defined to pass all connectors to `createClient` just once.

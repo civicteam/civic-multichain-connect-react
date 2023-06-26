@@ -18,15 +18,6 @@ import {
   polygonMumbai,
 } from "wagmi/chains";
 
-const clientChains = [
-  polygon,
-  polygonMumbai,
-  mainnet,
-  goerli,
-  arbitrum,
-  arbitrumGoerli,
-];
-
 const solanaMainnetChain = {
   name: "Solana",
   rpcEndpoint: clusterApiUrl("mainnet-beta"),
@@ -36,20 +27,28 @@ const solanaDevnetChain = {
   rpcEndpoint: clusterApiUrl("devnet"),
 };
 
-const defaultSolanaChains = [solanaMainnetChain, solanaDevnetChain];
+const defaultSolanaChains = [solanaMainnetChain];
+const defaultSolanaTestChains = [solanaDevnetChain];
+
+const defaultEvmChains = [polygon, mainnet, arbitrum];
+const defaultEvmTestChains = [polygonMumbai, goerli, arbitrumGoerli];
 
 const Content = () => {
   return (
     <MultichainWalletProvider>
       <RainbowkitConfig
-        chains={clientChains}
+        chains={defaultEvmChains}
+        testnetChains={defaultEvmTestChains}
         providers={[publicProvider()]}
         options={{
           // Rainbowkit relies on WalletConnect which now needs to obtain a projectId from WalletConnect Cloud.
           walletConnectProjectId: "*YOUR WALLET CONNECT PROJECT ID*",
         }}
       >
-        <SolanaWalletAdapterConfig chains={defaultSolanaChains}>
+        <SolanaWalletAdapterConfig
+          chains={defaultSolanaChains}
+          testnetChains={defaultSolanaTestChains}
+        >
           <MultichainConnectButton />
         </SolanaWalletAdapterConfig>
       </RainbowkitConfig>
