@@ -35,6 +35,7 @@ const ListItemButton = styled.button`
   font-size: 18px;
   line-height: 28px;
   padding-top: 6px;
+  padding-left: 7px;
   padding-bottom: 6px;
   cursor: pointer;
   &:hover {
