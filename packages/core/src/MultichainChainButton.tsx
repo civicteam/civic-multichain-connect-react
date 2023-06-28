@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import useModal from "./useModal.js";
-import useWallet from "./useWallet.js";
 import useChain from "./useChain.js";
 import { getIconInfo } from "@civic/civic-chain-icons";
 import { SupportedChains } from "./types.js";
@@ -32,7 +31,6 @@ const StyledButton = styled.button`
 const Icon = styled.img``;
 
 export function MultichainChainButton(): JSX.Element | null {
-  const { connected } = useWallet();
   const { openChainModal } = useModal();
 
   const { selectedChain } = useChain();
@@ -53,7 +51,7 @@ export function MultichainChainButton(): JSX.Element | null {
 
   return (
     <>
-      {connected && (
+      {selectedChain && (
         <StyledButton type="button" onClick={openChainModal}>
           <Icon src={iconUrl} alt={selectedChain?.name} />
         </StyledButton>

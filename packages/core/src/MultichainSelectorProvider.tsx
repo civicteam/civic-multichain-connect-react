@@ -84,7 +84,6 @@ export default function ChainSelectorModalProvider<
 
   const onClose = useCallback(() => {
     setVisible(false);
-    setSelectedChain(undefined);
   }, []);
 
   const onChainSelect = useCallback((chain: Chain<T, S, E>) => {
