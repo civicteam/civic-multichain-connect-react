@@ -10,6 +10,7 @@ import {
   useWallet,
 } from "@civic/multichain-connect-react-core";
 import { clusterApiUrl } from "@solana/web3.js";
+import { Wallet as EthersWallet } from "ethers";
 import {
   Chain as SolanaChain,
   SolanaWalletAdapterConfig,
@@ -31,18 +32,50 @@ import {
 import { useHash } from "./hooks/useHash";
 
 function Content() {
-  const { wallet: solanaWallet, chain: connectedChain } = useWallet<
+  const { connection: solanaConnection } = useSolanaWalletAdapterProvider();
+  const [evmAddress, setEvmAddress] = useState<string | undefined>();
+
+  const { wallet: solanaWallet, chain: connectedSolanaChain } = useWallet<
     SupportedChains.Solana,
     WalletContextState,
     never
   >();
-  const { connection } = useSolanaWalletAdapterProvider();
+  const { wallet: evmWallet, chain: connectedEvmChain } = useWallet<
+    SupportedChains.Ethereum,
+    never,
+    EthersWallet
+  >();
+
+  useEffect(() => {
+    const fetchAddress = async () => {
+      const address = await evmWallet?.getAddress();
+      setEvmAddress(address);
+    };
+
+    if (evmWallet && connectedEvmChain === SupportedChains.Ethereum) {
+      fetchAddress();
+    }
+  }, [evmWallet]);
 
   return (
     <>
       {solanaWallet &&
-        connection &&
-        connectedChain === SupportedChains.Solana && <p>CONNECTED</p>}
+        solanaConnection &&
+        connectedSolanaChain === SupportedChains.Solana && (
+          <div>
+            <p>Connected</p>
+            <span>{solanaWallet?.publicKey?.toBase58()}</span>
+          </div>
+        )}
+
+      {evmWallet &&
+        evmAddress &&
+        connectedEvmChain === SupportedChains.Ethereum && (
+          <div>
+            <p>Connected</p>
+            <span>{evmAddress}</span>
+          </div>
+        )}
     </>
   );
 }
