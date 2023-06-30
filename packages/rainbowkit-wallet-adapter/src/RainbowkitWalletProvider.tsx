@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Wallet } from "ethers";
-import React, { ReactElement, useEffect, useMemo, useState } from "react";
+import React, {
+  ReactElement,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
 import {
   SupportedChains,
@@ -76,3 +82,6 @@ export default function RainbowkitWalletProvider({
     </RainbowkitWalletContext.Provider>
   );
 }
+
+export const useRainbowkitWalletAdapterProvider = () =>
+  useContext(RainbowkitWalletContext);
