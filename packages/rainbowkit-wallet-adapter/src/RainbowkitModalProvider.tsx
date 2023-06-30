@@ -1,5 +1,5 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import React, { ReactElement, useEffect, useMemo } from "react";
+import React, { ReactElement, useEffect, useMemo, useState } from "react";
 import { useAccount } from "wagmi";
 import {
   ModalContextType,
@@ -17,8 +17,15 @@ export default function RainbowkitModalProvider({
 }: {
   children: React.ReactNode;
 }): ReactElement {
+  const [disconnectedAfterConnected, setDisconnectedAfterConnected] =
+    useState(false);
   const { openConnectModal } = useConnectModal();
-  const { isConnected } = useAccount();
+  const account = useAccount({
+    onDisconnect() {
+      // Keep track of whether the user disconnected after connecting
+      setDisconnectedAfterConnected(true);
+    },
+  });
   const { selectedChain } = useChain();
 
   const context = useMemo(
@@ -29,10 +36,18 @@ export default function RainbowkitModalProvider({
   );
 
   useEffect(() => {
-    if (!isConnected && selectedChain?.type === SupportedChains.Ethereum) {
-      openConnectModal?.();
+    if (
+      !account.isConnected &&
+      selectedChain?.type === SupportedChains.Ethereum
+    ) {
+      // Suppress the rainbowkit modal showing once after disconnecting a connected wallet
+      if (!disconnectedAfterConnected) {
+        openConnectModal?.();
+      } else {
+        setDisconnectedAfterConnected(false);
+      }
     }
-  }, [selectedChain, openConnectModal, isConnected]);
+  }, [selectedChain, openConnectModal, account.isConnected]);
 
   return (
     <RainbowkitModalContext.Provider value={context}>
