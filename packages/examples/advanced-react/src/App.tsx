@@ -1,16 +1,13 @@
 /* eslint-disable require-extensions/require-extensions */
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import { WalletContextState } from "@solana/wallet-adapter-react";
 import {
   BaseChain,
   MultichainConnectButton,
   MultichainWalletProvider,
   SupportedChains,
-  useWallet,
 } from "@civic/multichain-connect-react-core";
 import { clusterApiUrl } from "@solana/web3.js";
-import { Wallet as EthersWallet } from "ethers";
 import {
   Chain as SolanaChain,
   SolanaWalletAdapterConfig,
@@ -19,6 +16,7 @@ import {
 import {
   Chain as EthereumChain,
   RainbowkitConfig,
+  useRainbowkitWalletAdapterProvider,
 } from "@civic/multichain-connect-react-rainbowkit-wallet-adapter";
 import { publicProvider } from "wagmi/providers/public";
 import {
@@ -30,53 +28,65 @@ import {
   polygonMumbai,
 } from "wagmi/chains";
 import { useHash } from "./hooks/useHash";
+import styled from "styled-components";
+
+const StyledTableHeader = styled.th`
+  padding: 0 10px;
+`;
+
+const StyledTableData = styled.td`
+  padding: 0 10px;
+`;
 
 function Content() {
-  const { connection: solanaConnection } = useSolanaWalletAdapterProvider();
   const [evmAddress, setEvmAddress] = useState<string | undefined>();
 
-  const { wallet: solanaWallet, chain: connectedSolanaChain } = useWallet<
-    SupportedChains.Solana,
-    WalletContextState,
-    never
-  >();
-  const { wallet: evmWallet, chain: connectedEvmChain } = useWallet<
-    SupportedChains.Ethereum,
-    never,
-    EthersWallet
-  >();
+  const solanaWallet = useSolanaWalletAdapterProvider();
+  const evmWallet = useRainbowkitWalletAdapterProvider();
 
   useEffect(() => {
     const fetchAddress = async () => {
-      const address = await evmWallet?.getAddress();
+      const address = await evmWallet.wallet?.getAddress();
       setEvmAddress(address);
     };
 
-    if (evmWallet && connectedEvmChain === SupportedChains.Ethereum) {
+    if (evmWallet && evmWallet.connected) {
       fetchAddress();
+    } else {
+      setEvmAddress(undefined);
     }
   }, [evmWallet]);
 
   return (
-    <>
-      {solanaWallet &&
-        solanaConnection &&
-        connectedSolanaChain === SupportedChains.Solana && (
-          <div>
-            <p>Connected</p>
-            <span>{solanaWallet?.publicKey?.toBase58()}</span>
-          </div>
-        )}
-
-      {evmWallet &&
-        evmAddress &&
-        connectedEvmChain === SupportedChains.Ethereum && (
-          <div>
-            <p>Connected</p>
-            <span>{evmAddress}</span>
-          </div>
-        )}
-    </>
+    <table style={{ marginTop: "20px" }}>
+      <thead>
+        <tr>
+          <StyledTableHeader>Wallet Type</StyledTableHeader>
+          <StyledTableHeader>Connection Status</StyledTableHeader>
+          <StyledTableHeader>Wallet Address</StyledTableHeader>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <StyledTableData>Solana</StyledTableData>
+          <StyledTableData>
+            {solanaWallet && solanaWallet.connected
+              ? "Connected"
+              : "Not Connected"}
+          </StyledTableData>
+          <StyledTableData>
+            {solanaWallet?.wallet?.publicKey?.toBase58() || "N/A"}
+          </StyledTableData>
+        </tr>
+        <tr>
+          <StyledTableData>EVM</StyledTableData>
+          <StyledTableData>
+            {evmWallet && evmWallet.connected ? "Connected" : "Not Connected"}
+          </StyledTableData>
+          <StyledTableData>{evmAddress || "N/A"}</StyledTableData>
+        </tr>
+      </tbody>
+    </table>
   );
 }
 
