@@ -13,6 +13,7 @@ import {
   configureChains,
   ChainProviderFn,
 } from "wagmi";
+import { goerli } from "wagmi/chains";
 import { EIP1193Wallet } from "./eip113Wallet.js";
 import "@rainbow-me/rainbowkit/styles.css";
 import ModalContextProvider, {
@@ -94,8 +95,15 @@ function RainbowkitConfig({
       },
     ]);
 
+    // If no EVM chains are provided we won't show any, but wagmi still needs at least one for its config
+    // So we add goerli as a default to appease wagmi
+    const updatedChains =
+      !combinedChains || combinedChains?.length === 0
+        ? [goerli]
+        : combinedChains;
+
     const { provider } = configureChains(
-      combinedChains,
+      updatedChains,
       providers && providers?.length > 0 ? providers : [publicProvider()]
     );
 
@@ -107,7 +115,7 @@ function RainbowkitConfig({
     });
     // There is an issue when recreating the client on every render
     // Check this when updating to the latest version of Rainbowkit
-  }, []);
+  }, [chains, testnetChains]);
 
   useEffect(() => {
     // Requiring at least one wallet to be registered in the Standard compatible way

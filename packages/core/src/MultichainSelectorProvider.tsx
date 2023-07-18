@@ -30,8 +30,8 @@ export default function ChainSelectorModalProvider<
   const [chains, setChains] = useState<Chain<T, S, E>[]>([]);
 
   const openChainModal = useCallback(() => {
-    // If initialChain is set for Solana, we want to select that chain and hide the chain selector dialog
-    if (initialChain && initialChain.type === SupportedChains.Solana) {
+    // If initialChain is set, we want to select that chain and hide the chain selector dialog
+    if (initialChain) {
       const chain: Chain<SupportedChains.Solana, BaseChain, never> = {
         ...initialChain,
       };
@@ -39,12 +39,23 @@ export default function ChainSelectorModalProvider<
       return;
     }
 
-    const groupedChains = chains.length ? groupBy((c) => c.type, chains) : {};
+    // Group the chains by chain type
+    const groupedChains: Record<string, Array<any>> = chains.length
+      ? groupBy((c) => c.type, chains)
+      : {};
+
+    // If there is only one chain type and only one chain of that type, we can set it as the selected chain
     if (Object.keys(groupedChains).length === 1) {
-      // The user might have canceled out of the chain selector modal
-      // without selecting a chain so we need to check for that
-      setSelectedChain(selectedChain ? { ...selectedChain } : { ...chains[0] });
-      return;
+      // If there's only one key, check the length of its array
+      const key = Object.keys(groupedChains)[0];
+      if (groupedChains[key].length === 1) {
+        // The user might have canceled out of the chain selector modal
+        // without selecting a chain so we need to check for that
+        setSelectedChain(
+          selectedChain ? { ...selectedChain } : { ...chains[0] }
+        );
+        return;
+      }
     }
 
     setVisible(true);
