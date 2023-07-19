@@ -3,8 +3,8 @@ import styled from "styled-components";
 import useModal from "./useModal.js";
 import { LabelEntry } from "./types.js";
 import { useLabel } from "./MultichainLabelProvider.js";
-import useWallet from "./useWallet.js";
 import { MultichainConnectedButton } from "./MultichainConnectedButton.js";
+import useChain from "./useChain.js";
 
 // Styled component named StyledButton
 const StyledButton = styled.button`
@@ -23,13 +23,13 @@ const StyledButton = styled.button`
 `;
 
 export function MultichainConnectButton(): JSX.Element | null {
-  const { connected } = useWallet();
   const { openChainModal } = useModal();
+  const { selectedChain } = useChain();
 
   const { labels } = useLabel();
   return (
     <>
-      {!connected && (
+      {!selectedChain && (
         <StyledButton type="button" onClick={openChainModal}>
           {labels[LabelEntry.CONNECT]}
         </StyledButton>

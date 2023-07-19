@@ -45,7 +45,12 @@ export function RainbowkitButton(): JSX.Element {
                 );
               }
 
-              return <DefaultConnectButton showBalance={false} />;
+              return (
+                <DefaultConnectButton
+                  showBalance={false}
+                  chainStatus={"none"}
+                />
+              );
             })()}
           </div>
         );
