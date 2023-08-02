@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { ReactElement, useContext, useEffect, useMemo } from "react";
+import React, { ReactElement, useEffect, useMemo } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import {
   BaseChain,
@@ -15,6 +15,7 @@ export const SolanaProviderContext = {} as WalletContextType<
   any,
   never
 > & { connection: Connection | undefined };
+
 export const SolanaWalletAdapterContext = React.createContext<
   WalletContextType<any, any, never> & { connection: Connection | undefined }
 >(SolanaProviderContext);
@@ -27,7 +28,7 @@ export default function SolanaWalletAdapterProvider({
 }): ReactElement {
   const adapter = useWallet();
   const { wallet, connected, disconnect, publicKey } = adapter;
-  const { setSelectedChain, selectedChain, chains, initialChain } = useChain<
+  const { setSelectedChain, selectedChain, chains } = useChain<
     SupportedChains.Solana,
     Chain & BaseChain,
     never
@@ -37,7 +38,7 @@ export default function SolanaWalletAdapterProvider({
     return selectedChain?.rpcEndpoint
       ? new Connection(selectedChain?.rpcEndpoint)
       : undefined;
-  }, [selectedChain?.rpcEndpoint, initialChain]);
+  }, [selectedChain?.rpcEndpoint]);
 
   const context = useMemo(
     () => ({
@@ -60,23 +61,10 @@ export default function SolanaWalletAdapterProvider({
       const chain = chains
         .filter((c) => c.type === SupportedChains.Solana)
         .filter((c) => c.rpcEndpoint === connection?.rpcEndpoint);
+
       if (selectedChain?.name !== chain[0]?.name) {
         setSelectedChain(chain[0]);
         return;
-      }
-      // If we're refreshing while a wallet was connected
-      if (!selectedChain && wallet?.adapter.publicKey && connected) {
-        // If an initialChain was set then selectedChain will be lost, so reinstate it
-        if (initialChain) {
-          const chain = chains
-            .filter((c) => c.type === SupportedChains.Solana)
-            .filter((c) => c.name === initialChain.name);
-          setSelectedChain(chain[0]);
-        }
-        // Else we disconnect the wallet
-        else {
-          disconnect();
-        }
       }
     }
   }, [
@@ -94,6 +82,3 @@ export default function SolanaWalletAdapterProvider({
     </SolanaWalletAdapterContext.Provider>
   );
 }
-
-export const useSolanaWalletAdapterProvider = () =>
-  useContext(SolanaWalletAdapterContext);

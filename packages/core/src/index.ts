@@ -29,4 +29,4 @@ export {
   SupportedChains,
 };
 
-export type { Chain, WalletContextType, ModalContextType, BaseChain };
+export type { Chain, BaseChain, WalletContextType, ModalContextType };
