@@ -106,6 +106,7 @@ function App() {
       return chain.name.toLowerCase() === name;
     };
 
+  // If the url contains a hash, filter the chains to only show the selected chain for evm
   useEffect(() => {
     if (!hash) return;
 
@@ -131,7 +132,6 @@ function App() {
     );
   }, [hash]);
 
-  // If the url contains a hash, filter the chains to only show the selected chain for evm
   useEffect(() => {
     if (hash) return;
 
@@ -155,7 +155,7 @@ function App() {
             providers={[publicProvider()]}
             options={{
               // Rainbowkit relies on WalletConnect which now needs to obtain a projectId from WalletConnect Cloud.
-              walletConnectProjectId: "1234",
+              walletConnectProjectId: "*YOUR WALLET CONNECT PROJECT ID*",
             }}
             initialChain={initialChain}
           >
