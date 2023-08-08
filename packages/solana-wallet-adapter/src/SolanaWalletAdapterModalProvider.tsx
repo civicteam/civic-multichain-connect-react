@@ -18,15 +18,11 @@ export default function SolanaWalletAdapterModalProvider({
 }): ReactElement {
   const { wallet } = useWallet();
   const { setVisible } = useWalletModal();
-  const { selectedChain, initialChain } = useChain();
+  const { selectedChain } = useChain();
 
   const openConnectModal = useCallback(() => {
-    // Don't show modal if initial chain is set to a solana one
-    if (initialChain?.type === SupportedChains.Solana) {
-      return;
-    }
     setVisible(true);
-  }, [setVisible, initialChain]);
+  }, [setVisible]);
 
   useEffect(() => {
     if (!wallet?.adapter.publicKey) {

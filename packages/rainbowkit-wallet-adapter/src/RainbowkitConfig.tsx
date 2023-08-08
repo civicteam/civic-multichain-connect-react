@@ -60,20 +60,24 @@ function RainbowkitConfig({
   testnetChains,
   providers,
   options,
+  initialChain,
 }: {
   children?: React.ReactNode;
   theme?: Theme | null;
   providers?: ChainProviderFn[];
+  initialChain?: Chain;
   chains: Chain[];
   testnetChains?: Chain[];
   options: RainbowkitConfigOptions;
 }): JSX.Element | null {
   const { labels } = useLabel();
-  const { setChains, selectedChain, initialChain } = useChain<
+
+  const { setChains, selectedChain } = useChain<
     SupportedChains.Ethereum,
     never,
     Chain & BaseChain
   >();
+
   const [evmInitialChain, setEvmInitialChain] = React.useState<
     Chain | undefined
   >(undefined);

@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -144,6 +144,9 @@ importers:
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
+      ethers:
+        specifier: ^5.7.2
+        version: 5.7.2
       process:
         specifier: ^0.11.10
         version: 0.11.10
