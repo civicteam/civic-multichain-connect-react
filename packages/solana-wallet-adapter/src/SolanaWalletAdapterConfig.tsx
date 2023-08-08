@@ -13,6 +13,7 @@ import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
   TorusWalletAdapter,
+  WalletConnectWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import SolanaWalletAdapterModalProvider, {
   SolanaWalletAdapterModalContext,
@@ -28,7 +29,12 @@ import {
 } from "@civic/multichain-connect-react-core";
 import { SolanaWalletAdapterButton } from "./SolanaWalletAdapterButton.js";
 import "@solana/wallet-adapter-react-ui/styles.css";
-import { Chain, DEFAULT_ENDPOINT } from "./types.js";
+import {
+  Chain,
+  DEFAULT_ENDPOINT,
+  SolanaConfigOptions,
+  WalletAdapterNetwork,
+} from "./types.js";
 
 function SolanaWalletAdapterPluginProvider<T>({
   children,
@@ -59,10 +65,12 @@ function SolanaWalletAdapterConfig({
   children,
   chains,
   testnetChains,
+  options,
 }: {
   children?: React.ReactNode;
   chains: Chain[];
   testnetChains?: Chain[];
+  options: SolanaConfigOptions;
 }): JSX.Element | null {
   // For now support only a single chain
   const { setChains, selectedChain } = useChain<
@@ -78,6 +86,12 @@ function SolanaWalletAdapterConfig({
     return selectedChain?.rpcEndpoint;
   }, [chains, selectedChain]);
 
+  const network = useMemo(() => {
+    return endpoint.includes("mainnet")
+      ? WalletAdapterNetwork.Mainnet
+      : WalletAdapterNetwork.Devnet;
+  }, [endpoint]);
+
   const wallets = useMemo(
     () => [
       new PhantomWalletAdapter(),
@@ -87,6 +101,10 @@ function SolanaWalletAdapterConfig({
       new BackpackWalletAdapter(),
       new GlowWalletAdapter(),
       new ExodusWalletAdapter(),
+      new WalletConnectWalletAdapter({
+        options: { projectId: options.walletConnectProjectId },
+        network,
+      }),
       new TorusWalletAdapter(),
     ],
     []
