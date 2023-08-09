@@ -2,10 +2,8 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import {
-  BaseChain,
   MultichainConnectButton,
   MultichainWalletProvider,
-  SupportedChains,
 } from "@civic/multichain-connect-react-core";
 import { clusterApiUrl } from "@solana/web3.js";
 import {
@@ -154,14 +152,16 @@ function App() {
             testnetChains={evmChains.testChains}
             providers={[publicProvider()]}
             options={{
-              // Rainbowkit relies on WalletConnect which now needs to obtain a projectId from WalletConnect Cloud.
-              walletConnectProjectId: "*YOUR WALLET CONNECT PROJECT ID*",
+              walletConnectProjectId: `${process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID}}`,
             }}
             initialChain={initialChain}
           >
             <SolanaWalletAdapterConfig
               chains={solanaChains.chains}
               testnetChains={solanaChains.testChains}
+              options={{
+                walletConnectProjectId: `${process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID}}`,
+              }}
             >
               <MultichainConnectButton />
               <Content />
