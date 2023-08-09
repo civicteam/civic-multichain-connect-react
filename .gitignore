@@ -132,3 +132,5 @@ lib
 
 scratch/
 .npmrc
+
+*.pem
