@@ -2,10 +2,8 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import {
-  BaseChain,
   MultichainConnectButton,
   MultichainWalletProvider,
-  SupportedChains,
 } from "@civic/multichain-connect-react-core";
 import { clusterApiUrl } from "@solana/web3.js";
 import {
