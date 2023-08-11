@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { ReactElement, useEffect, useMemo } from "react";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import React, { ReactElement, useContext, useEffect, useMemo } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
+
 import {
   BaseChain,
   SupportedChains,
@@ -34,7 +35,14 @@ export default function SolanaWalletAdapterProvider({
     never
   >();
 
-  const { connection } = useConnection();
+  const connection = useMemo(() => {
+    return selectedChain?.rpcEndpoint
+      ? new Connection(
+          selectedChain?.rpcEndpoint,
+          selectedChain?.commitmentOrConfig
+        )
+      : undefined;
+  }, [selectedChain?.rpcEndpoint, selectedChain?.commitmentOrConfig]);
 
   const context = useMemo(
     () => ({
@@ -78,3 +86,6 @@ export default function SolanaWalletAdapterProvider({
     </SolanaWalletAdapterContext.Provider>
   );
 }
+
+export const useSolanaWalletAdapterProvider = () =>
+  useContext(SolanaWalletAdapterContext);
