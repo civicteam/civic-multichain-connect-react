@@ -45,6 +45,7 @@ const ListItemButton = styled.button`
 
 const Icon = styled.img`
   margin-right: 10px;
+  max-width: 30px;
 `;
 
 const ListLabelNoIcon = styled.span`
