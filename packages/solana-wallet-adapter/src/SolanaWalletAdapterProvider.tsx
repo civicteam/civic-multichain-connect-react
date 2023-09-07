@@ -6,6 +6,7 @@ import {
   SupportedChains,
   WalletContextType,
   useChain,
+  useLocalStorage,
 } from "@civic/multichain-connect-react-core";
 import { Chain } from "./types.js";
 import { Connection } from "@solana/web3.js";
@@ -20,6 +21,8 @@ export const SolanaWalletAdapterContext = React.createContext<
   WalletContextType<any, any, never> & { connection: Connection | undefined }
 >(SolanaProviderContext);
 
+const LOCAL_STORAGE_KEY = "multichain-solana-wallet-adapter";
+
 // Create the context provider component
 export default function SolanaWalletAdapterProvider({
   children,
@@ -27,8 +30,9 @@ export default function SolanaWalletAdapterProvider({
   children: React.ReactNode;
 }): ReactElement {
   const adapter = useWallet();
-  const { wallet, connected, disconnect, publicKey } = adapter;
-  const { setSelectedChain, selectedChain, chains } = useChain<
+  const { wallet, connected, disconnect, publicKey, disconnecting } = adapter;
+  const { get, set, clear } = useLocalStorage<Chain & BaseChain>();
+  const { setSelectedChain, selectedChain } = useChain<
     SupportedChains.Solana,
     Chain & BaseChain,
     never
@@ -53,24 +57,28 @@ export default function SolanaWalletAdapterProvider({
   );
 
   useEffect(() => {
-    if (wallet?.adapter.publicKey) {
-      const chain = chains
-        .filter((c) => c.type === SupportedChains.Solana)
-        .filter((c) => c.rpcEndpoint === connection?.rpcEndpoint);
-
-      if (selectedChain?.name !== chain[0]?.name) {
-        setSelectedChain(chain[0]);
-        return;
-      }
+    const storedChain = get(LOCAL_STORAGE_KEY);
+    if (connected && storedChain) {
+      setSelectedChain(storedChain);
     }
-  }, [
-    chains,
-    connection?.rpcEndpoint,
-    setSelectedChain,
-    wallet?.adapter.publicKey?.toBase58(),
-    connected,
-    publicKey?.toBase58(),
-  ]);
+  }, [connected]);
+
+  useEffect(() => {
+    const storedChain = get(LOCAL_STORAGE_KEY);
+    if (
+      selectedChain &&
+      selectedChain.type === SupportedChains.Solana &&
+      !storedChain
+    ) {
+      set(LOCAL_STORAGE_KEY, selectedChain);
+    }
+  }, [selectedChain]);
+
+  useEffect(() => {
+    if (disconnecting) {
+      clear(LOCAL_STORAGE_KEY);
+    }
+  }, [disconnecting]);
 
   return (
     <SolanaWalletAdapterContext.Provider value={context}>

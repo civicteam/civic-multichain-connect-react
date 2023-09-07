@@ -76,6 +76,12 @@ export interface LabelContextType {
   labels: Labels;
 }
 
+export interface StorageContextType<T> {
+  get: (key: string) => T | undefined;
+  set: (key: string, item: T) => void;
+  clear: (key: string) => void;
+}
+
 export type WalletAdpaterPlugin<T extends SupportedChains, S, E> = {
   context: WalletContextType<T, S, E> & ModalContextType;
   button: ReactElement;
