@@ -288,7 +288,7 @@ importers:
   packages/rainbowkit-wallet-adapter:
     dependencies:
       '@civic/multichain-connect-react-core':
-        specifier: workspace:^
+        specifier: 0.0.8-beta.0
         version: link:../core
       '@rainbow-me/rainbowkit':
         specifier: 0.12.15
@@ -327,7 +327,7 @@ importers:
   packages/solana-wallet-adapter:
     dependencies:
       '@civic/multichain-connect-react-core':
-        specifier: workspace:^
+        specifier: 0.0.8-beta.0
         version: link:../core
       '@solana/wallet-adapter-react':
         specifier: ^0.15.32
