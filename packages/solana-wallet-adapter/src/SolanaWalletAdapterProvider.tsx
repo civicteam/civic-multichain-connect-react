@@ -6,6 +6,7 @@ import {
   SupportedChains,
   WalletContextType,
   useChain,
+  useLocalStorage,
 } from "@civic/multichain-connect-react-core";
 import { Chain } from "./types.js";
 import { Connection } from "@solana/web3.js";
@@ -20,6 +21,8 @@ export const SolanaWalletAdapterContext = React.createContext<
   WalletContextType<any, any, never> & { connection: Connection | undefined }
 >(SolanaProviderContext);
 
+const LOCAL_STORAGE_KEY = "multichain-solana-wallet-adapter";
+
 // Create the context provider component
 export default function SolanaWalletAdapterProvider({
   children,
@@ -28,6 +31,7 @@ export default function SolanaWalletAdapterProvider({
 }): ReactElement {
   const adapter = useWallet();
   const { wallet, connected, disconnect, publicKey } = adapter;
+  const { get, set } = useLocalStorage<Chain & BaseChain>();
   const { setSelectedChain, selectedChain, chains } = useChain<
     SupportedChains.Solana,
     Chain & BaseChain,
@@ -53,24 +57,18 @@ export default function SolanaWalletAdapterProvider({
   );
 
   useEffect(() => {
-    if (wallet?.adapter.publicKey) {
-      const chain = chains
-        .filter((c) => c.type === SupportedChains.Solana)
-        .filter((c) => c.rpcEndpoint === connection?.rpcEndpoint);
-
-      if (selectedChain?.name !== chain[0]?.name) {
-        setSelectedChain(chain[0]);
-        return;
-      }
+    const storedChain = get(LOCAL_STORAGE_KEY);
+    if (connected && storedChain) {
+      setSelectedChain(storedChain);
     }
-  }, [
-    chains,
-    connection?.rpcEndpoint,
-    setSelectedChain,
-    wallet?.adapter.publicKey?.toBase58(),
-    connected,
-    publicKey?.toBase58(),
-  ]);
+  }, [get, connected]);
+
+  useEffect(() => {
+    const storedChain = get(LOCAL_STORAGE_KEY);
+    if (selectedChain && !storedChain) {
+      set(LOCAL_STORAGE_KEY, selectedChain);
+    }
+  }, [selectedChain, set, get]);
 
   return (
     <SolanaWalletAdapterContext.Provider value={context}>

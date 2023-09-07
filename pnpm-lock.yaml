@@ -90,11 +90,11 @@ importers:
   packages/core:
     dependencies:
       '@civic/civic-chain-icons':
-        specifier: 0.0.6
-        version: 0.0.6(aws-sdk@2.1390.0)
+        specifier: 0.0.7
+        version: 0.0.7(aws-sdk@2.1390.0)
       '@civic/civic-eth-provider':
-        specifier: 0.0.8
-        version: 0.0.8(aws-sdk@2.1390.0)
+        specifier: 0.0.12
+        version: 0.0.12(aws-sdk@2.1390.0)
       '@wallet-standard/react-core':
         specifier: ^0.1.4
         version: 0.1.4(react-dom@18.1.0)(react@18.1.0)
@@ -702,6 +702,7 @@ packages:
   /@babel/plugin-proposal-async-generator-functions@7.20.7(@babel/core@7.22.1):
     resolution: {integrity: sha512-xMbiLsn/8RK7Wq7VeVytytS2L6qE69bXPB10YCmMdDZbKF4okCqY74pI/jJQ/8U0b/F6NrT2+14b8/P9/3AMGA==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-async-generator-functions instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -789,6 +790,7 @@ packages:
   /@babel/plugin-proposal-optional-catch-binding@7.18.6(@babel/core@7.22.1):
     resolution: {integrity: sha512-Q40HEhs9DJQyaZfUjjn6vE8Cv4GmMHCYuMGIWUnlxH6400VGxOuwWsPt4FxXxJkC/5eOzgn0z21M9gMT4MOhbw==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-catch-binding instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1920,12 +1922,12 @@ packages:
       '@chainsafe/persistent-merkle-tree': 0.6.1
     dev: false
 
-  /@civic/civic-chain-icons@0.0.6(aws-sdk@2.1390.0):
-    resolution: {integrity: sha512-a6PLmKKnp99VyvH7iGwHZdV3nUvycpA0fG0Faw6kP2thERohdYYbi1LfvUrrcgLTc2Gz6g4YQ18tUqG/kF0c0g==}
+  /@civic/civic-chain-icons@0.0.7(aws-sdk@2.1390.0):
+    resolution: {integrity: sha512-domCyl1mFUtt+gG8+meiKs3gTVtsT50MM26/P+btWRTfV8Xi6DT5EsKQoXCCevm7Mp+9aWl5K3L5K/IDa7j4HA==}
     peerDependencies:
       aws-sdk: ^2.1300.0
     dependencies:
-      '@civic/civic-eth-provider': 0.0.8(aws-sdk@2.1390.0)
+      '@civic/civic-eth-provider': 0.0.11(aws-sdk@2.1390.0)
       aws-sdk: 2.1390.0
       ramda: 0.28.0
       tslib: 2.5.2
@@ -1934,8 +1936,24 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@civic/civic-eth-provider@0.0.8(aws-sdk@2.1390.0):
-    resolution: {integrity: sha512-CwN8hn+0IqchUTLM5TCh8y7w9bBSH9GUMv+OI8FBO49qiW5IGhMYKQDkEwo+kaJhC1t7lkUzk1uMzUnY3RXjyg==}
+  /@civic/civic-eth-provider@0.0.11(aws-sdk@2.1390.0):
+    resolution: {integrity: sha512-zGbMeCsQChBSyaEJOFLSRnJoodw6uDigJvpeev1JTujRjup8MdjagCFkXCfa3ZPOqck/y4CrFrXDX9kygocbZQ==}
+    peerDependencies:
+      aws-sdk: ^2.1300.0
+    dependencies:
+      '@ethersproject/abstract-provider': 5.7.0
+      '@ethersproject/networks': 5.7.1
+      '@ethersproject/providers': 5.7.2
+      aws-sdk: 2.1390.0
+      ramda: 0.28.0
+      tslib: 2.5.2
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: false
+
+  /@civic/civic-eth-provider@0.0.12(aws-sdk@2.1390.0):
+    resolution: {integrity: sha512-dtdLIzgsBATLfpEyw3urGZGMZ2pR/kzobcE/jvilSSTPDZV8xUCN2JlpfKlpKkXZrDYc53a2DF4H835QZ1gyHg==}
     peerDependencies:
       aws-sdk: ^2.1300.0
     dependencies:

@@ -7,6 +7,7 @@ import LabelProvider from "./MultichainLabelProvider.js";
 import MultichainWalletAdapterPluginProvider from "./MultichainWalletAdapterPluginProvider.js";
 import MultichainWalletDisconnectProvider from "./MultichainWalletDisconnectProvider.js";
 import { Labels } from "./types.js";
+import { LocalStorageProvider } from "./MultichainStorageProvider.js";
 
 export default function MultichainWalletProvider({
   children,
@@ -17,15 +18,17 @@ export default function MultichainWalletProvider({
 }): ReactElement {
   return (
     <LabelProvider labels={labels}>
-      <WalletStandardProvider>
-        <ChainSelectorModalProvider>
-          <MultichainWalletAdapterPluginProvider>
-            <MultichainWalletDisconnectProvider>
-              {children}
-            </MultichainWalletDisconnectProvider>
-          </MultichainWalletAdapterPluginProvider>
-        </ChainSelectorModalProvider>
-      </WalletStandardProvider>
+      <LocalStorageProvider>
+        <WalletStandardProvider>
+          <ChainSelectorModalProvider>
+            <MultichainWalletAdapterPluginProvider>
+              <MultichainWalletDisconnectProvider>
+                {children}
+              </MultichainWalletDisconnectProvider>
+            </MultichainWalletAdapterPluginProvider>
+          </ChainSelectorModalProvider>
+        </WalletStandardProvider>
+      </LocalStorageProvider>
     </LabelProvider>
   );
 }
