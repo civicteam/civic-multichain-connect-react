@@ -65,7 +65,11 @@ export default function SolanaWalletAdapterProvider({
 
   useEffect(() => {
     const storedChain = get(LOCAL_STORAGE_KEY);
-    if (selectedChain && !storedChain) {
+    if (
+      selectedChain &&
+      selectedChain.type === SupportedChains.Solana &&
+      !storedChain
+    ) {
       set(LOCAL_STORAGE_KEY, selectedChain);
     }
   }, [selectedChain]);
