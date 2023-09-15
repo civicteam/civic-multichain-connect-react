@@ -87,6 +87,8 @@ function SolanaWalletAdapterConfig({
       : WalletAdapterNetwork.Devnet;
   }, [endpoint]);
 
+  // We manually add wallets that do not support the wallet standard
+  // Wallets like Phantom, Metamask and Backpack all get injected by conforming to the standard
   const wallets = useMemo(
     () => [
       new SolflareWalletAdapter(),

@@ -1,6 +1,6 @@
 {
   "name": "@civic/multichain-connect-react-rainbowkit-wallet-adapter",
-  "version": "0.1.1-alpha.0",
+  "version": "0.1.1",
   "description": "A multichain wallet connect library",
   "repository": "git@github.com:civicteam/civic-multichain-connect-react.git",
   "author": "civic.com",
@@ -23,26 +23,26 @@
     "types": "./lib/types/index.d.ts"
   },
   "scripts": {
-    "build": "tsc --build --verbose && cp ../../LICENSE ./ && cp ../../README.md ./",
+    "build": "tsc --build --verbose && cp ../../LICENSE ./ && cp ../../README.md ./ && changelog generate",
     "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint"
   },
   "engines": {
     "node": ">=16"
   },
   "peerDependencies": {
+    "@civic/multichain-connect-react-core": "workspace:^",
     "react": "^18.0.2",
-    "react-dom": "^18.0.2",
-    "@civic/multichain-connect-react-core": "workspace:^"
+    "react-dom": "^18.0.2"
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "0.12.15",
     "@wagmi/chains": "^1.1.0",
     "@wagmi/connectors": "0.3.22",
-    "wagmi": "0.12.17",
     "@wallet-standard/app": "^1.0.1",
     "@wallet-standard/base": "^1.0.1",
     "@wallet-standard/wallet": "^1.0.1",
     "ethers": "^5.7.2",
-    "styled-components": "^6.0.0-rc.3"
+    "styled-components": "^6.0.0-rc.3",
+    "wagmi": "0.12.17"
   }
 }
