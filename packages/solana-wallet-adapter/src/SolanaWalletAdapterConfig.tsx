@@ -5,12 +5,7 @@ import {
 } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import {
-  BackpackWalletAdapter,
-  BraveWalletAdapter,
-  ExodusWalletAdapter,
-  GlowWalletAdapter,
   LedgerWalletAdapter,
-  PhantomWalletAdapter,
   SolflareWalletAdapter,
   TorusWalletAdapter,
   WalletConnectWalletAdapter,
@@ -92,15 +87,12 @@ function SolanaWalletAdapterConfig({
       : WalletAdapterNetwork.Devnet;
   }, [endpoint]);
 
+  // We manually add wallets that do not support the wallet standard
+  // Wallets like Phantom, Metamask and Backpack all get injected by conforming to the standard
   const wallets = useMemo(
     () => [
-      new PhantomWalletAdapter(),
-      new BraveWalletAdapter(),
       new SolflareWalletAdapter(),
       new LedgerWalletAdapter(),
-      new BackpackWalletAdapter(),
-      new GlowWalletAdapter(),
-      new ExodusWalletAdapter(),
       new WalletConnectWalletAdapter({
         options: { projectId: options.walletConnectProjectId },
         network,
