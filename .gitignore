@@ -132,3 +132,6 @@ lib
 
 scratch/
 .npmrc
+
+/packages/*/README.md
+/packages/*/LICENSE
