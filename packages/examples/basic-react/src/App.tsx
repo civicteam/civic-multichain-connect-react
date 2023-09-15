@@ -42,12 +42,16 @@ const Content = () => {
         providers={[publicProvider()]}
         options={{
           // Rainbowkit relies on WalletConnect which now needs to obtain a projectId from WalletConnect Cloud.
-          walletConnectProjectId: "*YOUR WALLET CONNECT PROJECT ID*",
+          // Put this in your .env file as REACT_APP_WALLET_CONNECT_PROJECT_ID=...
+          walletConnectProjectId: `${process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID}`,
         }}
       >
         <SolanaWalletAdapterConfig
           chains={defaultSolanaChains}
           testnetChains={defaultSolanaTestChains}
+          options={{
+            walletConnectProjectId: `${process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID}`,
+          }}
         >
           <MultichainConnectButton />
         </SolanaWalletAdapterConfig>

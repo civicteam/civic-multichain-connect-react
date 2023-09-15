@@ -142,7 +142,7 @@ function App() {
       testChains: defaultSolanaTestChains,
     });
   }, [hash]);
-
+  console.log(">>>", process.env);
   return (
     <div className="App">
       <header className="App-header">
@@ -153,13 +153,17 @@ function App() {
             providers={[publicProvider()]}
             options={{
               // Rainbowkit relies on WalletConnect which now needs to obtain a projectId from WalletConnect Cloud.
-              walletConnectProjectId: "*YOUR WALLET CONNECT PROJECT ID*",
+              // Put this in your .env file as REACT_APP_WALLET_CONNECT_PROJECT_ID=...
+              walletConnectProjectId: `${process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID}`,
             }}
             initialChain={initialChain}
           >
             <SolanaWalletAdapterConfig
               chains={solanaChains.chains}
               testnetChains={solanaChains.testChains}
+              options={{
+                walletConnectProjectId: `${process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID}`,
+              }}
             >
               <MultichainConnectButton />
               <Content />
