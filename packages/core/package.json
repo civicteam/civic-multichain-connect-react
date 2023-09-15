@@ -23,7 +23,7 @@
     "types": "./lib/types/index.d.ts"
   },
   "scripts": {
-    "build": "tsc --build --verbose && cp ../../LICENSE ./ && cp ../../README.md ./",
+    "build": "tsc --build --verbose && cp ../../LICENSE ./ && cp ../../README.md ./ && changelog generate",
     "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint"
   },
   "engines": {
