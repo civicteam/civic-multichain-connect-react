@@ -14,7 +14,7 @@
     "reinstall": "pnpm run nuke && pnpm install",
     "clean": "pnpm --recursive --workspace-concurrency=0 run clean && shx rm -rf **/*.tsbuildinfo",
     "build:all": "pnpm --recursive --workspace-concurrency=0 run build",
-    "build:clean": "pnpm run clean && pnpm run build"
+    "build:clean": "pnpm run clean && pnpm run build:all"
   },
   "engines": {
     "node": ">=16",

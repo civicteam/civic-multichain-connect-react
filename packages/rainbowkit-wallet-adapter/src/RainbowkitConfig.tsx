@@ -33,6 +33,7 @@ import {
 import { publicProvider } from "wagmi/providers/public";
 import { RainbowkitButton } from "./RainbowkitButton.js";
 import { Chain, RainbowkitConfigOptions } from "./types.js";
+import RainbowkitOptionsProvider from "./RainbowitOptionsProvider.js";
 
 function RainbowkitPluginProvider({
   children,
@@ -151,18 +152,20 @@ function RainbowkitConfig({
 
   return (
     <WagmiConfig client={client}>
-      <RainbowKitProvider
-        chains={[...chains, ...(testnetChains || [])]}
-        // if initialChain is not provided, use the selectedChain from the ChainContext
-        initialChain={evmInitialChain ?? selectedChain}
-        theme={theme}
-      >
-        <WalletContextProvider initialChain={evmInitialChain}>
-          <ModalContextProvider>
-            <RainbowkitPluginProvider>{children}</RainbowkitPluginProvider>
-          </ModalContextProvider>
-        </WalletContextProvider>
-      </RainbowKitProvider>
+      <RainbowkitOptionsProvider options={options}>
+        <RainbowKitProvider
+          chains={[...chains, ...(testnetChains || [])]}
+          // if initialChain is not provided, use the selectedChain from the ChainContext
+          initialChain={evmInitialChain ?? selectedChain}
+          theme={theme}
+        >
+          <WalletContextProvider initialChain={evmInitialChain}>
+            <ModalContextProvider>
+              <RainbowkitPluginProvider>{children}</RainbowkitPluginProvider>
+            </ModalContextProvider>
+          </WalletContextProvider>
+        </RainbowKitProvider>
+      </RainbowkitOptionsProvider>
     </WagmiConfig>
   );
 }
