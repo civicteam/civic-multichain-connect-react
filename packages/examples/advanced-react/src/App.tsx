@@ -68,8 +68,8 @@ function Content() {
 }
 
 function App() {
-  const defaultEvmChains = [polygon, mainnet, arbitrum];
-  const defaultEvmTestChains = [polygonMumbai, goerli, arbitrumGoerli];
+  const defaultEvmChains: EthereumChain[] = [polygon, mainnet, arbitrum];
+  const defaultEvmTestChains: EthereumChain[] = [];
 
   const solanaMainnetChain = {
     name: "Solana",
@@ -80,8 +80,8 @@ function App() {
     rpcEndpoint: clusterApiUrl("devnet"),
   };
 
-  const defaultSolanaChains = [solanaMainnetChain];
-  const defaultSolanaTestChains = [solanaDevnetChain];
+  const defaultSolanaChains: SolanaChain[] = [solanaMainnetChain];
+  const defaultSolanaTestChains: SolanaChain[] = [solanaDevnetChain];
 
   const { hash } = useHash();
 

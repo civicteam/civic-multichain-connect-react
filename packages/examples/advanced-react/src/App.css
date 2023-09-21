@@ -17,3 +17,10 @@
 *::after {
   box-sizing: border-box;
 }
+/** stop annoying overlay when changing networks */
+#webpack-dev-server-client-overlay-div {
+  display: none !important;
+}
+#webpack-dev-server-client-overlay {
+  display: none !important;
+}

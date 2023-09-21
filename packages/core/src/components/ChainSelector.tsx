@@ -9,7 +9,7 @@ import {
 } from "@civic/civic-chain-icons";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import BaseDialog from "./BaseDialog.js";
 import { BaseChain, Chain, LabelEntry, SupportedChains } from "../types.js";
@@ -180,53 +180,67 @@ export function ChainSelectorContent<
 >({ chains, onChainSelect }: ChainSelectorProps<T, S, E>): JSX.Element | null {
   const { labels } = useLabel();
 
-  const [hasTestnetChains, setHasTestnetChains] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (chains.filter((chain) => chain.testnet === true)?.length >= 1) {
-      setHasTestnetChains(true);
-    }
+  const hasTestnetChains = useMemo(() => {
+    return chains.filter((chain) => chain.testnet === true)?.length >= 1;
+  }, [chains]);
+  const hasMainnetChains = useMemo(() => {
+    return chains.filter((chain) => chain.testnet !== true)?.length >= 1;
   }, [chains]);
 
   // TODO: CPASS-464 Fix the order of the diplayed chains
+  // only show tabs if we have test and mainnet chains
   return (
     <div>
       <SelectChainTitle>{labels[LabelEntry.SELECT_CHAIN]}</SelectChainTitle>
-      <Tabs>
-        <StyledTabList>
-          <StyledTab>Mainnet</StyledTab>
-          {hasTestnetChains && <StyledTab>Testnet</StyledTab>}
-        </StyledTabList>
+      {hasMainnetChains && hasTestnetChains ? (
+        <>
+          <Tabs>
+            <StyledTabList>
+              <StyledTab>Mainnet</StyledTab>
+              {hasTestnetChains && <StyledTab>Testnet</StyledTab>}
+            </StyledTabList>
 
-        <TabPanel>
-          <SelectChainList>
-            {chains
-              .filter((chain) => (chain.testnet || false) === false)
-              .map((chain) => (
-                <ChainElement
-                  key={chain.name}
-                  chain={chain}
-                  onChainSelect={onChainSelect}
-                />
-              ))}
-          </SelectChainList>
-        </TabPanel>
-        {hasTestnetChains && (
-          <TabPanel>
-            <SelectChainList>
-              {chains
-                .filter((chain) => chain.testnet === true)
-                .map((chain) => (
-                  <ChainElement
-                    key={chain.name}
-                    chain={chain}
-                    onChainSelect={onChainSelect}
-                  />
-                ))}
-            </SelectChainList>
-          </TabPanel>
-        )}
-      </Tabs>
+            <TabPanel>
+              <SelectChainList>
+                {chains
+                  .filter((chain) => (chain.testnet || false) === false)
+                  .map((chain) => (
+                    <ChainElement
+                      key={chain.name}
+                      chain={chain}
+                      onChainSelect={onChainSelect}
+                    />
+                  ))}
+              </SelectChainList>
+            </TabPanel>
+            {hasTestnetChains && (
+              <TabPanel>
+                <SelectChainList>
+                  {chains
+                    .filter((chain) => chain.testnet === true)
+                    .map((chain) => (
+                      <ChainElement
+                        key={chain.name}
+                        chain={chain}
+                        onChainSelect={onChainSelect}
+                      />
+                    ))}
+                </SelectChainList>
+              </TabPanel>
+            )}
+          </Tabs>
+        </>
+      ) : (
+        <SelectChainList>
+          {chains.map((chain) => (
+            <ChainElement
+              key={chain.name}
+              chain={chain}
+              onChainSelect={onChainSelect}
+            />
+          ))}
+        </SelectChainList>
+      )}
     </div>
   );
 }
