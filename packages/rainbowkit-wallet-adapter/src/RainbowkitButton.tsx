@@ -1,7 +1,9 @@
 import { ConnectButton as DefaultConnectButton } from "@rainbow-me/rainbowkit";
 import React from "react";
+import { useRainbowkitOptions } from "./RainbowitOptionsProvider.js";
 
 export function RainbowkitButton(): JSX.Element {
+  const { options } = useRainbowkitOptions();
   return (
     <DefaultConnectButton.Custom>
       {({
@@ -48,7 +50,7 @@ export function RainbowkitButton(): JSX.Element {
               return (
                 <DefaultConnectButton
                   accountStatus="address"
-                  showBalance={true}
+                  showBalance={!!options.showBalance}
                 />
               );
             })()}
