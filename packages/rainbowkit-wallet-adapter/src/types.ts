@@ -4,4 +4,5 @@ export type Chain = WagmiChain;
 
 export type RainbowkitConfigOptions = {
   walletConnectProjectId: string;
+  showBalance?: boolean;
 };
