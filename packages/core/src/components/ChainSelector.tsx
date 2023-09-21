@@ -180,12 +180,14 @@ export function ChainSelectorContent<
 >({ chains, onChainSelect }: ChainSelectorProps<T, S, E>): JSX.Element | null {
   const { labels } = useLabel();
 
-  const hasTestnetChains = useMemo(() => {
-    return chains.filter((chain) => chain.testnet === true)?.length >= 1;
-  }, [chains]);
-  const hasMainnetChains = useMemo(() => {
-    return chains.filter((chain) => chain.testnet !== true)?.length >= 1;
-  }, [chains]);
+  const hasTestnetChains = useMemo(
+    () => chains.filter((chain) => chain.testnet === true)?.length >= 1,
+    [chains]
+  );
+  const hasMainnetChains = useMemo(
+    () => chains.filter((chain) => chain.testnet !== true)?.length >= 1,
+    [chains]
+  );
 
   // TODO: CPASS-464 Fix the order of the diplayed chains
   // only show tabs if we have test and mainnet chains

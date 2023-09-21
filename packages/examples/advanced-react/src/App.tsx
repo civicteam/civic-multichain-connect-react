@@ -69,7 +69,11 @@ function Content() {
 
 function App() {
   const defaultEvmChains: EthereumChain[] = [polygon, mainnet, arbitrum];
-  const defaultEvmTestChains: EthereumChain[] = [];
+  const defaultEvmTestChains: EthereumChain[] = [
+    polygonMumbai,
+    goerli,
+    arbitrumGoerli,
+  ];
 
   const solanaMainnetChain = {
     name: "Solana",
