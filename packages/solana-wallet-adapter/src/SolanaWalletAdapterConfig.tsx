@@ -4,12 +4,6 @@ import {
   WalletProvider,
 } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import {
-  LedgerWalletAdapter,
-  SolflareWalletAdapter,
-  TorusWalletAdapter,
-  WalletConnectWalletAdapter,
-} from "@solana/wallet-adapter-wallets";
 import SolanaWalletAdapterModalProvider, {
   SolanaWalletAdapterModalContext,
 } from "./SolanaWalletAdapterModalProvider.js";
@@ -24,12 +18,8 @@ import {
 } from "@civic/multichain-connect-react-core";
 import { SolanaWalletAdapterButton } from "./SolanaWalletAdapterButton.js";
 import "@solana/wallet-adapter-react-ui/styles.css";
-import {
-  Chain,
-  DEFAULT_ENDPOINT,
-  SolanaConfigOptions,
-  WalletAdapterNetwork,
-} from "./types.js";
+import { Chain, DEFAULT_ENDPOINT } from "./types.js";
+import { Adapter } from "@solana/wallet-adapter-base";
 
 function SolanaWalletAdapterPluginProvider<T>({
   children,
@@ -60,12 +50,12 @@ function SolanaWalletAdapterConfig({
   children,
   chains,
   testnetChains,
-  options,
+  adapters,
 }: {
   children?: React.ReactNode;
   chains: Chain[];
   testnetChains?: Chain[];
-  options: SolanaConfigOptions;
+  adapters: Adapter[];
 }): JSX.Element | null {
   // For now support only a single chain
   const { setChains, selectedChain } = useChain<
@@ -80,27 +70,6 @@ function SolanaWalletAdapterConfig({
     }
     return selectedChain?.rpcEndpoint;
   }, [chains, selectedChain]);
-
-  const network = useMemo(() => {
-    return endpoint.includes("mainnet")
-      ? WalletAdapterNetwork.Mainnet
-      : WalletAdapterNetwork.Devnet;
-  }, [endpoint]);
-
-  // We manually add wallets that do not support the wallet standard
-  // Wallets like Phantom, Metamask and Backpack all get injected by conforming to the standard
-  const wallets = useMemo(
-    () => [
-      new SolflareWalletAdapter(),
-      new LedgerWalletAdapter(),
-      new WalletConnectWalletAdapter({
-        options: { projectId: options.walletConnectProjectId },
-        network,
-      }),
-      new TorusWalletAdapter(),
-    ],
-    []
-  );
 
   useEffect(() => {
     const solanaChains = chains.map((chain) => ({
@@ -122,7 +91,7 @@ function SolanaWalletAdapterConfig({
 
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
+      <WalletProvider wallets={adapters} autoConnect>
         <WalletModalProvider>
           <SolanaWalletAdapterProvider>
             <SolanaWalletAdapterModalProvider>

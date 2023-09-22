@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Wallet } from "ethers";
 import React, { ReactElement, useEffect, useMemo, useState } from "react";
 import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
 import {
@@ -8,6 +7,7 @@ import {
   useChain,
 } from "@civic/multichain-connect-react-core";
 import { Chain } from "./types.js";
+import { WalletClient } from "viem";
 
 export const RainbowkitWalletContext = React.createContext<
   WalletContextType<any, any, any>
@@ -25,12 +25,12 @@ export default function RainbowkitWalletProvider({
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
   const { setSelectedChain } = useChain();
-  const [wallet, setWallet] = useState<Wallet>();
+  const [wallet, setWallet] = useState<WalletClient>();
   const { connector, isConnected, address } = useAccount();
 
   useEffect(() => {
-    connector?.getSigner().then((connectedWallet) => {
-      setWallet(connectedWallet);
+    connector?.getWalletClient().then((client) => {
+      setWallet(client);
     });
   }, [connector, address, chain]);
 

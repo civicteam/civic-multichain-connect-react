@@ -7,7 +7,10 @@ export type OptionsContextType = {
 
 export const RainbowkitOptionsContext = React.createContext<OptionsContextType>(
   {
-    options: { walletConnectProjectId: "" },
+    options: {
+      appName: "",
+      walletConnectProjectId: "",
+    },
   }
 );
 export default function RainbowkitOptionsProvider({
