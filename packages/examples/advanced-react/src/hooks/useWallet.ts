@@ -3,13 +3,12 @@ import {
   useWallet,
 } from "@civic/multichain-connect-react-core";
 import { WalletContextState } from "@solana/wallet-adapter-react";
-import { Wallet as EthersWallet } from "ethers";
 import { useState, useEffect } from "react";
-
+import { WalletClient } from "viem";
 export interface MultiWalletContextState {
   connected: boolean;
   solanaWallet?: WalletContextState;
-  ethersWallet?: EthersWallet;
+  evmWallet?: WalletClient;
   address?: string;
 }
 
@@ -23,10 +22,10 @@ export const useMultiWallet = (): MultiWalletContextState => {
     never
   >();
 
-  const { wallet: ethersWallet } = useWallet<
+  const { wallet: evmWallet } = useWallet<
     SupportedChains.Ethereum,
     never,
-    EthersWallet
+    WalletClient
   >();
 
   useEffect(() => {
@@ -36,17 +35,15 @@ export const useMultiWallet = (): MultiWalletContextState => {
   }, [solanaWallet]);
 
   useEffect(() => {
-    if (ethersWallet?.getAddress) {
-      ethersWallet?.getAddress().then((address) => {
-        setAddress(address);
-      });
+    if (evmWallet?.account) {
+      setAddress(evmWallet?.account?.address);
     }
-  }, [ethersWallet]);
+  }, [evmWallet]);
 
   return {
     connected,
     address,
     solanaWallet: solanaWallet?.publicKey ? solanaWallet : undefined,
-    ethersWallet: ethersWallet?.getAddress ? ethersWallet : undefined,
+    evmWallet: evmWallet?.account ? evmWallet : undefined,
   };
 };
