@@ -23,7 +23,9 @@
     "types": "./lib/types/index.d.ts"
   },
   "scripts": {
-    "build": "tsc --build --verbose && cp ../../LICENSE ./ && cp ../../README.md ./ && changelog generate",
+    "build": "tsc --build --verbose && cp ../../LICENSE ./ && cp ../../README.md ./",
+    "postpublish": "npm run tag && changelog generate",
+    "tag" : "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag rainbowkit-v$PACKAGE_VERSION && git push --tags",
     "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint"
   },
   "engines": {

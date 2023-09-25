@@ -49,8 +49,10 @@ export function RainbowkitButton(): JSX.Element {
 
               return (
                 <DefaultConnectButton
-                  accountStatus="address"
+                  accountStatus={options.accountStatus}
                   showBalance={!!options.showBalance}
+                  chainStatus={options.chainStatus}
+                  label={options.label}
                 />
               );
             })()}
