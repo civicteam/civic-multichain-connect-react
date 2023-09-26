@@ -36,7 +36,7 @@ const StyledTableData = styled.td`
 `;
 
 function Content() {
-  const { solanaWallet, ethersWallet, address } = useMultiWallet();
+  const { solanaWallet, evmWallet, address } = useMultiWallet();
 
   return (
     <table style={{ marginTop: "20px" }}>
@@ -58,9 +58,9 @@ function Content() {
         <tr>
           <StyledTableData>EVM</StyledTableData>
           <StyledTableData>
-            {ethersWallet ? "Connected" : "Not Connected"}
+            {evmWallet ? "Connected" : "Not Connected"}
           </StyledTableData>
-          <StyledTableData>{ethersWallet ? address : "N/A"}</StyledTableData>
+          <StyledTableData>{evmWallet ? address : "N/A"}</StyledTableData>
         </tr>
       </tbody>
     </table>
@@ -158,6 +158,7 @@ function App() {
             options={{
               // Rainbowkit relies on WalletConnect which now needs to obtain a projectId from WalletConnect Cloud.
               // Put this in your .env file as REACT_APP_WALLET_CONNECT_PROJECT_ID=...
+              appName: "Example App",
               walletConnectProjectId: `${process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID}`,
             }}
             initialChain={initialChain}
@@ -165,9 +166,7 @@ function App() {
             <SolanaWalletAdapterConfig
               chains={solanaChains.chains}
               testnetChains={solanaChains.testChains}
-              options={{
-                walletConnectProjectId: `${process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID}`,
-              }}
+              adapters={[]}
             >
               <MultichainConnectButton />
               <Content />

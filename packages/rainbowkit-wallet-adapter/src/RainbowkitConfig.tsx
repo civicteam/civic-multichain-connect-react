@@ -1,20 +1,15 @@
 import React, { ReactElement, useContext, useEffect, useMemo } from "react";
 import {
   RainbowKitProvider,
-  getDefaultWallets,
-  connectorsForWallets,
   Theme,
+  getDefaultWallets,
 } from "@rainbow-me/rainbowkit";
-import { phantomWallet } from "@rainbow-me/rainbowkit/wallets";
-import { registerWallet } from "@wallet-standard/wallet";
 import {
-  createClient,
   WagmiConfig,
-  configureChains,
   ChainProviderFn,
+  configureChains,
+  createConfig,
 } from "wagmi";
-import { goerli } from "wagmi/chains";
-import { EIP1193Wallet } from "./eip113Wallet.js";
 import "@rainbow-me/rainbowkit/styles.css";
 import ModalContextProvider, {
   RainbowkitModalContext,
@@ -23,14 +18,11 @@ import WalletContextProvider, {
   RainbowkitWalletContext,
 } from "./RainbowkitWalletProvider.js";
 import {
-  useLabel,
-  LabelEntry,
   useWalletAdapters,
   SupportedChains,
   useChain,
   BaseChain,
 } from "@civic/multichain-connect-react-core";
-import { publicProvider } from "wagmi/providers/public";
 import { RainbowkitButton } from "./RainbowkitButton.js";
 import { Chain, RainbowkitConfigOptions } from "./types.js";
 import RainbowkitOptionsProvider from "./RainbowitOptionsProvider.js";
@@ -60,75 +52,45 @@ function RainbowkitConfig({
   chains,
   testnetChains,
   providers,
-  options,
   initialChain,
+  options,
 }: {
   children?: React.ReactNode;
   theme?: Theme | null;
-  providers?: ChainProviderFn[];
   initialChain?: Chain;
   chains: Chain[];
   testnetChains?: Chain[];
+  providers: ChainProviderFn[];
   options: RainbowkitConfigOptions;
 }): JSX.Element | null {
-  const { labels } = useLabel();
-
   const { setChains, selectedChain } = useChain<
     SupportedChains.Ethereum,
     never,
     Chain & BaseChain
   >();
 
+  const { chains: configuredChains, publicClient } = useMemo(() => {
+    return configureChains([...chains, ...(testnetChains || [])], providers);
+  }, [chains]);
+
+  const wagmiConfig = useMemo(() => {
+    const { appName, walletConnectProjectId } = options;
+    const { connectors } = getDefaultWallets({
+      appName,
+      projectId: walletConnectProjectId,
+      chains: configuredChains,
+    });
+
+    return createConfig({
+      autoConnect: true,
+      connectors,
+      publicClient,
+    });
+  }, []);
+
   const [evmInitialChain, setEvmInitialChain] = React.useState<
     Chain | undefined
   >(undefined);
-
-  const client = useMemo(() => {
-    const combinedChains = [...chains, ...(testnetChains || [])];
-
-    const { wallets } = getDefaultWallets({
-      appName: "rainbowkit",
-      chains: combinedChains,
-      projectId: options.walletConnectProjectId,
-    });
-
-    const connectors = connectorsForWallets([
-      ...wallets,
-      {
-        groupName: labels[LabelEntry.OTHER],
-        wallets: [phantomWallet({ chains: combinedChains })],
-      },
-    ]);
-
-    // If no EVM chains are provided we won't show any, but wagmi still needs at least one for its config
-    // So we add goerli as a default to appease wagmi
-    const updatedChains =
-      !combinedChains || combinedChains?.length === 0
-        ? [goerli]
-        : combinedChains;
-
-    const { provider } = configureChains(
-      updatedChains,
-      providers && providers?.length > 0 ? providers : [publicProvider()]
-    );
-
-    // eslint-disable-next-line consistent-return
-    return createClient({
-      autoConnect: true,
-      connectors,
-      provider,
-    });
-    // There is an issue when recreating the client on every render
-    // Check this when updating to the latest version of Rainbowkit
-  }, [chains, testnetChains]);
-
-  useEffect(() => {
-    // Requiring at least one wallet to be registered in the Standard compatible way
-    // Register the EIP1193 wallet here so the other wallets will be shown
-    // This wallet is not included in the list of default wallets because it is just a way to get the other wallets to show up
-    const wallet = new EIP1193Wallet(window.ethereum);
-    registerWallet(wallet);
-  }, []);
 
   useEffect(() => {
     const evmChains = chains.map((chain) => ({
@@ -150,8 +112,10 @@ function RainbowkitConfig({
     setEvmInitialChain(chain);
   }, [chains, initialChain]);
 
+  useEffect(() => console.log("wagmiConfig", wagmiConfig), [wagmiConfig]);
+
   return (
-    <WagmiConfig client={client}>
+    <WagmiConfig config={wagmiConfig}>
       <RainbowkitOptionsProvider options={options}>
         <RainbowKitProvider
           chains={[...chains, ...(testnetChains || [])]}
