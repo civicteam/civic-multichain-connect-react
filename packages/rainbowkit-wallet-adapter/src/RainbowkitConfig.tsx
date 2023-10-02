@@ -74,7 +74,8 @@ function RainbowkitConfig({
     const userDefinedChains = [...chains, ...(testnetChains || [])];
     const defaultChain = [goerli];
     // we need one chain to be configured for the public client
-    const configuredChains = userDefinedChains.length > 0 ? userDefinedChains : defaultChain;
+    const configuredChains =
+      userDefinedChains.length > 0 ? userDefinedChains : defaultChain;
     return configureChains(configuredChains, providers);
   }, [chains]);
 
