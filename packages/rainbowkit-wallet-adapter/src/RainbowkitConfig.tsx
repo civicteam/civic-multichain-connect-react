@@ -26,6 +26,7 @@ import {
 import { RainbowkitButton } from "./RainbowkitButton.js";
 import { Chain, RainbowkitConfigOptions } from "./types.js";
 import RainbowkitOptionsProvider from "./RainbowitOptionsProvider.js";
+import { goerli } from "viem/chains";
 
 function RainbowkitPluginProvider({
   children,
@@ -70,7 +71,12 @@ function RainbowkitConfig({
   >();
 
   const { chains: configuredChains, publicClient } = useMemo(() => {
-    return configureChains([...chains, ...(testnetChains || [])], providers);
+    const userDefinedChains = [...chains, ...(testnetChains || [])];
+    const defaultChain = [goerli];
+    // we need one chain to be configured for the public client
+    const configuredChains =
+      userDefinedChains.length > 0 ? userDefinedChains : defaultChain;
+    return configureChains(configuredChains, providers);
   }, [chains]);
 
   const wagmiConfig = useMemo(() => {
