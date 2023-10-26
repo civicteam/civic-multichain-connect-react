@@ -1,3 +1,7 @@
+#### 0.2.3 (2023-10-10)
+
+* Bugfix no chains supplied to Rainbowkit
+
 #### 0.2.2 (2023-10-02)
 
 *  Fix a bug where not supllying chains to Rainbowkit would cause an error (f5628b0)
