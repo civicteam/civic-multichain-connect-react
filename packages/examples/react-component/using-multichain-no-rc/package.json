@@ -1,5 +1,5 @@
 {
-  "name": "using-wagmi",
+  "name": "using-multichain-no-rc",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,15 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@civic/ethereum-gateway-react": "1.0.0",
+    "@civic/multichain-connect-react-core": "^0.1.2",
+    "@civic/multichain-connect-react-rainbowkit-wallet-adapter": "0.2.3",
     "@wagmi/chains": "^1.1.0",
     "@wagmi/connectors": "0.3.22",
     "ethers": "6.7.1",
+    "ramda": "^0.29.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "viem": "^1.18.3",
-    "wagmi": "^1.4.2",
-    "ramda": "^0.29.1"
+    "wagmi": "^1.4.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

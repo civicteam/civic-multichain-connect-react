@@ -7,7 +7,6 @@ import {
   useDisconnect,
   useEnsName,
 } from "wagmi";
-import { InjectedConnector } from "wagmi/connectors/injected";
 
 export default function WagmiGateway() {
   const { evmGatewayWallet } = useMultiWallet();
@@ -17,9 +16,7 @@ export default function WagmiGateway() {
   const { data: ensName } = useEnsName({ address });
   const { disconnect } = useDisconnect();
   // const { connect, connectors } = useConnect();
-  const { connect } = useConnect({
-    connector: new InjectedConnector(),
-  });
+  const { connect, connectors, isLoading, pendingConnector } = useConnect();
   console.log(">>> evmGatewayWallet", evmGatewayWallet);
   return (
     <>
@@ -40,7 +37,27 @@ export default function WagmiGateway() {
             <IdentityButton />
           </>
         ) : (
-          <button onClick={() => connect()}>Connect Wallet</button>
+          <>
+            {connectors.map((connector) => (
+              <>
+                <button
+                  disabled={!connector.ready}
+                  key={connector.id}
+                  onClick={() => connect({ connector })}
+                >
+                  {connector.name}
+                  {!connector.ready && " (unsupported)"}
+                  {isLoading &&
+                    connector.id === pendingConnector?.id &&
+                    " (connecting)"}
+                </button>
+                <br />
+              </>
+            ))}
+          </>
+          // <button onClick={() => connect({ connector: connectors[0] })}>
+          //   Connect Wallet
+          // </button>
         )}
       </GatewayProvider>
     </>

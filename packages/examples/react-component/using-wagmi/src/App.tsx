@@ -1,21 +1,38 @@
 import "./App.css";
 import { WagmiConfig, createConfig, configureChains } from "wagmi";
-import { goerli } from "wagmi/chains";
+import { goerli, mainnet } from "wagmi/chains";
 
 import WagmiGateway from "./WagmiGateway";
-import { PhantomConnector } from "phantom-wagmi-connector";
+import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { publicProvider } from "wagmi/providers/public";
+import { InjectedConnector } from "wagmi/connectors/injected";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 
 function App() {
   const { publicClient, webSocketPublicClient, chains } = configureChains(
-    [goerli],
+    [goerli, mainnet], // Things start to break if you only have one chain here.
     [publicProvider()]
   );
 
   const config = createConfig({
     publicClient,
     webSocketPublicClient,
-    connectors: [new PhantomConnector({ chains })],
+    connectors: [
+      new MetaMaskConnector({ chains }),
+      new WalletConnectConnector({
+        chains,
+        options: {
+          projectId: "cb15f45a4b51799ebac3155e52fa5129",
+        },
+      }),
+      new InjectedConnector({
+        chains,
+        options: {
+          name: "Injected",
+          shimDisconnect: true,
+        },
+      }),
+    ],
   });
 
   return (

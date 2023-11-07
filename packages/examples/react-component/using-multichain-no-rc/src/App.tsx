@@ -10,7 +10,7 @@ function App() {
 
   return (
     <>
-      <h2>React Component with Multichain-connect</h2>
+      <h2>Multichain-connect without RC</h2>
       <div className="card">
         <MultichainWalletProvider>
           <RainbowkitConfig
