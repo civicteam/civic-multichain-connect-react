@@ -1,4 +1,4 @@
-#### 0.3.0-beta.1 (2023-11-14)
+#### 0.3.0 (2023-11-15)
 
 * Limit options to WalletConnect only for EVM chains on mobile
 
