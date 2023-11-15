@@ -2,14 +2,17 @@ import React, { ReactElement, useContext, useEffect, useMemo } from "react";
 import {
   RainbowKitProvider,
   Theme,
+  connectorsForWallets,
   getDefaultWallets,
 } from "@rainbow-me/rainbowkit";
+import { walletConnectWallet } from "@rainbow-me/rainbowkit/wallets";
 import {
   WagmiConfig,
   ChainProviderFn,
   configureChains,
   createConfig,
 } from "wagmi";
+import { isMobile } from "react-device-detect";
 import "@rainbow-me/rainbowkit/styles.css";
 import ModalContextProvider, {
   RainbowkitModalContext,
@@ -81,15 +84,32 @@ function RainbowkitConfig({
 
   const wagmiConfig = useMemo(() => {
     const { appName, walletConnectProjectId } = options;
-    const { connectors } = getDefaultWallets({
-      appName,
-      projectId: walletConnectProjectId,
-      chains: configuredChains,
-    });
+
+    let chosenConnectors;
+
+    if (isMobile) {
+      chosenConnectors = connectorsForWallets([
+        {
+          groupName: appName,
+          wallets: [
+            walletConnectWallet({
+              projectId: walletConnectProjectId,
+              chains: configuredChains,
+            }),
+          ],
+        },
+      ]);
+    } else {
+      chosenConnectors = getDefaultWallets({
+        appName,
+        projectId: walletConnectProjectId,
+        chains: configuredChains,
+      }).connectors;
+    }
 
     return createConfig({
       autoConnect: true,
-      connectors,
+      connectors: chosenConnectors,
       publicClient,
     });
   }, []);

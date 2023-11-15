@@ -1,6 +1,6 @@
 {
   "name": "@civic/multichain-connect-react-rainbowkit-wallet-adapter",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "A multichain wallet connect library",
   "repository": "git@github.com:civicteam/civic-multichain-connect-react.git",
   "author": "civic.com",
@@ -25,7 +25,7 @@
   "scripts": {
     "build": "tsc --build --verbose && cp ../../LICENSE ./ && cp ../../README.md ./",
     "postpublish": "npm run tag && changelog generate",
-    "tag" : "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag rainbowkit-v$PACKAGE_VERSION && git push --tags",
+    "tag": "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag rainbowkit-v$PACKAGE_VERSION && git push --tags",
     "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint"
   },
   "engines": {
@@ -43,6 +43,7 @@
     "@wallet-standard/app": "^1.0.1",
     "@wallet-standard/base": "^1.0.1",
     "@wallet-standard/wallet": "^1.0.1",
+    "react-device-detect": "^2.2.3",
     "ethers": "^6.7.1",
     "styled-components": "^6.0.0-rc.3",
     "viem": "^1.11.1",

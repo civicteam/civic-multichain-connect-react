@@ -1,3 +1,7 @@
+#### 0.3.0 (2023-11-15)
+
+* Limit options to WalletConnect only for EVM chains on mobile
+
 #### 0.2.3 (2023-10-10)
 
 * Bugfix no chains supplied to Rainbowkit
