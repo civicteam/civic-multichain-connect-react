@@ -1,3 +1,7 @@
+#### 0.3.1 (2023-11-17)
+
+* Upgrade viem, wagmi, rainbowkit
+
 #### 0.3.0 (2023-11-15)
 
 * Limit options to WalletConnect only for EVM chains on mobile
