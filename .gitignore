@@ -131,7 +131,7 @@ lib
 .pnp.*
 
 scratch/
-.npmrc
+.npmrc*
 
 /packages/*/README.md
 /packages/*/LICENSE
