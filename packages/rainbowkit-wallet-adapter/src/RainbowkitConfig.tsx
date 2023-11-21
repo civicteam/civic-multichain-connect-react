@@ -136,7 +136,7 @@ function RainbowkitConfig({
     const chain =
       initialChain && allChains.find((chain) => chain.id === initialChain?.id);
     setEvmInitialChain(chain);
-  }, [chains, initialChain]);
+  }, [chains, initialChain, testnetChains, setChains]);
 
   useEffect(() => console.log("wagmiConfig", wagmiConfig), [wagmiConfig]);
 
