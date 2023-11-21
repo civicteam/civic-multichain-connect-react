@@ -80,7 +80,7 @@ function RainbowkitConfig({
     const configuredChains =
       userDefinedChains.length > 0 ? userDefinedChains : defaultChain;
     return configureChains(configuredChains, providers);
-  }, [chains]);
+  }, [chains, testnetChains, providers]);
 
   const wagmiConfig = useMemo(() => {
     const { appName, walletConnectProjectId } = options;
@@ -112,7 +112,7 @@ function RainbowkitConfig({
       connectors: chosenConnectors,
       publicClient,
     });
-  }, []);
+  }, [configuredChains, options, publicClient]);
 
   const [evmInitialChain, setEvmInitialChain] = React.useState<
     Chain | undefined
