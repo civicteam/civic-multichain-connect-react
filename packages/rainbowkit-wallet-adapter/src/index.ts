@@ -4,3 +4,4 @@ export * from "wagmi";
 export { RainbowkitConfig };
 export type { Chain };
 export type { RainbowkitConfigOptions };
+export { useRainbowkitAdapterModal } from "./RainbowkitModalProvider.js";

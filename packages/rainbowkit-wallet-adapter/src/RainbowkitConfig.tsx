@@ -80,7 +80,7 @@ function RainbowkitConfig({
     const configuredChains =
       userDefinedChains.length > 0 ? userDefinedChains : defaultChain;
     return configureChains(configuredChains, providers);
-  }, [chains, testnetChains, providers]);
+  }, [JSON.stringify(chains), JSON.stringify(testnetChains), JSON.stringify(providers)]);
 
   const wagmiConfig = useMemo(() => {
     const { appName, walletConnectProjectId } = options;
@@ -112,7 +112,7 @@ function RainbowkitConfig({
       connectors: chosenConnectors,
       publicClient,
     });
-  }, [configuredChains, options, publicClient]);
+  }, [JSON.stringify(configuredChains), options, publicClient]);
 
   const [evmInitialChain, setEvmInitialChain] = React.useState<
     Chain | undefined
@@ -136,7 +136,7 @@ function RainbowkitConfig({
     const chain =
       initialChain && allChains.find((chain) => chain.id === initialChain?.id);
     setEvmInitialChain(chain);
-  }, [chains, initialChain, testnetChains, setChains]);
+  }, [JSON.stringify(chains), initialChain, testnetChains, setChains]);
 
   useEffect(() => console.log("wagmiConfig", wagmiConfig), [wagmiConfig]);
 

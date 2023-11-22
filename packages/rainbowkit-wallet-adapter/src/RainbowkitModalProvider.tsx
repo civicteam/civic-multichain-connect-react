@@ -1,5 +1,5 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import React, { ReactElement, useEffect, useMemo } from "react";
+import React, { ReactElement, useContext, useEffect, useMemo } from "react";
 import { useAccount } from "wagmi";
 import {
   ModalContextType,
@@ -41,3 +41,4 @@ export default function RainbowkitModalProvider({
     </RainbowkitModalContext.Provider>
   );
 }
+export const useRainbowkitAdapterModal = (): ModalContextType => useContext(RainbowkitModalContext);
