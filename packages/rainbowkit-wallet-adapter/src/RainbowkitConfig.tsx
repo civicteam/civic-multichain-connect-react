@@ -57,11 +57,13 @@ function RainbowkitConfig({
   testnetChains,
   providers,
   initialChain,
+  enableChainSwitch,
   options,
 }: {
   children?: React.ReactNode;
   theme?: Theme | null;
   initialChain?: Chain;
+  enableChainSwitch?: boolean;
   chains: Chain[];
   testnetChains?: Chain[];
   providers: ChainProviderFn[];
@@ -145,8 +147,11 @@ function RainbowkitConfig({
       <RainbowkitOptionsProvider options={options}>
         <RainbowKitProvider
           chains={[...chains, ...(testnetChains || [])]}
-          // if initialChain is not provided, use the selectedChain from the ChainContext
-          initialChain={evmInitialChain ?? selectedChain}
+          // If enableChainSwitch is on and initialChain is not provided, use the selectedChain from the ChainContext.
+          // Else use undefined so the wallet doesn't ask th user to switch chains.
+          initialChain={
+            enableChainSwitch ? evmInitialChain ?? selectedChain : undefined
+          }
           theme={theme}
         >
           <WalletContextProvider initialChain={evmInitialChain}>
@@ -163,6 +168,7 @@ function RainbowkitConfig({
 RainbowkitConfig.defaultProps = {
   children: null,
   initialChain: undefined,
+  enableChainSwitch: true,
 };
 
 export default RainbowkitConfig;
