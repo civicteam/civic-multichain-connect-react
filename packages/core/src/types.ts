@@ -55,6 +55,7 @@ export interface ChainContextType<
 
 export interface ModalContextType {
   openConnectModal: (() => void) | undefined;
+  connectModalOpen: boolean;
 }
 
 export interface DisconnectContextType {

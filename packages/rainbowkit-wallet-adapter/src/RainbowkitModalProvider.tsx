@@ -17,15 +17,16 @@ export default function RainbowkitModalProvider({
 }: {
   children: React.ReactNode;
 }): ReactElement {
-  const { openConnectModal } = useConnectModal();
+  const { openConnectModal, connectModalOpen } = useConnectModal();
   const { isConnected } = useAccount();
   const { selectedChain } = useChain();
 
   const context = useMemo(
     () => ({
       openConnectModal,
+      connectModalOpen,
     }),
-    [openConnectModal]
+    [openConnectModal, connectModalOpen]
   );
 
   useEffect(() => {
@@ -41,4 +42,5 @@ export default function RainbowkitModalProvider({
     </RainbowkitModalContext.Provider>
   );
 }
-export const useRainbowkitAdapterModal = (): ModalContextType => useContext(RainbowkitModalContext);
+export const useRainbowkitAdapterModal = (): ModalContextType =>
+  useContext(RainbowkitModalContext);
