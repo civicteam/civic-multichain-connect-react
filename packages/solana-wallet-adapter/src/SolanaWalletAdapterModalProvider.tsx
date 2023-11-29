@@ -1,6 +1,12 @@
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import React, { ReactElement, useCallback, useContext, useEffect, useMemo } from "react";
+import React, {
+  ReactElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+} from "react";
 import {
   ModalContextType,
   useChain,
@@ -17,7 +23,7 @@ export default function SolanaWalletAdapterModalProvider({
   children: React.ReactNode;
 }): ReactElement {
   const { wallet } = useWallet();
-  const { setVisible } = useWalletModal();
+  const { setVisible, visible } = useWalletModal();
   const { selectedChain } = useChain();
 
   const openConnectModal = useCallback(() => {
@@ -38,6 +44,7 @@ export default function SolanaWalletAdapterModalProvider({
   const context = useMemo(
     () => ({
       openConnectModal,
+      connectModalOpen: visible,
     }),
     [openConnectModal]
   );
@@ -48,4 +55,5 @@ export default function SolanaWalletAdapterModalProvider({
     </SolanaWalletAdapterModalContext.Provider>
   );
 }
-export const useSolanaWalletAdapterModal = (): ModalContextType => useContext(SolanaWalletAdapterModalContext);
+export const useSolanaWalletAdapterModal = (): ModalContextType =>
+  useContext(SolanaWalletAdapterModalContext);
