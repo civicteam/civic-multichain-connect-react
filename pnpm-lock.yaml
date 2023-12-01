@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -93,11 +93,11 @@ importers:
   packages/core:
     dependencies:
       '@civic/civic-chain-icons':
-        specifier: 0.0.7
-        version: 0.0.7(aws-sdk@2.1498.0)
+        specifier: 0.0.9
+        version: 0.0.9(aws-sdk@2.1498.0)
       '@civic/civic-eth-provider':
-        specifier: 0.0.12
-        version: 0.0.12(aws-sdk@2.1498.0)
+        specifier: 0.0.16
+        version: 0.0.16(aws-sdk@2.1498.0)
       '@wallet-standard/react-core':
         specifier: ^0.1.4
         version: 0.1.4(react-dom@18.1.0)(react@18.1.0)
@@ -1880,12 +1880,12 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@civic/civic-chain-icons@0.0.7(aws-sdk@2.1498.0):
-    resolution: {integrity: sha512-domCyl1mFUtt+gG8+meiKs3gTVtsT50MM26/P+btWRTfV8Xi6DT5EsKQoXCCevm7Mp+9aWl5K3L5K/IDa7j4HA==}
+  /@civic/civic-chain-icons@0.0.9(aws-sdk@2.1498.0):
+    resolution: {integrity: sha512-L3WgAZyWwMxDocaKwrbigzthSMvh/5dJ1cvge6uz0soXJJkUIEExbrdrjPrP9AwsQfIUqbsaWe80qrQ6HUNvcw==}
     peerDependencies:
       aws-sdk: ^2.1300.0
     dependencies:
-      '@civic/civic-eth-provider': 0.0.11(aws-sdk@2.1498.0)
+      '@civic/civic-eth-provider': 0.0.16(aws-sdk@2.1498.0)
       aws-sdk: 2.1498.0
       ramda: 0.28.0
       tslib: 2.5.2
@@ -1894,24 +1894,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@civic/civic-eth-provider@0.0.11(aws-sdk@2.1498.0):
-    resolution: {integrity: sha512-zGbMeCsQChBSyaEJOFLSRnJoodw6uDigJvpeev1JTujRjup8MdjagCFkXCfa3ZPOqck/y4CrFrXDX9kygocbZQ==}
-    peerDependencies:
-      aws-sdk: ^2.1300.0
-    dependencies:
-      '@ethersproject/abstract-provider': 5.7.0
-      '@ethersproject/networks': 5.7.1
-      '@ethersproject/providers': 5.7.2
-      aws-sdk: 2.1498.0
-      ramda: 0.28.0
-      tslib: 2.5.2
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-    dev: false
-
-  /@civic/civic-eth-provider@0.0.12(aws-sdk@2.1498.0):
-    resolution: {integrity: sha512-dtdLIzgsBATLfpEyw3urGZGMZ2pR/kzobcE/jvilSSTPDZV8xUCN2JlpfKlpKkXZrDYc53a2DF4H835QZ1gyHg==}
+  /@civic/civic-eth-provider@0.0.16(aws-sdk@2.1498.0):
+    resolution: {integrity: sha512-PdzmH0O4MNMiyq+4KBwuW2Ezj+8pTmUquGunyxF2kdCJr+l/zAM4ZmZFHn/tqpTa27f4FwOvTBhAEhFP/d7rMg==}
     peerDependencies:
       aws-sdk: ^2.1300.0
     dependencies:

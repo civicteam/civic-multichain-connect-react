@@ -36,8 +36,8 @@
     "react-dom": "^18.0.2"
   },
   "dependencies": {
-    "@civic/civic-chain-icons": "0.0.7",
-    "@civic/civic-eth-provider": "0.0.12",
+    "@civic/civic-chain-icons": "0.0.9",
+    "@civic/civic-eth-provider": "0.0.16",
     "@wallet-standard/react-core": "^0.1.4",
     "ramda": "^0.28.0",
     "styled-components": "^6.0.0-rc.3",

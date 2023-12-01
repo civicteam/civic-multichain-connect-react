@@ -135,3 +135,5 @@ scratch/
 
 /packages/*/README.md
 /packages/*/LICENSE
+
+build/
