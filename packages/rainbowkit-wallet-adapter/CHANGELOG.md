@@ -1,5 +1,7 @@
 #### 0.3.2 (2023-12-14)
 
+* Fix security vulnerability in Wagmi
+
 #### 0.3.1 (2023-11-17)
 
 * Upgrade viem, wagmi, rainbowkit
