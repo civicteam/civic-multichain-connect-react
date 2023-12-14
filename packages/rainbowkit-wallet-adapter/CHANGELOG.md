@@ -1,8 +1,10 @@
-#### 0.3.2-beta.2 (2023-11-22)
+#### 0.3.3 (2023-12-14)
 
-#### 0.3.2-beta.1 (2023-11-21)
+* Update version of connect kit loader
 
-#### 0.3.2-beta.0 (2023-11-21)
+#### 0.3.2 (2023-12-14)
+
+* Fix security vulnerability in Wagmi
 
 #### 0.3.1 (2023-11-17)
 
