@@ -1,3 +1,7 @@
+#### 0.3.3 (2023-12-14)
+
+* Update version of connect kit loader
+
 #### 0.3.2 (2023-12-14)
 
 * Fix security vulnerability in Wagmi
