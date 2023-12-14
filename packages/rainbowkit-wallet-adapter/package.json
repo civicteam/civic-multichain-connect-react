@@ -1,6 +1,6 @@
 {
   "name": "@civic/multichain-connect-react-rainbowkit-wallet-adapter",
-  "version": "0.2.4",
+  "version": "0.3.2",
   "description": "A multichain wallet connect library",
   "repository": "git@github.com:civicteam/civic-multichain-connect-react.git",
   "author": "civic.com",
@@ -46,6 +46,7 @@
     "ethers": "^6.9.0",
     "styled-components": "^6.1.1",
     "viem": "^1.20.0",
-    "wagmi": "^1.4.12"
+    "wagmi": "^1.4.12",
+    "react-device-detect": "^2.2.3"
   }
 }

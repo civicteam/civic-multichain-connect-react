@@ -1,6 +1,12 @@
-#### 0.2.4 (2023-12-14)
+#### 0.3.2 (2023-12-14)
 
-* Fix Wagmi vulnerability
+#### 0.3.1 (2023-11-17)
+
+* Upgrade viem, wagmi, rainbowkit
+
+#### 0.3.0 (2023-11-15)
+
+* Limit options to WalletConnect only for EVM chains on mobile
 
 #### 0.2.3 (2023-10-10)
 
