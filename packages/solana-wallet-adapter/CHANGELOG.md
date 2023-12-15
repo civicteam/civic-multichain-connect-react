@@ -1,3 +1,7 @@
+#### 0.2.2 (2023-12-15)
+
+- Expose useSolanaWalletAdapter
+
 #### 0.2.1 (2023-12-15)
 
 - Expose underlying lib functionality
