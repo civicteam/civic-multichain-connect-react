@@ -9,10 +9,12 @@ import { clusterApiUrl } from "@solana/web3.js";
 import {
   Chain as SolanaChain,
   SolanaWalletAdapterConfig,
+  useSolanaWalletAdapterModal,
 } from "@civic/multichain-connect-react-solana-wallet-adapter";
 import {
   Chain as EthereumChain,
   RainbowkitConfig,
+  useRainbowkitAdapterModal,
 } from "@civic/multichain-connect-react-rainbowkit-wallet-adapter";
 import { publicProvider } from "wagmi/providers/public";
 import {
@@ -37,33 +39,45 @@ const StyledTableData = styled.td`
 
 function Content() {
   const { solanaWallet, evmWallet, address } = useMultiWallet();
-
+  const { openConnectModal: openSolanaConnectModal } =
+    useSolanaWalletAdapterModal();
+  const { openConnectModal: openRainbowkitModal } = useRainbowkitAdapterModal();
   return (
-    <table style={{ marginTop: "20px" }}>
-      <thead>
-        <tr>
-          <StyledTableHeader>Wallet Type</StyledTableHeader>
-          <StyledTableHeader>Connection Status</StyledTableHeader>
-          <StyledTableHeader>Wallet Address</StyledTableHeader>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <StyledTableData>Solana</StyledTableData>
-          <StyledTableData>
-            {solanaWallet ? "Connected" : "Not Connected"}
-          </StyledTableData>
-          <StyledTableData>{solanaWallet ? address : "N/A"}</StyledTableData>
-        </tr>
-        <tr>
-          <StyledTableData>EVM</StyledTableData>
-          <StyledTableData>
-            {evmWallet ? "Connected" : "Not Connected"}
-          </StyledTableData>
-          <StyledTableData>{evmWallet ? address : "N/A"}</StyledTableData>
-        </tr>
-      </tbody>
-    </table>
+    <>
+      <div>
+        <button onClick={() => openSolanaConnectModal?.()}>
+          Open Solana Modal
+        </button>
+        <button onClick={() => openRainbowkitModal?.()}>
+          Open Rainbowkit Modal
+        </button>
+      </div>
+      <table style={{ marginTop: "20px" }}>
+        <thead>
+          <tr>
+            <StyledTableHeader>Wallet Type</StyledTableHeader>
+            <StyledTableHeader>Connection Status</StyledTableHeader>
+            <StyledTableHeader>Wallet Address</StyledTableHeader>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <StyledTableData>Solana</StyledTableData>
+            <StyledTableData>
+              {solanaWallet ? "Connected" : "Not Connected"}
+            </StyledTableData>
+            <StyledTableData>{solanaWallet ? address : "N/A"}</StyledTableData>
+          </tr>
+          <tr>
+            <StyledTableData>EVM</StyledTableData>
+            <StyledTableData>
+              {evmWallet ? "Connected" : "Not Connected"}
+            </StyledTableData>
+            <StyledTableData>{evmWallet ? address : "N/A"}</StyledTableData>
+          </tr>
+        </tbody>
+      </table>
+    </>
   );
 }
 
