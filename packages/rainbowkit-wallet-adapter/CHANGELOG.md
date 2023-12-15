@@ -1,3 +1,7 @@
+#### 0.4.0 (2023-12-15)
+
+- Expose underlying lib functionality
+
 #### 0.3.3 (2023-12-14)
 
 * Update version of connect kit loader
