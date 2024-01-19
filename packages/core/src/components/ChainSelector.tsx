@@ -1,18 +1,16 @@
-import {
-  getNetwork,
-  lookupEvmChainNetworkById,
-} from "@civic/civic-eth-provider";
-import {
-  getIconInfo,
-  SupportedSymbolArray,
-  SupportedSymbol,
-} from "@civic/civic-chain-icons";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import BaseDialog from "./BaseDialog.js";
-import { BaseChain, Chain, LabelEntry, SupportedChains } from "../types.js";
+import {
+  BaseChain,
+  Chain,
+  LabelEntry,
+  NetworkConfig,
+  SupportedChains,
+  networkConfigs,
+} from "../types.js";
 import { useLabel } from "../MultichainLabelProvider.js";
 import React from "react";
 
@@ -116,6 +114,19 @@ type ChainElementProps<
   onChainSelect: (chain: Chain<T, S, E>) => void;
 };
 
+function getNetworkNameByChainId(
+  chainId: number,
+  configs: Record<string, NetworkConfig>
+): NetworkConfig | undefined {
+  for (const name in configs) {
+    if (configs[name].chainId === chainId) {
+      return configs[name];
+    }
+  }
+
+  return undefined; // Return undefined if no matching chainId is found
+}
+
 export function ChainElement<
   T extends SupportedChains,
   S extends BaseChain,
@@ -125,13 +136,10 @@ export function ChainElement<
   let ethSymbol;
 
   if (type === SupportedChains.Ethereum) {
-    const chainNetwork = lookupEvmChainNetworkById(chain.id ?? 0);
+    const chainNetwork = getNetworkNameByChainId(chain.id ?? 0, networkConfigs);
     if (chainNetwork) {
-      ethSymbol = getNetwork(chainNetwork)?.symbol;
-      if (
-        !ethSymbol ||
-        !SupportedSymbolArray.includes(ethSymbol as SupportedSymbol)
-      ) {
+      ethSymbol = chainNetwork.symbol;
+      if (!ethSymbol) {
         return (
           <ListItem>
             <ListItemButton type="button" onClick={() => onChainSelect(chain)}>
@@ -142,10 +150,8 @@ export function ChainElement<
       }
     }
   }
-  const symbol = (ethSymbol as SupportedSymbol) || "SOL";
-  const [iconUrl, setIconUrl] = useState<string | undefined>(
-    getIconInfo(symbol)?.icon
-  );
+
+  const [iconUrl, setIconUrl] = useState<string | undefined>();
   useEffect(() => {
     if (chain.iconUrl && typeof chain.iconUrl === "function") {
       (chain.iconUrl as () => Promise<string>)().then(setIconUrl);

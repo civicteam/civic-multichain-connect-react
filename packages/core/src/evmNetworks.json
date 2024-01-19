@@ -1,0 +1,200 @@
+{
+    "localhost": {
+      "chainId": 31337,
+      "network": "Localhost"
+    },
+    "mainnet": {
+      "chainId": 1,
+      "aliases": [
+        "homestead",
+        "ethereum"
+      ],
+      "isMainnet": true,
+      "symbol": "ETH",
+      "network": "Ethereum"
+    },
+    "sepolia": {
+      "chainId": 11155111,
+      "symbol": "ETH",
+      "network": "Sepolia"
+    },
+    "goerli": {
+      "chainId": 5,
+      "symbol": "ETH",
+      "network": "Goerli"
+    },
+    "polygonMumbai": {
+      "chainId": 80001,
+      "aliases": [
+        "maticmum"
+      ],
+      "symbol": "MATIC",
+      "network": "Polygon Mumbai"
+    },
+    "polygonMainnet": {
+      "chainId": 137,
+      "aliases": [
+        "matic",
+        "polygon"
+      ],
+      "isMainnet": true,
+      "symbol": "MATIC",
+      "network": "Polygon"
+    },
+    "polygonZKEVMTestnet": {
+      "chainId": 1442,
+      "isMainnet": false,
+      "symbol": "ETH",
+      "network": "Polygon ZKEVM Testnet"
+    },
+    "polygonZKEVM": {
+      "chainId": 1101,
+      "isMainnet": true,
+      "symbol": "ETH",
+      "network": "Polygon ZKEVM"
+    },
+    "auroraTestnet": {
+      "chainId": 1313161555,
+      "symbol": "AURORA",
+      "network": "Aurora Testnet"
+    },
+    "auroraMainnet": {
+      "chainId": 1313161554,
+      "isMainnet": true,
+      "symbol": "AURORA",
+      "network": "Aurora",
+      "aliases": [
+        "aurora"
+      ]
+    },
+    "optimismGoerli": {
+      "chainId": 420,
+      "symbol": "ETH",
+      "network": "Optimism Goerli"
+    },
+    "optimismMainnet": {
+      "chainId": 10,
+      "isMainnet": true,
+      "symbol": "ETH",
+      "network": "Optimism",
+      "aliases": [
+        "optimism"
+      ]
+    },
+    "palmTestnet": {
+      "chainId": 11297108099,
+      "symbol": "PALM",
+      "network": "Palm Testnet"
+    },
+    "palmMainnet": {
+      "chainId": 11297108109,
+      "isMainnet": true,
+      "symbol": "PALM",
+      "network": "Palm",
+      "aliases": [
+        "palm"
+      ]
+    },
+    "arbitrumGoerli": {
+      "chainId": 421613,
+      "symbol": "ETH",
+      "network": "Arbitrum Goerli"
+    },
+    "arbitrumSepolia": {
+      "chainId": 421614,
+      "symbol": "ETH",
+      "network": "Arbitrum Sepolia"
+    },
+    "arbitrumMainnet": {
+      "chainId": 42161,
+      "isMainnet": true,
+      "symbol": "ETH",
+      "network": "Arbitrum",
+      "aliases": [
+        "arbitrum"
+      ]
+    },
+    "celoMainnet": {
+      "chainId": 42220,
+      "isMainnet": true,
+      "network": "Celo",
+      "aliases": [
+        "celo"
+      ]
+    },
+    "celoAlfajores": {
+      "chainId": 44787,
+      "symbol": "CELO",
+      "network": "Celo Algajores"
+    },
+    "avalancheCChain": {
+      "chainId": 43114,
+      "isMainnet": true,
+      "symbol": "AVAX",
+      "network": "Avalanche",
+      "aliases": [
+        "avalancheCChain"
+      ]
+    },
+    "avalancheCChainFuji": {
+      "chainId": 43113,
+      "symbol": "AVAX",
+      "network": "Avalanche Fuji"
+    },
+    "starknetMainnet": {
+      "chainId": 0,
+      "isMainnet": true,
+      "symbol": "STRK",
+      "network": "Starknet",
+      "aliases": [
+        "starknet"
+      ]
+    },
+    "starknetGoerli": {
+      "chainId": 0,
+      "symbol": "STRK",
+      "network": "Starknet Goerli"
+    },
+    "xdcMainnet": {
+      "chainId": 50,
+      "isMainnet": true,
+      "symbol": "XDC",
+      "network": "XDC",
+      "aliases": [
+        "xdc"
+      ]
+    },
+    "xdcApothem": {
+      "chainId": 51,
+      "symbol": "XDC",
+      "network": "XDC Apothem"
+    },
+    "fantomMainnet": {
+      "chainId": 250,
+      "isMainnet": true,
+      "symbol": "FTM",
+      "network": "Fantom",
+      "aliases": [
+        "fantom"
+      ]
+    },
+    "fantomTestnet": {
+      "chainId": 4002,
+      "symbol": "FTM",
+      "network": "Fantom Testnet"
+    },
+    "baseSepolia": {
+      "chainId": 84532,
+      "symbol": "ETH",
+      "network": "Base Sepolia"
+    },
+    "baseMainnet": {
+      "chainId": 8453,
+      "symbol": "ETH",
+      "isMainnet": true,
+      "network": "Base",
+      "aliases": [
+        "base"
+      ]
+    }
+  }
