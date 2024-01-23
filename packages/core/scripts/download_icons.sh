@@ -10,7 +10,8 @@ dest_dir=${1:-"./"}  # Default to current directory if no argument is given
 mkdir -p "$dest_dir"
 
 # Download the chainIconMapping.json file
-curl "${base_url}/chainIconMapping.json" -o chainIconMapping.json
+curl "${base_url}/chainIconMapping.json" -o ./src/chainIconMapping.json
+curl "${base_url}/evmNetworks.json" -o ./src/evmNetworks.json
 
 # Parse the JSON file and extract SVG filenames
 icons=$(jq -r '.[] | .icon + ".svg"' chainIconMapping.json)
