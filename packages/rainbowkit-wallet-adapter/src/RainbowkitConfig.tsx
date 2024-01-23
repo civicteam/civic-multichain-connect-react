@@ -138,8 +138,6 @@ function RainbowkitConfig({
     setEvmInitialChain(chain);
   }, [chains, initialChain]);
 
-  useEffect(() => console.log("wagmiConfig", wagmiConfig), [wagmiConfig]);
-
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowkitOptionsProvider options={options}>

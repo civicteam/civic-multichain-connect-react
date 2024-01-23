@@ -1,6 +1,6 @@
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import styled from "styled-components";
 import BaseDialog from "./BaseDialog.js";
 import {
@@ -9,10 +9,12 @@ import {
   LabelEntry,
   NetworkConfig,
   SupportedChains,
+  icons,
   networkConfigs,
 } from "../types.js";
 import { useLabel } from "../MultichainLabelProvider.js";
 import React from "react";
+import { DynamicIcon } from "./DynamicIcon.js";
 
 const ListItem = styled.li`
   display: flex;
@@ -133,13 +135,12 @@ export function ChainElement<
   E extends BaseChain
 >({ chain, onChainSelect }: ChainElementProps<T, S, E>): JSX.Element {
   const { type } = chain;
-  let ethSymbol;
+  const chainNetwork = getNetworkNameByChainId(chain.id ?? 0, networkConfigs);
+  const icon = icons[chainNetwork?.chainId ?? 0];
 
   if (type === SupportedChains.Ethereum) {
-    const chainNetwork = getNetworkNameByChainId(chain.id ?? 0, networkConfigs);
     if (chainNetwork) {
-      ethSymbol = chainNetwork.symbol;
-      if (!ethSymbol) {
+      if (!icon) {
         return (
           <ListItem>
             <ListItemButton type="button" onClick={() => onChainSelect(chain)}>
@@ -151,19 +152,12 @@ export function ChainElement<
     }
   }
 
-  const [iconUrl, setIconUrl] = useState<string | undefined>();
-  useEffect(() => {
-    if (chain.iconUrl && typeof chain.iconUrl === "function") {
-      (chain.iconUrl as () => Promise<string>)().then(setIconUrl);
-    } else if (chain.iconUrl && typeof chain.iconUrl === "string") {
-      setIconUrl(chain.iconUrl as string);
-    }
-  }, [chain]);
+  const iconName = icon?.icon || "solana";
 
   return (
     <ListItem>
       <ListItemButton type="button" onClick={() => onChainSelect(chain)}>
-        <Icon src={iconUrl} alt="" />
+        <DynamicIcon iconName={iconName} />
         <ListLabelWithIcon>{chain.name}</ListLabelWithIcon>
       </ListItemButton>
     </ListItem>

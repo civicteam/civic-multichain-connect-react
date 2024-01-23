@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import chainIcons from "./icons.json";
+import chainIcons from "./chainIconMapping.json";
 import evmNetworks from "./evmNetworks.json";
 
 export enum SupportedChains {
@@ -98,7 +98,13 @@ export type WalletAdapterContextType<T extends SupportedChains, S, E> = {
   getWalletAdapters: () => WalletAdpaterPlugin<T, S, E>[];
 };
 
-export type Icons = Record<string, string>;
+export type Icons = Record<
+  string,
+  {
+    icon: string;
+  }
+>;
+
 export const icons: Icons = chainIcons as Icons;
 
 export type NetworkConfig = {
