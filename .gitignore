@@ -139,4 +139,4 @@ scratch/
 build/
 packages/core/src/assets/
 chainIconMapping.json
-download_icons.sh
+evmNetworks.json
