@@ -15,7 +15,13 @@ curl "${base_url}/chainIconMapping.json" -o chainIconMapping.json
 # Parse the JSON file and extract SVG filenames
 icons=$(jq -r '.[] | .icon + ".svg"' chainIconMapping.json)
 
-# Download each SVG file
+# Download each SVG file only if it does not exist
 for icon in $icons; do
-    curl "${base_url}/${icon}" -o "${dest_dir}/${icon}"
+    # Check if the file already exists
+    if [ ! -f "${dest_dir}/${icon}" ]; then
+        # File does not exist, download it
+        curl "${base_url}/${icon}" -o "${dest_dir}/${icon}"
+    else
+        echo "File ${icon} already exists, skipping download."
+    fi
 done
