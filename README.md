@@ -160,6 +160,13 @@ sequenceDiagram
     MultiChainConnect->>WalletAdapter: Get connect UI for showing the connected wallet
     WalletAdapter->>UI: Show UI for connected wallet and button for disconnecting wallet
 ```
+## Updating Icons and Configurations
+
+When you run `pnpm run geticons` or `npm publish`, icons and configuration files are automatically fetched from our S3 bucket: `s3://civic-evm-config/`. This ensures that you always have the latest versions of these files as part of your setup process.
+
+### Source of Truth
+- The configuration and icon files have been added to `.gitignore` to avoid accidental commits of these files into the repository.
+- **Always treat the S3 bucket (`s3://civic-evm-config/`) as the single source of truth for these files.** Changes should be reflected in the S3 bucket and not within the repository.
 
 ### Custom button
 

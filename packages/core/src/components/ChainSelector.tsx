@@ -43,11 +43,6 @@ const ListItemButton = styled.button`
   }
 `;
 
-const Icon = styled.img`
-  margin-right: 10px;
-  max-width: 30px;
-`;
-
 const ListLabelNoIcon = styled.span`
   margin-right: 10px;
 `;
@@ -135,6 +130,18 @@ export function ChainElement<
   E extends BaseChain
 >({ chain, onChainSelect }: ChainElementProps<T, S, E>): JSX.Element {
   const { type } = chain;
+
+  if (type === SupportedChains.Solana) {
+    return (
+      <ListItem>
+        <ListItemButton type="button" onClick={() => onChainSelect(chain)}>
+          <DynamicIcon iconName={SupportedChains.Solana} />
+          <ListLabelWithIcon>{chain.name}</ListLabelWithIcon>
+        </ListItemButton>
+      </ListItem>
+    );
+  }
+
   const chainNetwork = getNetworkNameByChainId(chain.id ?? 0, networkConfigs);
   const icon = icons[chainNetwork?.chainId ?? 0];
 
@@ -152,12 +159,10 @@ export function ChainElement<
     }
   }
 
-  const iconName = icon?.icon || "solana";
-
   return (
     <ListItem>
       <ListItemButton type="button" onClick={() => onChainSelect(chain)}>
-        <DynamicIcon iconName={iconName} />
+        <DynamicIcon iconName={icon.icon} />
         <ListLabelWithIcon>{chain.name}</ListLabelWithIcon>
       </ListItemButton>
     </ListItem>
