@@ -137,3 +137,6 @@ scratch/
 /packages/*/LICENSE
 
 build/
+packages/core/src/assets/
+chainIconMapping.json
+evmNetworks.json

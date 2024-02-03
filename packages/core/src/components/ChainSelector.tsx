@@ -1,20 +1,20 @@
-import {
-  getNetwork,
-  lookupEvmChainNetworkById,
-} from "@civic/civic-eth-provider";
-import {
-  getIconInfo,
-  SupportedSymbolArray,
-  SupportedSymbol,
-} from "@civic/civic-chain-icons";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import styled from "styled-components";
 import BaseDialog from "./BaseDialog.js";
-import { BaseChain, Chain, LabelEntry, SupportedChains } from "../types.js";
+import {
+  BaseChain,
+  Chain,
+  LabelEntry,
+  NetworkConfig,
+  SupportedChains,
+  icons,
+  networkConfigs,
+} from "../types.js";
 import { useLabel } from "../MultichainLabelProvider.js";
 import React from "react";
+import { DynamicIcon } from "./DynamicIcon.js";
 
 const ListItem = styled.li`
   display: flex;
@@ -41,11 +41,6 @@ const ListItemButton = styled.button`
   &:hover {
     background: rgba(255, 107, 78, 0.2);
   }
-`;
-
-const Icon = styled.img`
-  margin-right: 10px;
-  max-width: 30px;
 `;
 
 const ListLabelNoIcon = styled.span`
@@ -116,22 +111,43 @@ type ChainElementProps<
   onChainSelect: (chain: Chain<T, S, E>) => void;
 };
 
+function getNetworkNameByChainId(
+  chainId: number,
+  configs: Record<string, NetworkConfig>
+): NetworkConfig | undefined {
+  for (const name in configs) {
+    if (configs[name].chainId === chainId) {
+      return configs[name];
+    }
+  }
+
+  return undefined; // Return undefined if no matching chainId is found
+}
+
 export function ChainElement<
   T extends SupportedChains,
   S extends BaseChain,
   E extends BaseChain
 >({ chain, onChainSelect }: ChainElementProps<T, S, E>): JSX.Element {
   const { type } = chain;
-  let ethSymbol;
+
+  if (type === SupportedChains.Solana) {
+    return (
+      <ListItem>
+        <ListItemButton type="button" onClick={() => onChainSelect(chain)}>
+          <DynamicIcon iconName={SupportedChains.Solana} />
+          <ListLabelWithIcon>{chain.name}</ListLabelWithIcon>
+        </ListItemButton>
+      </ListItem>
+    );
+  }
+
+  const chainNetwork = getNetworkNameByChainId(chain.id ?? 0, networkConfigs);
+  const icon = icons[chainNetwork?.chainId ?? 0];
 
   if (type === SupportedChains.Ethereum) {
-    const chainNetwork = lookupEvmChainNetworkById(chain.id ?? 0);
     if (chainNetwork) {
-      ethSymbol = getNetwork(chainNetwork)?.symbol;
-      if (
-        !ethSymbol ||
-        !SupportedSymbolArray.includes(ethSymbol as SupportedSymbol)
-      ) {
+      if (!icon) {
         return (
           <ListItem>
             <ListItemButton type="button" onClick={() => onChainSelect(chain)}>
@@ -142,22 +158,11 @@ export function ChainElement<
       }
     }
   }
-  const symbol = (ethSymbol as SupportedSymbol) || "SOL";
-  const [iconUrl, setIconUrl] = useState<string | undefined>(
-    getIconInfo(symbol)?.icon
-  );
-  useEffect(() => {
-    if (chain.iconUrl && typeof chain.iconUrl === "function") {
-      (chain.iconUrl as () => Promise<string>)().then(setIconUrl);
-    } else if (chain.iconUrl && typeof chain.iconUrl === "string") {
-      setIconUrl(chain.iconUrl as string);
-    }
-  }, [chain]);
 
   return (
     <ListItem>
       <ListItemButton type="button" onClick={() => onChainSelect(chain)}>
-        <Icon src={iconUrl} alt="" />
+        <DynamicIcon iconName={icon.icon} />
         <ListLabelWithIcon>{chain.name}</ListLabelWithIcon>
       </ListItemButton>
     </ListItem>
