@@ -25,6 +25,7 @@ const ListItem = styled.li`
 const ListItemButton = styled.button`
   width: 100%;
   display: flex;
+  align-items: center;
   border: 0;
   background-color: transparent;
   background-image: none;

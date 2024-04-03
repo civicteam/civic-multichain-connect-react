@@ -1,6 +1,6 @@
 {
   "name": "@civic/multichain-connect-react-core",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A multichain wallet connect library",
   "repository": "git@github.com:civicteam/civic-multichain-connect-react.git",
   "author": "civic.com",
@@ -26,7 +26,7 @@
     "build": "tsc --build --verbose && cp ../../LICENSE ./ && cp ../../README.md ./ && cp -r src/assets/ lib/esm/assets/ && cp -r src/assets/ lib/cjs/assets/",
     "prepublish": "npm run geticons",
     "postpublish": "npm run tag && changelog generate",
-    "tag" : "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag core-v$PACKAGE_VERSION && git push --tags",
+    "tag": "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag core-v$PACKAGE_VERSION && git push --tags",
     "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint",
     "geticons": "sh ./scripts/download_icons.sh ./src/assets"
   },
