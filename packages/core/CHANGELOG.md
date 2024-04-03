@@ -1,3 +1,7 @@
+#### 0.2.4 (2024-04-03)
+
+- Fix chain selector icon alignment when chain name wraps
+
 #### 0.2.3 (2024-02-03)
 
 - Fix issue with icons briefly showing broken image
