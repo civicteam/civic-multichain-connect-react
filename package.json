@@ -19,7 +19,7 @@
     "publish:release": "pnpm publish -r"
   },
   "engines": {
-    "node": ">=16",
+    "node": ">=18",
     "pnpm": ">=7"
   },
   "devDependencies": {
@@ -48,7 +48,7 @@
     "ts-node": "^10.7.0",
     "tsconfig-paths": "^3.9.0",
     "tslib": "^2.5.2",
-    "typescript": "4.8.4",
+    "typescript": "^5",
     "generate-changelog": "^1.8.0"
   }
 }
