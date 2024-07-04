@@ -1,3 +1,5 @@
+#### 0.2.3-beta.0 (2024-07-04)
+
 #### 0.2.2 (2023-12-15)
 
 - Expose useSolanaWalletAdapter

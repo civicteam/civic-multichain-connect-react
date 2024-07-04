@@ -1,3 +1,5 @@
+#### 0.2.5-beta.0 (2024-07-04)
+
 #### 0.2.4 (2024-04-03)
 
 - Fix chain selector icon alignment when chain name wraps

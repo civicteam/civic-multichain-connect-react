@@ -1,3 +1,5 @@
+#### 0.4.1-beta.0 (2024-07-04)
+
 #### 0.4.0 (2023-12-15)
 
 - Expose underlying lib functionality
