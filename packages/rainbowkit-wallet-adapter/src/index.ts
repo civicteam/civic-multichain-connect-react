@@ -1,5 +1,6 @@
+import { Chain } from "viem";
 import RainbowkitConfig from "./RainbowkitConfig.js";
-import { Chain, RainbowkitConfigOptions } from "./types.js";
+import { RainbowkitConfigOptions } from "./types.js";
 export * from "wagmi";
 export { RainbowkitConfig };
 export type { Chain };
