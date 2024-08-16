@@ -32,10 +32,12 @@ export default function RainbowkitWalletProvider({
   const { setSelectedChain } = useChain();
   const [wallet, setWallet] = useState<Client>();
   const { connector, isConnected, address } = useAccount();
+  const result = useWalletClient();
 
   useEffect(() => {
-    const result = useWalletClient();
-    setWallet(result.data);
+    if (result.data && isConnected) {
+      setWallet(result.data);
+    }
   }, [connector, address, chainId]);
 
   useEffect(() => {

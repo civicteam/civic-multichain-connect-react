@@ -34,16 +34,16 @@
     "node": ">=16"
   },
   "peerDependencies": {
-    "react": "^18.0.2",
-    "react-dom": "^18.0.2"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "dependencies": {
     "@wallet-standard/react-core": "^0.1.4",
     "ramda": "^0.28.0",
-    "styled-components": "^6.0.0-rc.3",
-    "react-tabs": "^6.0.1"
+    "react-tabs": "^6.0.2",
+    "styled-components": "^6.1.12"
   },
   "devDependencies": {
-    "@types/node-fetch": "^2.6.4"
+    "@types/node-fetch": "^2.6.11"
   }
 }

@@ -22,6 +22,9 @@ import { RainbowkitConfigOptions } from "./types.js";
 import RainbowkitOptionsProvider from "./RainbowitOptionsProvider.js";
 import { Chain, mainnet } from "wagmi/chains";
 import { WagmiProvider } from "wagmi";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function RainbowkitPluginProvider({
   children,
@@ -110,19 +113,22 @@ function RainbowkitConfig({
 
   return (
     <WagmiProvider config={wagmiConfig}>
-      <RainbowkitOptionsProvider options={options}>
-        <RainbowKitProvider
-          // if initialChain is not provided, use the selectedChain from the ChainContext
-          initialChain={evmInitialChain ?? selectedChain}
-          theme={theme}
-        >
-          <WalletContextProvider initialChain={evmInitialChain}>
-            <ModalContextProvider>
-              <RainbowkitPluginProvider>{children}</RainbowkitPluginProvider>
-            </ModalContextProvider>
-          </WalletContextProvider>
-        </RainbowKitProvider>
-      </RainbowkitOptionsProvider>
+      <QueryClientProvider client={queryClient}>
+        <RainbowkitOptionsProvider options={options}>
+          <RainbowKitProvider
+            // if initialChain is not provided, use the selectedChain from the ChainContext
+            initialChain={evmInitialChain ?? selectedChain}
+            theme={theme}
+            modalSize={options.modalSize}
+          >
+            <WalletContextProvider initialChain={evmInitialChain}>
+              <ModalContextProvider>
+                <RainbowkitPluginProvider>{children}</RainbowkitPluginProvider>
+              </ModalContextProvider>
+            </WalletContextProvider>
+          </RainbowKitProvider>
+        </RainbowkitOptionsProvider>
+      </QueryClientProvider>
     </WagmiProvider>
   );
 }
