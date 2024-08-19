@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactElement, useEffect, useMemo, useState } from "react";
 import {
-  useAccount,
   useDisconnect,
   useChainId,
   useWalletClient,
@@ -31,51 +30,67 @@ export default function RainbowkitWalletProvider({
   const { chains, switchChain } = useSwitchChain();
   const { setSelectedChain } = useChain();
   const [wallet, setWallet] = useState<Client>();
-  const { connector, isConnected, address } = useAccount();
   const result = useWalletClient();
 
   useEffect(() => {
-    if (result.data && isConnected) {
+    if (result.data) {
       setWallet(result.data);
     }
-  }, [connector, address, chainId]);
+  }, [result.data, chainId]);
 
   useEffect(() => {
-    if (!isConnected) {
+    if (!result.data) {
       setWallet(undefined);
     }
-  }, [isConnected, address, chainId]);
+  }, [result.data, chainId]);
 
   const context = useMemo(
     () => ({
       wallet,
-      connected: isConnected,
+      connected: result.data ? true : false,
       disconnect,
     }),
-    [isConnected, wallet]
+    [result.data, wallet]
   );
 
+  // This effect handles chain selection and switching based on the current chainId.
+  // It ensures the selected chain matches the current chainId and updates the app state accordingly.
   useEffect(() => {
+    // Early return if result data is not available
+    if (!result.data) return;
+
+    // The wallet changes before the chainId, so we need to check if the chainId matches the wallet chainId
+    if (result.data.chain.id !== chainId) return;
+
     const chain = chains.find((c) => c.id === chainId);
+
     if (!chain) return;
 
     switchChain({ chainId });
+
     setSelectedChain({
       ...chain,
       type: SupportedChains.Ethereum,
     });
-  }, [chainId, setSelectedChain, switchChain]);
+  }, [chainId, setSelectedChain, switchChain, result.data, chains]);
 
   // Allow the chains to be switched at runtime
   useEffect(() => {
-    if (isConnected && initialChain) {
+    if (result.data && initialChain) {
       switchChain({ chainId: initialChain.id });
       setSelectedChain({
         ...initialChain,
         type: SupportedChains.Ethereum,
       });
     }
-  }, [isConnected, initialChain, setSelectedChain]);
+  }, [result.data, initialChain, setSelectedChain]);
+
+  // Reset the selected chain if the wallet is disconnected
+  useEffect(() => {
+    if (!result.data) {
+      setSelectedChain(undefined);
+    }
+  }, [result.data, chainId]);
 
   return (
     <RainbowkitWalletContext.Provider value={context}>

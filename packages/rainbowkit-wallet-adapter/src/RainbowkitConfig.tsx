@@ -24,8 +24,6 @@ import { Chain, mainnet } from "wagmi/chains";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const queryClient = new QueryClient();
-
 function RainbowkitPluginProvider({
   children,
 }: {
@@ -65,6 +63,8 @@ function RainbowkitConfig({
     never,
     Chain & BaseChain
   >();
+
+  const queryClient = useMemo(() => new QueryClient(), []);
 
   const wagmiConfig = useMemo(() => {
     const { appName, walletConnectProjectId } = options;
