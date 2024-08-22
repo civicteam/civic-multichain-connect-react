@@ -2,6 +2,7 @@ import React, { ReactElement, useContext, useEffect, useMemo } from "react";
 import {
   RainbowKitProvider,
   Theme,
+  WalletList,
   getDefaultConfig,
 } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
@@ -50,6 +51,7 @@ function RainbowkitConfig({
   testnetChains,
   initialChain,
   options,
+  wallets,
 }: {
   children?: React.ReactNode;
   theme?: Theme | null;
@@ -57,6 +59,7 @@ function RainbowkitConfig({
   chains: Chain[];
   testnetChains?: Chain[];
   options: RainbowkitConfigOptions;
+  wallets?: WalletList;
 }): JSX.Element | null {
   const { setChains, selectedChain } = useChain<
     SupportedChains.Ethereum,
@@ -78,10 +81,14 @@ function RainbowkitConfig({
     }
 
     // Interesting way to solve the typescript error
-    const [firstChain, ...restChains] = chains;
+    const [firstChain, ...restChains] = [
+      ...chains,
+      ...(testnetChains || []),
+    ].sort((a, b) => a.name.localeCompare(b.name));
 
     return getDefaultConfig({
       appName,
+      wallets,
       projectId: walletConnectProjectId,
       chains: [firstChain, ...restChains],
     });

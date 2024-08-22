@@ -90,7 +90,7 @@ export default function RainbowkitWalletProvider({
     if (!result.data) {
       setSelectedChain(undefined);
     }
-  }, [result.data, chainId]);
+  }, [result.data]);
 
   return (
     <RainbowkitWalletContext.Provider value={context}>

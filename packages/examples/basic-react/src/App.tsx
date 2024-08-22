@@ -10,10 +10,10 @@ import { SolanaWalletAdapterConfig } from "@civic/multichain-connect-react-solan
 import { RainbowkitConfig } from "@civic/multichain-connect-react-rainbowkit-wallet-adapter";
 import {
   mainnet,
-  goerli,
+  sepolia,
   polygon,
   arbitrum,
-  arbitrumGoerli,
+  arbitrumSepolia,
   polygonMumbai,
 } from "wagmi/chains";
 
@@ -30,7 +30,7 @@ const defaultSolanaChains = [solanaMainnetChain];
 const defaultSolanaTestChains = [solanaDevnetChain];
 
 const defaultEvmChains = [polygon, mainnet, arbitrum];
-const defaultEvmTestChains = [polygonMumbai, goerli, arbitrumGoerli];
+const defaultEvmTestChains = [polygonMumbai, sepolia, arbitrumSepolia];
 
 const Content = () => {
   return (
