@@ -1,6 +1,6 @@
 {
   "name": "@civic/multichain-connect-react-solana-wallet-adapter",
-  "version": "0.2.2",
+  "version": "0.2.3-beta.0",
   "description": "A multichain wallet connect library",
   "repository": "git@github.com:civicteam/civic-multichain-connect-react.git",
   "author": "civic.com",
@@ -25,7 +25,7 @@
   "scripts": {
     "build": "tsc --build --verbose && cp ../../LICENSE ./ && cp ../../README.md ./",
     "postpublish": "npm run tag && changelog generate",
-    "tag" : "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag solana-v$PACKAGE_VERSION && git push --tags",
+    "tag": "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag solana-v$PACKAGE_VERSION && git push --tags",
     "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint"
   },
   "engines": {
@@ -33,14 +33,15 @@
   },
   "peerDependencies": {
     "@civic/multichain-connect-react-core": "workspace:^",
-    "react": "^18.0.2",
-    "react-dom": "^18.0.2"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "dependencies": {
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",
-    "@solana/wallet-adapter-react-ui": "^0.9.34",
-    "@solana/wallet-adapter-wallets": "^0.19.22",
-    "@solana/web3.js": "^1.78.5"
+    "@solana/wallet-adapter-react-ui": "^0.9.35",
+    "@solana/wallet-adapter-wallets": "^0.19.23",
+    "@solana/web3.js": "^1.95.2",
+    "rpc-websockets": "7.11.0"
   }
 }

@@ -2,17 +2,9 @@ import React, { ReactElement, useContext, useEffect, useMemo } from "react";
 import {
   RainbowKitProvider,
   Theme,
-  connectorsForWallets,
-  getDefaultWallets,
+  WalletList,
+  getDefaultConfig,
 } from "@rainbow-me/rainbowkit";
-import { walletConnectWallet } from "@rainbow-me/rainbowkit/wallets";
-import {
-  WagmiConfig,
-  ChainProviderFn,
-  configureChains,
-  createConfig,
-} from "wagmi";
-import { isMobile } from "react-device-detect";
 import "@rainbow-me/rainbowkit/styles.css";
 import ModalContextProvider, {
   RainbowkitModalContext,
@@ -27,9 +19,11 @@ import {
   BaseChain,
 } from "@civic/multichain-connect-react-core";
 import { RainbowkitButton } from "./RainbowkitButton.js";
-import { Chain, RainbowkitConfigOptions } from "./types.js";
+import { RainbowkitConfigOptions } from "./types.js";
 import RainbowkitOptionsProvider from "./RainbowitOptionsProvider.js";
-import { goerli } from "viem/chains";
+import { Chain, mainnet } from "wagmi/chains";
+import { WagmiProvider } from "wagmi";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function RainbowkitPluginProvider({
   children,
@@ -55,17 +49,17 @@ function RainbowkitConfig({
   theme,
   chains,
   testnetChains,
-  providers,
   initialChain,
   options,
+  wallets,
 }: {
   children?: React.ReactNode;
   theme?: Theme | null;
   initialChain?: Chain;
   chains: Chain[];
   testnetChains?: Chain[];
-  providers: ChainProviderFn[];
   options: RainbowkitConfigOptions;
+  wallets?: WalletList;
 }): JSX.Element | null {
   const { setChains, selectedChain } = useChain<
     SupportedChains.Ethereum,
@@ -73,44 +67,30 @@ function RainbowkitConfig({
     Chain & BaseChain
   >();
 
-  const { chains: configuredChains, publicClient } = useMemo(() => {
-    const userDefinedChains = [...chains, ...(testnetChains || [])];
-    const defaultChain = [goerli];
-    // we need one chain to be configured for the public client
-    const configuredChains =
-      userDefinedChains.length > 0 ? userDefinedChains : defaultChain;
-    return configureChains(configuredChains, providers);
-  }, [chains]);
+  const queryClient = useMemo(() => new QueryClient(), []);
 
   const wagmiConfig = useMemo(() => {
     const { appName, walletConnectProjectId } = options;
 
-    let chosenConnectors;
-
-    if (isMobile) {
-      chosenConnectors = connectorsForWallets([
-        {
-          groupName: appName,
-          wallets: [
-            walletConnectWallet({
-              projectId: walletConnectProjectId,
-              chains: configuredChains,
-            }),
-          ],
-        },
-      ]);
-    } else {
-      chosenConnectors = getDefaultWallets({
+    if (chains.length === 0) {
+      return getDefaultConfig({
         appName,
         projectId: walletConnectProjectId,
-        chains: configuredChains,
-      }).connectors;
+        chains: [mainnet],
+      });
     }
 
-    return createConfig({
-      autoConnect: true,
-      connectors: chosenConnectors,
-      publicClient,
+    // Interesting way to solve the typescript error
+    const [firstChain, ...restChains] = [
+      ...chains,
+      ...(testnetChains || []),
+    ].sort((a, b) => a.name.localeCompare(b.name));
+
+    return getDefaultConfig({
+      appName,
+      wallets,
+      projectId: walletConnectProjectId,
+      chains: [firstChain, ...restChains],
     });
   }, []);
 
@@ -139,22 +119,24 @@ function RainbowkitConfig({
   }, [chains, initialChain]);
 
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowkitOptionsProvider options={options}>
-        <RainbowKitProvider
-          chains={[...chains, ...(testnetChains || [])]}
-          // if initialChain is not provided, use the selectedChain from the ChainContext
-          initialChain={evmInitialChain ?? selectedChain}
-          theme={theme}
-        >
-          <WalletContextProvider initialChain={evmInitialChain}>
-            <ModalContextProvider>
-              <RainbowkitPluginProvider>{children}</RainbowkitPluginProvider>
-            </ModalContextProvider>
-          </WalletContextProvider>
-        </RainbowKitProvider>
-      </RainbowkitOptionsProvider>
-    </WagmiConfig>
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowkitOptionsProvider options={options}>
+          <RainbowKitProvider
+            // if initialChain is not provided, use the selectedChain from the ChainContext
+            initialChain={evmInitialChain ?? selectedChain}
+            theme={theme}
+            modalSize={options.modalSize}
+          >
+            <WalletContextProvider initialChain={evmInitialChain}>
+              <ModalContextProvider>
+                <RainbowkitPluginProvider>{children}</RainbowkitPluginProvider>
+              </ModalContextProvider>
+            </WalletContextProvider>
+          </RainbowKitProvider>
+        </RainbowkitOptionsProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }
 

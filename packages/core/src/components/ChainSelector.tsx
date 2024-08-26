@@ -3,15 +3,7 @@ import "react-tabs/style/react-tabs.css";
 import { useMemo } from "react";
 import styled from "styled-components";
 import BaseDialog from "./BaseDialog.js";
-import {
-  BaseChain,
-  Chain,
-  LabelEntry,
-  NetworkConfig,
-  SupportedChains,
-  icons,
-  networkConfigs,
-} from "../types.js";
+import { BaseChain, Chain, LabelEntry, SupportedChains } from "../types.js";
 import { useLabel } from "../MultichainLabelProvider.js";
 import React from "react";
 import { DynamicIcon } from "./DynamicIcon.js";
@@ -42,10 +34,6 @@ const ListItemButton = styled.button`
   &:hover {
     background: rgba(255, 107, 78, 0.2);
   }
-`;
-
-const ListLabelNoIcon = styled.span`
-  margin-right: 10px;
 `;
 
 const ListLabelWithIcon = styled.span`
@@ -112,19 +100,6 @@ type ChainElementProps<
   onChainSelect: (chain: Chain<T, S, E>) => void;
 };
 
-function getNetworkNameByChainId(
-  chainId: number,
-  configs: Record<string, NetworkConfig>
-): NetworkConfig | undefined {
-  for (const name in configs) {
-    if (configs[name].chainId === chainId) {
-      return configs[name];
-    }
-  }
-
-  return undefined; // Return undefined if no matching chainId is found
-}
-
 export function ChainElement<
   T extends SupportedChains,
   S extends BaseChain,
@@ -136,34 +111,17 @@ export function ChainElement<
     return (
       <ListItem>
         <ListItemButton type="button" onClick={() => onChainSelect(chain)}>
-          <DynamicIcon iconName={SupportedChains.Solana} />
+          <DynamicIcon chain={chain} />
           <ListLabelWithIcon>{chain.name}</ListLabelWithIcon>
         </ListItemButton>
       </ListItem>
     );
   }
 
-  const chainNetwork = getNetworkNameByChainId(chain.id ?? 0, networkConfigs);
-  const icon = icons[chainNetwork?.chainId ?? 0];
-
-  if (type === SupportedChains.Ethereum) {
-    if (chainNetwork) {
-      if (!icon) {
-        return (
-          <ListItem>
-            <ListItemButton type="button" onClick={() => onChainSelect(chain)}>
-              <ListLabelNoIcon>{chain.name}</ListLabelNoIcon>
-            </ListItemButton>
-          </ListItem>
-        );
-      }
-    }
-  }
-
   return (
     <ListItem>
       <ListItemButton type="button" onClick={() => onChainSelect(chain)}>
-        <DynamicIcon iconName={icon.icon} />
+        <DynamicIcon chain={chain} />
         <ListLabelWithIcon>{chain.name}</ListLabelWithIcon>
       </ListItemButton>
     </ListItem>

@@ -1,6 +1,4 @@
 import { ReactElement } from "react";
-import chainIcons from "./chainIconMapping.json";
-import evmNetworks from "./evmNetworks.json";
 
 export enum SupportedChains {
   Solana = "solana",
@@ -105,8 +103,6 @@ export type Icons = Record<
   }
 >;
 
-export const icons: Icons = chainIcons as Icons;
-
 export type NetworkConfig = {
   chainId: number;
   symbol?: string;
@@ -114,6 +110,3 @@ export type NetworkConfig = {
   isMainnet?: boolean;
   aliases?: string[];
 };
-
-type NetworkConfigs = Record<string, NetworkConfig>;
-export const networkConfigs: NetworkConfigs = evmNetworks as NetworkConfigs;

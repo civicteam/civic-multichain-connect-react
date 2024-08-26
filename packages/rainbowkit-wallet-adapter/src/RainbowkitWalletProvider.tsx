@@ -1,13 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactElement, useEffect, useMemo, useState } from "react";
-import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
+import {
+  useDisconnect,
+  useChainId,
+  useWalletClient,
+  useSwitchChain,
+} from "wagmi";
 import {
   SupportedChains,
   WalletContextType,
   useChain,
 } from "@civic/multichain-connect-react-core";
-import { Chain } from "./types.js";
-import { WalletClient } from "viem";
+import { Chain, Client } from "viem";
 
 export const RainbowkitWalletContext = React.createContext<
   WalletContextType<any, any, any>
@@ -22,53 +26,71 @@ export default function RainbowkitWalletProvider({
   initialChain?: Chain;
 }): ReactElement {
   const { disconnect } = useDisconnect();
-  const { chain } = useNetwork();
-  const { switchNetwork } = useSwitchNetwork();
+  const chainId = useChainId();
+  const { chains, switchChain } = useSwitchChain();
   const { setSelectedChain } = useChain();
-  const [wallet, setWallet] = useState<WalletClient>();
-  const { connector, isConnected, address } = useAccount();
+  const [wallet, setWallet] = useState<Client>();
+  const result = useWalletClient();
 
   useEffect(() => {
-    connector?.getWalletClient().then((client) => {
-      setWallet(client);
-    });
-  }, [connector, address, chain]);
+    if (result.data) {
+      setWallet(result.data);
+    }
+  }, [result.data, chainId]);
 
   useEffect(() => {
-    if (!isConnected) {
+    if (!result.data) {
       setWallet(undefined);
     }
-  }, [isConnected, address, chain]);
+  }, [result.data, chainId]);
 
   const context = useMemo(
     () => ({
       wallet,
-      connected: isConnected,
+      connected: result.data ? true : false,
       disconnect,
     }),
-    [isConnected, wallet]
+    [result.data, wallet]
   );
 
+  // This effect handles chain selection and switching based on the current chainId.
+  // It ensures the selected chain matches the current chainId and updates the app state accordingly.
   useEffect(() => {
-    if (chain && switchNetwork) {
-      switchNetwork(chain.id);
-      setSelectedChain({
-        ...chain,
-        type: SupportedChains.Ethereum,
-      });
-    }
-  }, [chain, setSelectedChain, switchNetwork]);
+    // Early return if result data is not available
+    if (!result.data) return;
+
+    // The wallet changes before the chainId, so we need to check if the chainId matches the wallet chainId
+    if (result.data.chain.id !== chainId) return;
+
+    const chain = chains.find((c) => c.id === chainId);
+
+    if (!chain) return;
+
+    switchChain({ chainId });
+
+    setSelectedChain({
+      ...chain,
+      type: SupportedChains.Ethereum,
+    });
+  }, [chainId, setSelectedChain, switchChain, result.data, chains]);
 
   // Allow the chains to be switched at runtime
   useEffect(() => {
-    if (isConnected && initialChain && switchNetwork) {
-      switchNetwork(initialChain.id);
+    if (result.data && initialChain) {
+      switchChain({ chainId: initialChain.id });
       setSelectedChain({
         ...initialChain,
         type: SupportedChains.Ethereum,
       });
     }
-  }, [isConnected, initialChain, setSelectedChain, switchNetwork]);
+  }, [result.data, initialChain, setSelectedChain]);
+
+  // Reset the selected chain if the wallet is disconnected
+  useEffect(() => {
+    if (!result.data) {
+      setSelectedChain(undefined);
+    }
+  }, [result.data]);
 
   return (
     <RainbowkitWalletContext.Provider value={context}>
