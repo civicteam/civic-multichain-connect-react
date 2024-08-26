@@ -1,7 +1,14 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import React, { ReactElement, useContext, useEffect, useMemo } from "react";
-import { useWalletClient } from "wagmi";
+import React, {
+  ReactElement,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { useAccount } from "wagmi";
 import {
+  BaseChain,
   ModalContextType,
   SupportedChains,
   useChain,
@@ -11,6 +18,42 @@ export const RainbowkitModalContext = React.createContext<ModalContextType>(
   {} as ModalContextType
 );
 
+const useWalletConnection = (
+  selectedChain: BaseChain | undefined,
+  openConnectModal: (() => void) | undefined,
+  isConnected: boolean
+) => {
+  const [shouldOpenModal, setShouldOpenModal] = useState(false);
+
+  useEffect(() => {
+    const { type } = selectedChain || {};
+
+    // Introduce a small delay to allow state updates to settle
+    // User is disconnected before the selected chain is set to undefined resulting in the modal opening
+    const timer = setTimeout(() => {
+      console.log("isConnected", isConnected, "selectedChain", selectedChain);
+
+      if (
+        !isConnected &&
+        type === SupportedChains.Ethereum &&
+        selectedChain !== undefined
+      ) {
+        setShouldOpenModal(true);
+      } else {
+        setShouldOpenModal(false);
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [selectedChain, isConnected]);
+
+  useEffect(() => {
+    if (shouldOpenModal) {
+      openConnectModal?.();
+    }
+  }, [shouldOpenModal, openConnectModal]);
+};
+
 // Create the context provider component
 export default function RainbowkitModalProvider({
   children,
@@ -18,8 +61,10 @@ export default function RainbowkitModalProvider({
   children: React.ReactNode;
 }): ReactElement {
   const { openConnectModal } = useConnectModal();
-  const result = useWalletClient();
   const { selectedChain } = useChain();
+  const { isConnected } = useAccount();
+
+  useWalletConnection(selectedChain, openConnectModal, isConnected);
 
   const context = useMemo(
     () => ({
@@ -27,16 +72,6 @@ export default function RainbowkitModalProvider({
     }),
     [openConnectModal]
   );
-
-  useEffect(() => {
-    const { type } = selectedChain || {};
-    // When reloading the page, the wallet client is not available immediately.
-    // isConnected is false even when the wallet client is available.
-    // Rely on the wallet client to determine if the user is connected.
-    if (!result.data && type === SupportedChains.Ethereum) {
-      openConnectModal?.();
-    }
-  }, [selectedChain, openConnectModal, result.data]);
 
   return (
     <RainbowkitModalContext.Provider value={context}>
