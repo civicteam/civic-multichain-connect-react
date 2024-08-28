@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { useAccount } from "wagmi";
+import { useWalletClient } from "wagmi";
 import {
   BaseChain,
   ModalContextType,
@@ -62,9 +62,13 @@ export default function RainbowkitModalProvider({
 }): ReactElement {
   const { openConnectModal } = useConnectModal();
   const { selectedChain } = useChain();
-  const { isConnected } = useAccount();
+  const result = useWalletClient();
 
-  useWalletConnection(selectedChain, openConnectModal, isConnected);
+  useWalletConnection(
+    selectedChain,
+    openConnectModal,
+    result.data ? true : false
+  );
 
   const context = useMemo(
     () => ({
