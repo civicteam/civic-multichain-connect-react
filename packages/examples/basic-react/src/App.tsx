@@ -1,7 +1,5 @@
 /* eslint-disable require-extensions/require-extensions */
 import React from "react";
-import "./App.css";
-import "@civic/ui/styles.css";
 import {
   MultichainConnectButton,
   MultichainWalletProvider,
@@ -33,7 +31,7 @@ const defaultSolanaTestChains = [solanaDevnetChain];
 const defaultEvmChains = [polygon, mainnet, arbitrum];
 const defaultEvmTestChains = [polygonMumbai, sepolia, arbitrumSepolia];
 
-const Content = () => {
+const App = () => {
   return (
     <MultichainWalletProvider>
       <RainbowkitConfig
@@ -61,15 +59,5 @@ const Content = () => {
     </MultichainWalletProvider>
   );
 };
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Content />
-      </header>
-    </div>
-  );
-}
 
 export default App;
