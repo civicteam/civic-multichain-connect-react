@@ -13,6 +13,7 @@
     "@civic/multichain-connect-react-core": "workspace:^",
     "@civic/multichain-connect-react-rainbowkit-wallet-adapter": "workspace:^",
     "@civic/multichain-connect-react-solana-wallet-adapter": "workspace:^",
+    "@civic/ui": "^0.0.2",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",
     "@solana/web3.js": "^1.95.2",

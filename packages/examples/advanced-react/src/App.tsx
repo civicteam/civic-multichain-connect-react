@@ -1,6 +1,7 @@
 /* eslint-disable require-extensions/require-extensions */
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import "@civic/ui/styles.css";
 import {
   MultichainConnectButton,
   MultichainWalletProvider,
