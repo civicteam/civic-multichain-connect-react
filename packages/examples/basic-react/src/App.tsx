@@ -42,7 +42,7 @@ const Content = () => {
           // Rainbowkit relies on WalletConnect which now needs to obtain a projectId from WalletConnect Cloud.
           // Put this in your .env file as REACT_APP_WALLET_CONNECT_PROJECT_ID=...
           appName: "Example App",
-          walletConnectProjectId: `${process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID}`,
+          walletConnectProjectId: `cb15f45a4b51799ebac3155e52fa5129`,
           chainStatus: "none",
           label: "Connect Wallet",
           showBalance: true,

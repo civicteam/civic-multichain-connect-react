@@ -24,6 +24,7 @@
   },
   "scripts": {
     "build": "tsc --build --verbose && cp ../../LICENSE ./ && cp ../../README.md ./ && cp -r src/assets/ lib/esm/assets/ && cp -r src/assets/ lib/cjs/assets/",
+    "prebuild": "npm run geticons",
     "prepublish": "npm run geticons",
     "postpublish": "npm run tag && changelog generate",
     "tag": "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag core-v$PACKAGE_VERSION && git push --tags",

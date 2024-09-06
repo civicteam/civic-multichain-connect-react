@@ -5,6 +5,7 @@ import {
   useChainId,
   useWalletClient,
   useSwitchChain,
+  useAccount,
 } from "wagmi";
 import {
   SupportedChains,
@@ -27,6 +28,7 @@ export default function RainbowkitWalletProvider({
 }): ReactElement {
   const { disconnect } = useDisconnect();
   const chainId = useChainId();
+  const account = useAccount();
   const { chains, switchChain } = useSwitchChain();
   const { setSelectedChain } = useChain();
   const [wallet, setWallet] = useState<Client>();
@@ -44,13 +46,22 @@ export default function RainbowkitWalletProvider({
     }
   }, [result.data, chainId]);
 
+  useEffect(() => {
+    console.log("account.isConnecting", account.isConnecting);
+  }, [account.isConnecting]);
+
+  useEffect(() => {
+    console.log("rendering wallet");
+  }, []);
+
   const context = useMemo(
     () => ({
       wallet,
-      connected: result.data ? true : false,
+      connected: account.isConnected,
+      connecting: account.isConnecting,
       disconnect,
     }),
-    [result.data, wallet]
+    [result.data, wallet, account.isConnected, account.isConnecting, disconnect]
   );
 
   // This effect handles chain selection and switching based on the current chainId.

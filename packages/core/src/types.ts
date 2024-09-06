@@ -38,6 +38,7 @@ export interface WalletContextType<T extends SupportedChains, S, E> {
   chain?: T;
   wallet?: Wallet<T, S, E>;
   connected: boolean;
+  connecting: boolean;
   disconnect: (() => void) | undefined;
 }
 

@@ -209,3 +209,68 @@ export function MultichainConnectButton(): JSX.Element | null {
   );
 }
 ```
+
+## Project Setup
+
+This project uses pnpm for package management and workspace organization. Follow these steps to set up the project:
+
+1. **Install pnpm** (if not already installed):
+   ```
+   npm install -g pnpm
+   ```
+
+2. **Clone the repository**:
+   ```
+   git clone [your-repository-url]
+   cd [your-project-name]
+   ```
+
+3. **Install dependencies**:
+   ```
+   pnpm install
+   ```
+
+4. **Enable pre/post scripts** (required for build process):
+   
+   Create a `.npmrc` file in the root of the project (if it doesn't exist) and add:
+   ```
+   enable-pre-post-scripts=true
+   ```
+   Note: This file is git-ignored to prevent committing sensitive information. Ensure each developer adds this line to their local `.npmrc`.
+
+5. **Build the project**:
+   ```
+   pnpm run build:all
+   ```
+
+   This command will build all packages in the correct order.
+
+6. **Running tests** (if applicable):
+   ```
+   pnpm test
+   ```
+
+7. **Development workflow**:
+   - To work on a specific package, navigate to its directory:
+     ```
+     cd packages/[package-name]
+     ```
+   - Run package-specific scripts as needed, e.g.:
+     ```
+     pnpm run build
+     ```
+
+8. **Adding new dependencies**:
+   - To add a dependency to a specific package:
+     ```
+     pnpm add [package-name] --filter @civic/multichain-connect-react-[package-name]
+     ```
+   - To add a dependency to all packages:
+     ```
+     pnpm add -w [package-name]
+     ```
+
+Remember to run `pnpm install` after pulling changes that modify dependencies.
+
+For more detailed information on working with this monorepo, consult the pnpm documentation on workspaces: https://pnpm.io/workspaces
+

@@ -2,14 +2,14 @@ import React from "react";
 import styled from "styled-components";
 
 // Styled Components
-const ModalWrapper = styled.div`
+const ModalWrapper = styled.div<{ isVisible: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
+  display: ${(props) => (props.isVisible ? "flex" : "none")};
   justify-content: center;
   align-items: center;
   z-index: 1000;
@@ -50,13 +50,9 @@ function Modal({
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-}): JSX.Element | null {
-  if (!isOpen) {
-    return null;
-  }
-
+}): JSX.Element {
   return (
-    <ModalWrapper>
+    <ModalWrapper isVisible={isOpen}>
       <ModalContent>
         {children}
         <CloseButton onClick={onClose}>

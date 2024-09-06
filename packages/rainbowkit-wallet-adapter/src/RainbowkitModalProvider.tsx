@@ -26,22 +26,25 @@ const useWalletConnection = (
   const [shouldOpenModal, setShouldOpenModal] = useState(false);
 
   useEffect(() => {
+    console.log("rendering");
+  }, []);
+
+  useEffect(() => {
     const { type } = selectedChain || {};
 
     // Introduce a small delay to allow state updates to settle
     // User is disconnected before the selected chain is set to undefined resulting in the modal opening
     const timer = setTimeout(() => {
-      console.log("isConnected", isConnected, "selectedChain", selectedChain);
-
       if (
         !isConnected &&
         type === SupportedChains.Ethereum &&
         selectedChain !== undefined
       ) {
         setShouldOpenModal(true);
-      } else {
-        setShouldOpenModal(false);
+        return;
       }
+
+      setShouldOpenModal(false);
     }, 100);
 
     return () => clearTimeout(timer);
