@@ -15,6 +15,7 @@ import useChain from "./useChain.js";
 import useWalletAdapters from "./useWalletAdapters.js";
 import LabelProvider, { useLabel } from "./MultichainLabelProvider.js";
 import { useLocalStorage } from "./useStorage.js";
+import "@civic/ui/styles.css";
 
 export {
   MultichainWalletProvider,
