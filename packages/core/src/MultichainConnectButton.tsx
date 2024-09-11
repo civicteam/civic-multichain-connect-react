@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ComponentProps } from "react";
 import useModal from "./useModal.js";
 import { LabelEntry } from "./types.js";
 import { useLabel } from "./MultichainLabelProvider.js";
@@ -6,7 +6,9 @@ import useWallet from "./useWallet.js";
 import { MultichainConnectedButton } from "./MultichainConnectedButton.js";
 import { Button } from "@civic/ui";
 
-export function MultichainConnectButton(): JSX.Element | null {
+export function MultichainConnectButton(
+  props: ComponentProps<typeof Button>
+): JSX.Element | null {
   const { connected } = useWallet();
   const { openChainModal } = useModal();
 
@@ -14,7 +16,7 @@ export function MultichainConnectButton(): JSX.Element | null {
   return (
     <>
       {!connected && (
-        <Button type="button" onClick={openChainModal}>
+        <Button type="button" onClick={openChainModal} {...props}>
           {labels[LabelEntry.CONNECT]}
         </Button>
       )}
