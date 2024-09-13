@@ -30,7 +30,14 @@ export default function SolanaWalletAdapterProvider({
   children: React.ReactNode;
 }): ReactElement {
   const adapter = useWallet();
-  const { wallet, connected, disconnect, publicKey, disconnecting } = adapter;
+  const {
+    wallet,
+    connected,
+    disconnect,
+    publicKey,
+    disconnecting,
+    connecting,
+  } = adapter;
   const { get, set, clear } = useLocalStorage<Chain & BaseChain>();
   const { setSelectedChain, selectedChain } = useChain<
     SupportedChains.Solana,
@@ -45,12 +52,14 @@ export default function SolanaWalletAdapterProvider({
       // Figure out how to get the wallet from the adapter
       wallet: adapter,
       connected,
+      connecting,
       disconnect,
       connection,
     }),
     [
       wallet?.adapter.publicKey,
       connected,
+      connecting,
       connection?.rpcEndpoint,
       publicKey?.toBase58(),
     ]
@@ -77,6 +86,7 @@ export default function SolanaWalletAdapterProvider({
   useEffect(() => {
     if (disconnecting) {
       clear(LOCAL_STORAGE_KEY);
+      setSelectedChain(undefined);
     }
   }, [disconnecting]);
 

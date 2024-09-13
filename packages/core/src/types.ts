@@ -64,6 +64,7 @@ export interface DisconnectContextType {
 
 export enum LabelEntry {
   CONNECT = "CONNECT",
+  CONNECTING = "CONNECTING",
   CONNECTED = "CONNECTED",
   DISCONNECT = "DISCONNECT",
   DISCONNECTED = "DISCONNECTED",

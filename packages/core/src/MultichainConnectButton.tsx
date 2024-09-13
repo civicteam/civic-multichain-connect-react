@@ -6,20 +6,18 @@ import useWallet from "./useWallet.js";
 import { MultichainConnectedButton } from "./MultichainConnectedButton.js";
 import { Button } from "@civic/ui";
 
-export function MultichainConnectButton(): JSX.Element | null {
+export function MultichainConnectButton(): JSX.Element {
   const { connected, connecting } = useWallet();
   const { openChainModal } = useModal();
   const { labels } = useLabel();
 
-  if (connecting) {
-    return null;
+  if (connected) {
+    return <MultichainConnectedButton />;
   }
 
-  return connected ? (
-    <MultichainConnectedButton />
-  ) : (
-    <Button type="button" onClick={openChainModal}>
-      {labels[LabelEntry.CONNECT]}
+  return (
+    <Button type="button" onClick={openChainModal} disabled={connecting}>
+      {connecting ? labels[LabelEntry.CONNECTING] : labels[LabelEntry.CONNECT]}
     </Button>
   );
 }
