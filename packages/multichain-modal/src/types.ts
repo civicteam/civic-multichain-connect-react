@@ -6,7 +6,7 @@ export enum ChainType {
 export interface Chain {
   id: string;
   name: string;
-  icon?: string;
+  iconUrl?: string;
   testnet?: boolean;
   type: ChainType;
 }

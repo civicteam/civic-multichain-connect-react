@@ -76,12 +76,9 @@ const ListItemButton = styled.button`
   border-color: transparent;
   border-width: 0px;
   border-radius: 20px;
-  display: flex;
   font-size: 18px;
   line-height: 28px;
-  padding-top: 6px;
-  padding-left: 7px;
-  padding-bottom: 6px;
+  padding: 6px 12px;
   cursor: pointer;
   &:hover {
     background: rgba(255, 107, 78, 0.2);
@@ -89,7 +86,12 @@ const ListItemButton = styled.button`
 `;
 
 const ListLabelWithIcon = styled.span`
-  margin-right: 10px;
+  margin-left: 12px;
+`;
+
+const ChainIcon = styled.img`
+  width: 30px;
+  height: 30px;
 `;
 
 const StyledTabList = styled(TabList)`
@@ -184,7 +186,9 @@ export const MultichainModal: React.FC<MultichainModalProps> = ({
               {mainnetChains.map((chain) => (
                 <ListItem key={chain.id}>
                   <ListItemButton onClick={() => handleChainSelect(chain)}>
-                    {chain.icon && <img src={chain.icon} alt={chain.name} />}
+                    {chain.iconUrl && (
+                      <ChainIcon src={chain.iconUrl} alt={chain.name} />
+                    )}
                     <ListLabelWithIcon>{chain.name}</ListLabelWithIcon>
                   </ListItemButton>
                 </ListItem>
@@ -197,7 +201,9 @@ export const MultichainModal: React.FC<MultichainModalProps> = ({
                 {testnetChains.map((chain) => (
                   <ListItem key={chain.id}>
                     <ListItemButton onClick={() => handleChainSelect(chain)}>
-                      {chain.icon && <img src={chain.icon} alt={chain.name} />}
+                      {chain.iconUrl && (
+                        <ChainIcon src={chain.iconUrl} alt={chain.name} />
+                      )}
                       <ListLabelWithIcon>{chain.name}</ListLabelWithIcon>
                     </ListItemButton>
                   </ListItem>
