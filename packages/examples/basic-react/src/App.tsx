@@ -1,62 +1,41 @@
 /* eslint-disable require-extensions/require-extensions */
-import React from "react";
-import {
-  MultichainConnectButton,
-  MultichainWalletProvider,
-} from "@civic/multichain-connect-react-core";
-import { clusterApiUrl } from "@solana/web3.js";
-import { SolanaWalletAdapterConfig } from "@civic/multichain-connect-react-solana-wallet-adapter";
-import { RainbowkitConfig } from "@civic/multichain-connect-react-rainbowkit-wallet-adapter";
-import {
-  mainnet,
-  sepolia,
-  polygon,
-  arbitrum,
-  arbitrumSepolia,
-  polygonMumbai,
-} from "wagmi/chains";
+import React, { useEffect } from 'react';
+import { MultichainModalProvider, useMultichainModal, MultichainConnectButton } from '@civic/multichain-modal';
+import { ChainType } from '@civic/multichain-modal/lib/types';
 
-const solanaMainnetChain = {
-  name: "Solana",
-  rpcEndpoint: clusterApiUrl("mainnet-beta"),
-};
-const solanaDevnetChain = {
-  name: "Solana Devnet",
-  rpcEndpoint: clusterApiUrl("devnet"),
-};
+const ExampleApp: React.FC = () => {
+  const { registerChains, selectedChain, isConnected } = useMultichainModal();
 
-const defaultSolanaChains = [solanaMainnetChain];
-const defaultSolanaTestChains = [solanaDevnetChain];
+  useEffect(() => {
+    registerChains([
+      { id: 'ethereum-mainnet', name: 'Ethereum', type: ChainType.Ethereum, testnet: false },
+      { id: 'solana-mainnet', name: 'Solana', type: ChainType.Solana, testnet: false },
+      { id: 'ethereum-goerli', name: 'Goerli', type: ChainType.Ethereum, testnet: true },
+      { id: 'solana-devnet', name: 'Solana Devnet', type: ChainType.Solana, testnet: true },
+    ]);
+  }, [registerChains]);
 
-const defaultEvmChains = [polygon, mainnet, arbitrum];
-const defaultEvmTestChains = [polygonMumbai, sepolia, arbitrumSepolia];
-
-const App = () => {
   return (
-    <MultichainWalletProvider>
-      <RainbowkitConfig
-        chains={defaultEvmChains}
-        testnetChains={defaultEvmTestChains}
-        options={{
-          // Rainbowkit relies on WalletConnect which now needs to obtain a projectId from WalletConnect Cloud.
-          // Put this in your .env file as REACT_APP_WALLET_CONNECT_PROJECT_ID=...
-          appName: "Example App",
-          walletConnectProjectId: `${process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID}`,
-          chainStatus: "none",
-          label: "Connect Wallet",
-          showBalance: true,
-          modalSize: "compact",
-        }}
-      >
-        <SolanaWalletAdapterConfig
-          chains={defaultSolanaChains}
-          testnetChains={defaultSolanaTestChains}
-          adapters={[]}
-        >
-          <MultichainConnectButton />
-        </SolanaWalletAdapterConfig>
-      </RainbowkitConfig>
-    </MultichainWalletProvider>
+    <div>
+      <h1>Basic React Example</h1>
+      <MultichainConnectButton />
+      {isConnected && selectedChain && (
+        <div>
+          <h2>Connected to {selectedChain.name}</h2>
+          <p>Chain ID: {selectedChain.id}</p>
+          <p>Chain Type: {selectedChain.type}</p>
+          <p>Testnet: {selectedChain.testnet ? 'Yes' : 'No'}</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <MultichainModalProvider>
+      <ExampleApp />
+    </MultichainModalProvider>
   );
 };
 
