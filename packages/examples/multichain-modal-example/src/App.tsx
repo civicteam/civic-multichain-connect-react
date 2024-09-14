@@ -1,18 +1,24 @@
 /* eslint-disable require-extensions/require-extensions */
 import React, { useEffect, useMemo } from "react";
 import {
-  Chain,
   ChainType,
   MultichainConnectButton,
   MultichainModalProvider,
   useMultichainModal,
 } from "@civic/multichain-modal";
 import { mainnet, goerli } from "wagmi/chains";
-import { WalletProvider, useWallet } from "./WalletProvider";
+import {
+  MultiChainWalletProvider,
+  useEthereumWallet,
+  // useSolanaWallet,
+} from "./wallet-providers/index";
 
 function ExampleApp() {
   const { registerChains, selectedChain } = useMultichainModal();
-  const { isConnected, address } = useWallet();
+  const ethereumWallet = useEthereumWallet();
+  // const solanaWallet = useSolanaWallet();
+
+  const { isConnected, address } = ethereumWallet;
 
   useEffect(() => {
     registerChains([
@@ -69,13 +75,17 @@ function ExampleApp() {
 }
 
 function App() {
-  const chains = useMemo(() => [mainnet, goerli], []);
+  const ethereumChains = useMemo(() => [mainnet, goerli], []);
+  const solanaEndpoint = "https://api.mainnet-beta.solana.com"; // Replace with your preferred endpoint
 
   return (
     <MultichainModalProvider>
-      <WalletProvider chains={chains}>
+      <MultiChainWalletProvider
+        ethereumChains={ethereumChains}
+        solanaEndpoint={solanaEndpoint}
+      >
         <ExampleApp />
-      </WalletProvider>
+      </MultiChainWalletProvider>
     </MultichainModalProvider>
   );
 }
