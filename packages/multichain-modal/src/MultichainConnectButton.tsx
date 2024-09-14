@@ -11,10 +11,6 @@ export const MultichainConnectButton: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
   if (isConnected) {
     return null;
   }
@@ -22,7 +18,7 @@ export const MultichainConnectButton: React.FC = () => {
   return (
     <>
       <Button onClick={handleOpenModal}>Connect Wallet</Button>
-      <MultichainModal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <MultichainModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
     </>
   );
 };

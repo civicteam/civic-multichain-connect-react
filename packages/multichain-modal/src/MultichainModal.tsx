@@ -130,19 +130,23 @@ const StyledTab = styled(Tab)`
 
 interface MultichainModalProps {
   isOpen: boolean;
-  onClose: () => void;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
 export const MultichainModal: React.FC<MultichainModalProps> = ({
   isOpen,
-  onClose,
+  setIsOpen,
 }) => {
   const { chains, setSelectedChain, setIsConnected } = useMultichainModal();
 
   const handleChainSelect = (chain: Chain) => {
     setSelectedChain(chain);
     setIsConnected(true);
-    onClose();
+    setIsOpen(false);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
   };
 
   const mainnetChains = chains.filter((chain) => !chain.testnet);
@@ -155,7 +159,7 @@ export const MultichainModal: React.FC<MultichainModalProps> = ({
   return (
     <ModalWrapper>
       <ModalContent>
-        <CloseButton onClick={onClose}>
+        <CloseButton onClick={handleClose}>
           <CloseButtonSvg
             fill="currentColor"
             viewBox="0 0 20 20"

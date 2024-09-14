@@ -5,11 +5,14 @@
     "rootDir": "./src",
     "declaration": true,
     "declarationDir": "./lib/types",
-    "composite": true
+    "composite": true,
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "strict": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "esnext"]
   },
-  "include": ["src/**/*"],
-  "references": [
-    { "path": "./tsconfig.cjs.json" },
-    { "path": "./tsconfig.esm.json" }
-  ]
+  "include": ["src/**/*"]
 }
