@@ -18,4 +18,8 @@ export interface MultichainModalContextType {
   setSelectedChain: (chain: Chain | null) => void;
   isConnected: boolean;
   setIsConnected: (isConnected: boolean) => void;
+  isConnecting: boolean;
+  setIsConnecting: (isConnecting: boolean) => void;
+  isDisconnected: boolean;
+  setIsDisconnected: (isDisconnected: boolean) => void;
 }

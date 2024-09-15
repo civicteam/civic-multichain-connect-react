@@ -139,11 +139,10 @@ export const MultichainModal: React.FC<MultichainModalProps> = ({
   isOpen,
   setIsOpen,
 }) => {
-  const { chains, setSelectedChain, setIsConnected } = useMultichainModal();
+  const { chains, setSelectedChain } = useMultichainModal();
 
   const handleChainSelect = (chain: Chain) => {
     setSelectedChain(chain);
-    setIsConnected(true);
     setIsOpen(false);
   };
 

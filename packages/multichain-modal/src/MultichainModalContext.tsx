@@ -1,4 +1,10 @@
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  ReactNode,
+  useCallback,
+} from "react";
 import { Chain, MultichainModalContextType } from "./types.js";
 
 const MultichainModalContext = createContext<
@@ -11,10 +17,18 @@ export const MultichainModalProvider: React.FC<{ children: ReactNode }> = ({
   const [chains, setChains] = useState<Chain[]>([]);
   const [selectedChain, setSelectedChain] = useState<Chain | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [isDisconnected, setIsDisconnected] = useState(false);
 
-  const registerChains = (newChains: Chain[]) => {
-    setChains(newChains);
-  };
+  const registerChains = useCallback((newChains: Chain[]) => {
+    setChains((prevChains) => {
+      const uniqueNewChains = newChains.filter(
+        (newChain) =>
+          !prevChains.some((prevChain) => prevChain.id === newChain.id)
+      );
+      return [...prevChains, ...uniqueNewChains];
+    });
+  }, []);
 
   return (
     <MultichainModalContext.Provider
@@ -25,6 +39,10 @@ export const MultichainModalProvider: React.FC<{ children: ReactNode }> = ({
         setSelectedChain,
         isConnected,
         setIsConnected,
+        isConnecting,
+        setIsConnecting,
+        isDisconnected,
+        setIsDisconnected,
       }}
     >
       {children}

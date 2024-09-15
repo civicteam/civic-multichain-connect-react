@@ -4,7 +4,7 @@ import { useMultichainModal } from "./MultichainModalContext.js";
 import { MultichainModal } from "./MultichainModal.js";
 
 export const MultichainConnectButton: React.FC = () => {
-  const { isConnected } = useMultichainModal();
+  const { isConnected, isConnecting } = useMultichainModal();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -17,7 +17,9 @@ export const MultichainConnectButton: React.FC = () => {
 
   return (
     <>
-      <Button onClick={handleOpenModal}>Connect Wallet</Button>
+      <Button onClick={handleOpenModal}>
+        {isConnecting ? "Connecting..." : "Connect Wallet"}
+      </Button>
       <MultichainModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
     </>
   );
