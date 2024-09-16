@@ -3,7 +3,6 @@ import React, { useMemo } from "react";
 import {
   ChainType,
   MultichainConnectButton,
-  MultichainProvider,
   useMultichainModal,
 } from "@civic/multichain-modal";
 import { mainnet, goerli } from "wagmi/chains";
@@ -47,13 +46,13 @@ function App() {
   const solanaChains = useMemo(
     () => [
       {
-        id: "solana-mainnet",
+        id: 1,
         name: "Solana",
         rpcEndpoint: "https://api.mainnet-beta.solana.com",
         type: ChainType.Solana,
       },
       {
-        id: "solana-devnet",
+        id: 2,
         name: "Solana Devnet",
         rpcEndpoint: "https://api.devnet.solana.com",
         type: ChainType.Solana,

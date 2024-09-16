@@ -72,13 +72,12 @@ function WalletContextManager({ children }: { children: React.ReactNode }) {
 
 export function EthereumConnectionManager({ chains }: { chains: Chain[] }) {
   const { isConnected, isConnecting, isDisconnected, status } = useAccount();
-  const { registerChains, setConnectionState, connectionState } =
-    useMultichainModal();
+  const { registerChains, setConnectionState } = useMultichainModal();
 
   useEffect(() => {
     registerChains(
       chains.map((chain) => ({
-        id: chain.id.toString(),
+        id: chain.id,
         name: chain.name,
         type: ChainType.Ethereum,
         testnet: chain.testnet ?? false,
