@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Button } from "@civic/ui";
 import { useMultichainModal } from "./MultichainModalContext.js";
 import { MultichainModal } from "./MultichainModal.js";
+import { ConnectionState } from "./types.js";
 
 export const MultichainConnectButton: React.FC = () => {
-  const { connectionState } = useMultichainModal();
+  const { getConnectionState } = useMultichainModal();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const connectionState = getConnectionState();
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -13,9 +15,9 @@ export const MultichainConnectButton: React.FC = () => {
 
   return (
     <>
-      {connectionState !== "connected" && (
+      {connectionState !== ConnectionState.Connected && (
         <Button onClick={handleOpenModal}>
-          {connectionState === "connecting"
+          {connectionState === ConnectionState.Connecting
             ? "Connecting..."
             : "Connect Wallet"}
         </Button>

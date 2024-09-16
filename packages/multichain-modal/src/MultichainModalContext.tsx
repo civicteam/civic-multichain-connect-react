@@ -7,37 +7,50 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
-import { Chain, MultichainModalContextType } from "./types.js";
+import {
+  Chain,
+  MultichainModalContextType,
+  ChainType,
+  ConnectionState,
+} from "./types.js";
 
 // Action Types as constants to avoid typos
 const REGISTER_CHAINS = "REGISTER_CHAINS";
 const SET_SELECTED_CHAIN = "SET_SELECTED_CHAIN";
-const SET_CONNECTION_STATE = "SET_CONNECTION_STATE";
+const SET_WALLET_CONNECTION = "SET_WALLET_CONNECTION";
+
+type WalletConnectionState = {
+  [key in ChainType]?: ConnectionState;
+};
 
 type State = {
   chains: Chain[];
   selectedChain: Chain | null;
-  connectionState: "connected" | "connecting" | "disconnected";
+  walletConnections: WalletConnectionState;
   _forceUpdate: number;
 };
 
 type Action =
   | { type: typeof REGISTER_CHAINS; payload: Chain[] }
   | { type: typeof SET_SELECTED_CHAIN; payload: Chain | null }
-  | { type: typeof SET_CONNECTION_STATE; payload: State["connectionState"] };
+  | {
+      type: typeof SET_WALLET_CONNECTION;
+      payload: { chainType: ChainType; state: ConnectionState };
+    };
 
-// Context with a default value to avoid undefined checks
+// Update the context
 const MultichainModalContext = createContext<MultichainModalContextType>({
   chains: [],
   selectedChain: null,
-  connectionState: "disconnected",
+  walletConnections: {},
   registerChains: () => {},
   setSelectedChain: () => {},
-  setConnectionState: () => {},
+  setWalletConnection: () => {},
+  getConnectionState: () => ConnectionState.Disconnected,
   _forceUpdate: 0,
 });
 
-// Reducer
+// Update the reducer
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case REGISTER_CHAINS: {
@@ -56,12 +69,16 @@ function reducer(state: State, action: Action): State {
         selectedChain: action.payload,
         _forceUpdate: Date.now(),
       };
-    case SET_CONNECTION_STATE:
+    case SET_WALLET_CONNECTION:
       return {
         ...state,
-        connectionState: action.payload,
+        walletConnections: {
+          ...state.walletConnections,
+          [action.payload.chainType]: action.payload.state,
+        },
         selectedChain:
-          action.payload === "disconnected" && state.selectedChain
+          action.payload.chainType === state.selectedChain?.type &&
+          action.payload.state === ConnectionState.Disconnected
             ? null
             : state.selectedChain,
       };
@@ -77,7 +94,7 @@ export const MultichainProvider: React.FC<{ children: ReactNode }> = ({
   const [state, dispatch] = useReducer(reducer, {
     chains: [],
     selectedChain: null,
-    connectionState: "disconnected",
+    walletConnections: {},
     _forceUpdate: 0,
   });
 
@@ -89,21 +106,40 @@ export const MultichainProvider: React.FC<{ children: ReactNode }> = ({
     dispatch({ type: SET_SELECTED_CHAIN, payload: chain });
   }, []);
 
-  const setConnectionState = useCallback(
-    (newState: State["connectionState"]) => {
-      dispatch({ type: SET_CONNECTION_STATE, payload: newState });
+  const setWalletConnection = useCallback(
+    (chainType: ChainType, connectionState: ConnectionState) => {
+      dispatch({
+        type: SET_WALLET_CONNECTION,
+        payload: { chainType, state: connectionState },
+      });
     },
     []
   );
+
+  const getConnectionState = useCallback((): ConnectionState => {
+    const connectionStates = Object.values(state.walletConnections);
+    if (connectionStates.includes(ConnectionState.Connected))
+      return ConnectionState.Connected;
+    if (connectionStates.includes(ConnectionState.Connecting))
+      return ConnectionState.Connecting;
+    return ConnectionState.Disconnected;
+  }, [state.walletConnections]);
 
   const value = useMemo(
     () => ({
       ...state,
       registerChains,
       setSelectedChain,
-      setConnectionState,
+      setWalletConnection,
+      getConnectionState,
     }),
-    [state, registerChains, setSelectedChain, setConnectionState]
+    [
+      state,
+      registerChains,
+      setSelectedChain,
+      setWalletConnection,
+      getConnectionState,
+    ]
   );
 
   return (

@@ -11,16 +11,21 @@ export interface Chain {
   type: ChainType;
 }
 
+export enum ConnectionState {
+  Connected = "connected",
+  Connecting = "connecting",
+  Disconnected = "disconnected",
+}
+
 export type MultichainModalContextType = {
-  // State
   chains: Chain[];
   selectedChain: Chain | null;
-  connectionState: "connected" | "connecting" | "disconnected";
-  // Actions
-  registerChains: (newChains: Chain[]) => void;
+  walletConnections: {
+    [key in ChainType]?: ConnectionState;
+  };
+  registerChains: (chains: Chain[]) => void;
   setSelectedChain: (chain: Chain | null) => void;
-  setConnectionState: (
-    state: "connected" | "connecting" | "disconnected"
-  ) => void;
-  _forceUpdate: number; // Used to force a re-render
+  setWalletConnection: (chainType: ChainType, state: ConnectionState) => void;
+  getConnectionState: () => ConnectionState;
+  _forceUpdate: number;
 };
