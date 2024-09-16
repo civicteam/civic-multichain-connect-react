@@ -13,8 +13,12 @@ export const MultichainConnectButton: React.FC = () => {
 
   return (
     <>
-      {connectionState === "disconnected" && (
-        <Button onClick={handleOpenModal}>Connect Wallet</Button>
+      {connectionState !== "connected" && (
+        <Button onClick={handleOpenModal}>
+          {connectionState === "connecting"
+            ? "Connecting..."
+            : "Connect Wallet"}
+        </Button>
       )}
       <MultichainModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
     </>
