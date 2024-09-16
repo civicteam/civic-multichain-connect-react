@@ -1,16 +1,13 @@
 import "@rainbow-me/rainbowkit/styles.css";
-import {
-  RainbowKitProvider as RainbowKitProviderOriginal,
-  useConnectModal,
-} from "@rainbow-me/rainbowkit";
+import { RainbowKitProvider, useConnectModal } from "@rainbow-me/rainbowkit";
 import { Chain } from "wagmi/chains";
-import { useAccount, useWalletClient } from "wagmi";
+import { useAccount } from "wagmi";
 import {
   ChainType,
   ConnectionState,
   useMultichainModal,
 } from "@civic/multichain-modal";
-import { createContext, useContext, useEffect, useMemo } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { WalletClient } from "viem";
 
 interface EthereumWalletContextType {
@@ -32,65 +29,22 @@ interface WalletProviderProps {
   chains: Chain[];
 }
 
-function WalletConnectionManager() {
+function ConnectionManager({ chains }: { chains: Chain[] }) {
   const {
     selectedChain,
     setSelectedChain,
-    chains,
+    chains: modalChains,
     walletConnections,
     _forceUpdate,
+    registerChains,
+    setWalletConnection,
   } = useMultichainModal();
 
   const account = useAccount();
   const { openConnectModal } = useConnectModal();
-  const connectionState = walletConnections.ethereum;
+  const { isConnected, isConnecting, isDisconnected } = useAccount();
 
-  useEffect(() => {
-    if (
-      connectionState === ConnectionState.Disconnected &&
-      selectedChain?.type === ChainType.Ethereum
-    ) {
-      openConnectModal?.();
-    }
-  }, [selectedChain, openConnectModal, connectionState, _forceUpdate]);
-
-  // set the selected chain
-  useEffect(() => {
-    console.log("account.chain", account.chain);
-    if (account.chain) {
-      const chain =
-        chains.find((chain) => chain.id === account.chain?.id) ?? null;
-      setSelectedChain(chain);
-    }
-  }, [account.address, selectedChain, setSelectedChain, chains]);
-
-  return null;
-}
-
-function WalletContextManager({ children }: { children: React.ReactNode }) {
-  const { isConnected, address } = useAccount();
-  const { data: walletClient } = useWalletClient();
-
-  const contextValue: EthereumWalletContextType = useMemo(
-    () => ({
-      isConnected,
-      walletSigner: walletClient as WalletClient,
-      address,
-    }),
-    [isConnected, walletClient, address]
-  );
-
-  return (
-    <EthereumWalletContext.Provider value={contextValue}>
-      {children}
-    </EthereumWalletContext.Provider>
-  );
-}
-
-export function EthereumConnectionManager({ chains }: { chains: Chain[] }) {
-  const { isConnected, isConnecting, isDisconnected, status } = useAccount();
-  const { registerChains, setWalletConnection } = useMultichainModal();
-
+  // Register chains
   useEffect(() => {
     registerChains(
       chains.map((chain) => ({
@@ -103,38 +57,55 @@ export function EthereumConnectionManager({ chains }: { chains: Chain[] }) {
     );
   }, [registerChains, chains]);
 
+  // Manage connection state
   useEffect(() => {
     if (isConnected) {
       setWalletConnection(ChainType.Ethereum, ConnectionState.Connected);
-    }
-  }, [isConnected, setWalletConnection]);
-
-  useEffect(() => {
-    if (isConnecting) {
+    } else if (isConnecting) {
       setWalletConnection(ChainType.Ethereum, ConnectionState.Connecting);
-    }
-  }, [isConnected, isConnecting, setWalletConnection]);
-
-  useEffect(() => {
-    if (isDisconnected) {
+    } else if (isDisconnected) {
       setWalletConnection(ChainType.Ethereum, ConnectionState.Disconnected);
     }
-  }, [setWalletConnection, status]);
+  }, [isConnected, isConnecting, isDisconnected, setWalletConnection]);
+
+  // Open connect modal when needed
+  useEffect(() => {
+    if (
+      walletConnections.ethereum === ConnectionState.Disconnected &&
+      selectedChain?.type === ChainType.Ethereum
+    ) {
+      openConnectModal?.();
+    }
+  }, [
+    selectedChain,
+    openConnectModal,
+    walletConnections.ethereum,
+    _forceUpdate,
+  ]);
+
+  // Set selected chain
+  useEffect(() => {
+    if (account.chain) {
+      const chain =
+        modalChains.find((chain) => chain.id === account.chain?.id) ?? null;
+      setSelectedChain(chain);
+    }
+  }, [account.chain, setSelectedChain, modalChains]);
 
   return null;
 }
 
-export function RainbowKitProvider({ children, chains }: WalletProviderProps) {
+export function MultichainRainbowKitProvider({
+  children,
+  chains,
+}: WalletProviderProps) {
   const { selectedChain } = useMultichainModal();
   const chain = chains.find((chain) => chain.id === selectedChain?.id);
 
   return (
-    <RainbowKitProviderOriginal initialChain={chain}>
-      <WalletContextManager>
-        <EthereumConnectionManager chains={chains} />
-        <WalletConnectionManager />
-        {children}
-      </WalletContextManager>
-    </RainbowKitProviderOriginal>
+    <RainbowKitProvider initialChain={chain}>
+      <ConnectionManager chains={chains} />
+      {children}
+    </RainbowKitProvider>
   );
 }

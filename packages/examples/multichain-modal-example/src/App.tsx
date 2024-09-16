@@ -7,18 +7,19 @@ import {
   MultichainProvider,
 } from "@civic/multichain-modal";
 import { mainnet, sepolia } from "wagmi/chains";
-import { WagmiProvider } from "wagmi";
+import { useAccount, WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
-  RainbowKitProvider,
-  useEthereumWallet,
-  SolanaWalletProvider,
+  MultichainRainbowKitProvider,
   SolanaChain,
-  useSolanaWallet,
+  MultichainSolanaProvider,
 } from "./wallet-providers/index";
 import { RainbowKitConnectedButton } from "./wallet-providers/ethereum/RainbowKitConnectedButton";
 import { getDefaultConfig } from "@rainbow-me/rainbowkit";
 import { SolanaWalletConnectedButton } from "./wallet-providers/solana/SolanaWalletConnectedButton";
+import { useWallet } from "@solana/wallet-adapter-react";
+
+import "@solana/wallet-adapter-react-ui/styles.css";
 
 function hashString(str: string): number {
   let hash = 5381;
@@ -30,8 +31,8 @@ function hashString(str: string): number {
 
 function ExampleApp() {
   const { selectedChain, getConnectionState } = useMultichainModal();
-  const ethereumWallet = useEthereumWallet();
-  const solanaWallet = useSolanaWallet();
+  const ethereumWallet = useAccount();
+  const solanaWallet = useWallet();
   const connectionState = getConnectionState();
 
   return (
@@ -50,7 +51,10 @@ function ExampleApp() {
           <p>Chain ID: {selectedChain.id}</p>
           <p>Chain Type: {selectedChain.type}</p>
           <p>Testnet: {selectedChain.testnet ? "Yes" : "No"}</p>
-          <p>Address: {ethereumWallet.address || solanaWallet.address}</p>
+          <p>
+            Address:{" "}
+            {ethereumWallet.address || solanaWallet?.publicKey?.toString()}
+          </p>
         </div>
       )}
     </div>
@@ -103,11 +107,11 @@ function App() {
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <MultichainProvider>
-          <RainbowKitProvider chains={ethereumChains}>
-            <SolanaWalletProvider chains={solanaChains}>
+          <MultichainRainbowKitProvider chains={ethereumChains}>
+            <MultichainSolanaProvider chains={solanaChains}>
               <ExampleApp />
-            </SolanaWalletProvider>
-          </RainbowKitProvider>
+            </MultichainSolanaProvider>
+          </MultichainRainbowKitProvider>
         </MultichainProvider>
       </QueryClientProvider>
     </WagmiProvider>
