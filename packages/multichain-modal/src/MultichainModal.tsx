@@ -148,6 +148,7 @@ export const MultichainModal: React.FC<MultichainModalProps> = ({
 
   const handleClose = () => {
     setIsOpen(false);
+    setSelectedChain(null);
   };
 
   const mainnetChains = chains.filter((chain) => !chain.testnet);

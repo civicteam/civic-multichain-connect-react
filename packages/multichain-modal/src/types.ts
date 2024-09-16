@@ -4,22 +4,23 @@ export enum ChainType {
 }
 
 export interface Chain {
-  id: string;
+  id: number;
   name: string;
   iconUrl?: string;
   testnet?: boolean;
   type: ChainType;
 }
 
-export interface MultichainModalContextType {
+export type MultichainModalContextType = {
+  // State
   chains: Chain[];
-  registerChains: (chains: Chain[]) => void;
   selectedChain: Chain | null;
+  connectionState: "connected" | "connecting" | "disconnected";
+  // Actions
+  registerChains: (newChains: Chain[]) => void;
   setSelectedChain: (chain: Chain | null) => void;
-  isConnected: boolean;
-  setIsConnected: (isConnected: boolean) => void;
-  isConnecting: boolean;
-  setIsConnecting: (isConnecting: boolean) => void;
-  isDisconnected: boolean;
-  setIsDisconnected: (isDisconnected: boolean) => void;
-}
+  setConnectionState: (
+    state: "connected" | "connecting" | "disconnected"
+  ) => void;
+  _forceUpdate: number; // Used to force a re-render
+};
