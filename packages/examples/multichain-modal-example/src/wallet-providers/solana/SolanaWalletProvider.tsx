@@ -1,6 +1,13 @@
 import React, { useEffect, useMemo, createContext, useContext } from "react";
-import { useMultichainModal, ChainType, Chain } from "@civic/multichain-modal";
 import {
+  useMultichainModal,
+  ChainType,
+  Chain,
+  ConnectionState,
+} from "@civic/multichain-modal";
+import {
+  ConnectionProvider,
+  useConnection,
   useWallet,
   WalletContextState,
   WalletProvider,
@@ -40,19 +47,39 @@ interface SolanaWalletProviderProps {
 }
 
 function WalletConnectionManager() {
-  const { selectedChain, connectionState, _forceUpdate } = useMultichainModal();
-  const { connect, wallets } = useWallet();
+  const { selectedChain, walletConnections, _forceUpdate } =
+    useMultichainModal();
+  const { connect, wallets, connected } = useWallet();
   const { setVisible } = useWalletModal();
+  const { connection } = useConnection();
+  const { chains, setSelectedChain } = useMultichainModal();
+  const connectionState = walletConnections.solana;
 
   useEffect(() => {
     if (
-      connectionState === "disconnected" &&
+      connectionState === ConnectionState.Disconnected &&
       selectedChain?.type === ChainType.Solana
     ) {
-      // Connect to the first available wallet
       setVisible(true);
     }
-  }, [selectedChain, connect, connectionState, _forceUpdate, wallets]);
+  }, [
+    selectedChain,
+    connect,
+    connectionState,
+    _forceUpdate,
+    wallets,
+    setVisible,
+  ]);
+
+  useEffect(() => {
+    const chain = chains.find(
+      (chain) => (chain as SolanaChain).rpcEndpoint === connection?.rpcEndpoint
+    );
+
+    if (chain && connected) {
+      setSelectedChain(chain);
+    }
+  }, [connection.rpcEndpoint, chains, connected]);
 
   return null;
 }
@@ -79,7 +106,7 @@ function WalletContextManager({ children }: { children: React.ReactNode }) {
 
 function SolanaConnectionManager({ chains }: { chains: SolanaChain[] }) {
   const { connected, connecting, disconnecting } = useWallet();
-  const { registerChains, setConnectionState } = useMultichainModal();
+  const { registerChains, setWalletConnection } = useMultichainModal();
 
   useEffect(() => {
     registerChains(chains);
@@ -87,13 +114,18 @@ function SolanaConnectionManager({ chains }: { chains: SolanaChain[] }) {
 
   useEffect(() => {
     if (disconnecting) {
-      setConnectionState("disconnected");
+      return setWalletConnection(
+        ChainType.Solana,
+        ConnectionState.Disconnected
+      );
     } else if (connecting) {
-      setConnectionState("connecting");
+      return setWalletConnection(ChainType.Solana, ConnectionState.Connecting);
     } else if (connected) {
-      setConnectionState("connected");
+      return setWalletConnection(ChainType.Solana, ConnectionState.Connected);
     }
-  }, [connected, connecting, disconnecting, setConnectionState]);
+
+    return setWalletConnection(ChainType.Solana, ConnectionState.Disconnected);
+  }, [connected, connecting, disconnecting, setWalletConnection]);
 
   return null;
 }
@@ -102,20 +134,32 @@ export function SolanaWalletProvider({
   children,
   chains,
 }: SolanaWalletProviderProps) {
+  const { selectedChain } = useMultichainModal();
   const wallets = useMemo(
     () => [new PhantomWalletAdapter()], // Add other wallet adapters here
     []
   );
 
+  const endpoint = useMemo(() => {
+    if (chains.length === 0) {
+      throw new Error("No chains provided");
+    }
+    const rpc =
+      (selectedChain as SolanaChain)?.rpcEndpoint ?? chains[0].rpcEndpoint;
+    return rpc;
+  }, [chains, selectedChain]);
+
   return (
-    <WalletProvider wallets={wallets} autoConnect>
-      <WalletModalProvider>
-        <WalletContextManager>
-          <SolanaConnectionManager chains={chains} />
-          <WalletConnectionManager />
-          {children}
-        </WalletContextManager>
-      </WalletModalProvider>
-    </WalletProvider>
+    <ConnectionProvider endpoint={endpoint}>
+      <WalletProvider wallets={wallets} autoConnect>
+        <WalletModalProvider>
+          <WalletContextManager>
+            <SolanaConnectionManager chains={chains} />
+            <WalletConnectionManager />
+            {children}
+          </WalletContextManager>
+        </WalletModalProvider>
+      </WalletProvider>
+    </ConnectionProvider>
   );
 }

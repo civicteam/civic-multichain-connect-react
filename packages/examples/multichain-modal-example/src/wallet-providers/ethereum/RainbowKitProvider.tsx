@@ -5,7 +5,11 @@ import {
 } from "@rainbow-me/rainbowkit";
 import { Chain } from "wagmi/chains";
 import { useAccount, useWalletClient } from "wagmi";
-import { ChainType, useMultichainModal } from "@civic/multichain-modal";
+import {
+  ChainType,
+  ConnectionState,
+  useMultichainModal,
+} from "@civic/multichain-modal";
 import { createContext, useContext, useEffect, useMemo } from "react";
 import { WalletClient } from "viem";
 
@@ -29,17 +33,36 @@ interface WalletProviderProps {
 }
 
 function WalletConnectionManager() {
-  const { selectedChain, connectionState, _forceUpdate } = useMultichainModal();
+  const {
+    selectedChain,
+    setSelectedChain,
+    chains,
+    walletConnections,
+    _forceUpdate,
+  } = useMultichainModal();
+
+  const account = useAccount();
   const { openConnectModal } = useConnectModal();
+  const connectionState = walletConnections.ethereum;
 
   useEffect(() => {
     if (
-      connectionState === "disconnected" &&
+      connectionState === ConnectionState.Disconnected &&
       selectedChain?.type === ChainType.Ethereum
     ) {
       openConnectModal?.();
     }
   }, [selectedChain, openConnectModal, connectionState, _forceUpdate]);
+
+  // set the selected chain
+  useEffect(() => {
+    console.log("account.chain", account.chain);
+    if (account.chain) {
+      const chain =
+        chains.find((chain) => chain.id === account.chain?.id) ?? null;
+      setSelectedChain(chain);
+    }
+  }, [account.address, selectedChain, setSelectedChain, chains]);
 
   return null;
 }
@@ -66,7 +89,7 @@ function WalletContextManager({ children }: { children: React.ReactNode }) {
 
 export function EthereumConnectionManager({ chains }: { chains: Chain[] }) {
   const { isConnected, isConnecting, isDisconnected, status } = useAccount();
-  const { registerChains, setConnectionState } = useMultichainModal();
+  const { registerChains, setWalletConnection } = useMultichainModal();
 
   useEffect(() => {
     registerChains(
@@ -82,21 +105,21 @@ export function EthereumConnectionManager({ chains }: { chains: Chain[] }) {
 
   useEffect(() => {
     if (isConnected) {
-      setConnectionState("connected");
+      setWalletConnection(ChainType.Ethereum, ConnectionState.Connected);
     }
-  }, [isConnected, setConnectionState]);
+  }, [isConnected, setWalletConnection]);
 
   useEffect(() => {
     if (isConnecting) {
-      setConnectionState("connecting");
+      setWalletConnection(ChainType.Ethereum, ConnectionState.Connecting);
     }
-  }, [isConnected, isConnecting, setConnectionState]);
+  }, [isConnected, isConnecting, setWalletConnection]);
 
   useEffect(() => {
     if (isDisconnected) {
-      setConnectionState("disconnected");
+      setWalletConnection(ChainType.Ethereum, ConnectionState.Disconnected);
     }
-  }, [setConnectionState, status]);
+  }, [setWalletConnection, status]);
 
   return null;
 }

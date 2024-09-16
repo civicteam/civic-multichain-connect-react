@@ -1,13 +1,14 @@
 import React from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { useMultichainModal } from "@civic/multichain-modal";
+import { ConnectionState, useMultichainModal } from "@civic/multichain-modal";
 
 export function SolanaWalletConnectedButton(): JSX.Element | null {
   const { connected } = useWallet();
-  const { connectionState } = useMultichainModal();
+  const { walletConnections } = useMultichainModal();
+  const connectionState = walletConnections.solana;
 
-  if (!connected || connectionState !== "connected") {
+  if (!connected || connectionState !== ConnectionState.Connected) {
     return null;
   }
 

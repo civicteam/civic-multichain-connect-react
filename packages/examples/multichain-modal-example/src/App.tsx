@@ -1,5 +1,5 @@
 /* eslint-disable require-extensions/require-extensions */
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import {
   ChainType,
   MultichainConnectButton,
@@ -29,13 +29,10 @@ function hashString(str: string): number {
 }
 
 function ExampleApp() {
-  const { selectedChain, connectionState } = useMultichainModal();
+  const { selectedChain, getConnectionState } = useMultichainModal();
   const ethereumWallet = useEthereumWallet();
   const solanaWallet = useSolanaWallet();
-
-  useEffect(() => {
-    console.log("connectionState", connectionState);
-  }, [connectionState]);
+  const connectionState = getConnectionState();
 
   return (
     <div className="App min-h-screen bg-gray-100 flex flex-col items-center justify-center">
