@@ -1,18 +1,11 @@
 import "@rainbow-me/rainbowkit/styles.css";
-
 import {
-  getDefaultConfig,
-  RainbowKitProvider,
+  RainbowKitProvider as RainbowKitProviderOriginal,
   useConnectModal,
 } from "@rainbow-me/rainbowkit";
-import { useAccount, useWalletClient, WagmiProvider } from "wagmi";
 import { Chain } from "wagmi/chains";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import {
-  ChainType,
-  MultichainProvider,
-  useMultichainModal,
-} from "@civic/multichain-modal";
+import { useAccount, useWalletClient } from "wagmi";
+import { ChainType, useMultichainModal } from "@civic/multichain-modal";
 import { createContext, useContext, useEffect, useMemo } from "react";
 import { WalletClient } from "viem";
 
@@ -36,13 +29,14 @@ interface WalletProviderProps {
 }
 
 function WalletConnectionManager() {
-  const { selectedChain, connectionState } = useMultichainModal();
+  const { selectedChain, connectionState, _forceUpdate } = useMultichainModal();
   const { openConnectModal } = useConnectModal();
-  const { _forceUpdate } = useMultichainModal();
 
   useEffect(() => {
-    console.log("action selectedChain", selectedChain);
-    if (selectedChain?.type === ChainType.Ethereum) {
+    if (
+      connectionState === "disconnected" &&
+      selectedChain?.type === ChainType.Ethereum
+    ) {
       openConnectModal?.();
     }
   }, [selectedChain, openConnectModal, connectionState, _forceUpdate]);
@@ -107,41 +101,17 @@ export function EthereumConnectionManager({ chains }: { chains: Chain[] }) {
   return null;
 }
 
-export function WalletProvider({ children, chains }: WalletProviderProps) {
-  const queryClient = useMemo(() => new QueryClient(), []);
-  const { selectedChain, chains: allChains } = useMultichainModal();
-  const chain =
-    selectedChain && allChains.find((chain) => chain.id === selectedChain?.id);
-
-  const wagmiConfig = useMemo(() => {
-    if (chains.length === 0) {
-      throw new Error("At least one chain must be provided");
-    }
-
-    const [firstChain, ...restChains] = chains.sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
-
-    return getDefaultConfig({
-      appName: "Multichain Modal Example",
-      projectId: "YOUR_PROJECT_ID",
-      chains: [firstChain, ...restChains],
-    });
-  }, [chains]);
+export function RainbowKitProvider({ children, chains }: WalletProviderProps) {
+  const { selectedChain } = useMultichainModal();
+  const chain = chains.find((chain) => chain.id === selectedChain?.id);
 
   return (
-    <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
-        <MultichainProvider>
-          <RainbowKitProvider initialChain={chain?.id as unknown as number}>
-            <WalletContextManager>
-              <EthereumConnectionManager chains={chains} />
-              <WalletConnectionManager />
-              {children}
-            </WalletContextManager>
-          </RainbowKitProvider>
-        </MultichainProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <RainbowKitProviderOriginal initialChain={chain}>
+      <WalletContextManager>
+        <EthereumConnectionManager chains={chains} />
+        <WalletConnectionManager />
+        {children}
+      </WalletContextManager>
+    </RainbowKitProviderOriginal>
   );
 }
