@@ -1,57 +1,24 @@
 /* eslint-disable require-extensions/require-extensions */
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import {
   ChainType,
   MultichainConnectButton,
-  MultichainModalProvider,
+  MultichainProvider,
   useMultichainModal,
 } from "@civic/multichain-modal";
 import { mainnet, goerli } from "wagmi/chains";
 import {
-  MultiChainWalletProvider,
+  WalletProvider as RainbowKitProvider,
   useEthereumWallet,
-  // useSolanaWallet,
+  SolanaWalletProvider,
 } from "./wallet-providers/index";
+import { RainbowKitConnectedButton } from "./wallet-providers/ethereum/RainbowKitConnectedButton";
 
 function ExampleApp() {
-  const { registerChains, selectedChain } = useMultichainModal();
+  const { selectedChain } = useMultichainModal();
   const ethereumWallet = useEthereumWallet();
-  // const solanaWallet = useSolanaWallet();
 
   const { isConnected, address } = ethereumWallet;
-
-  useEffect(() => {
-    registerChains([
-      {
-        id: mainnet.id.toString(),
-        name: mainnet.name,
-        type: ChainType.Ethereum,
-        testnet: false,
-        iconUrl: "/ethereum.svg",
-      },
-      {
-        id: goerli.id.toString(),
-        name: goerli.name,
-        type: ChainType.Ethereum,
-        testnet: true,
-        iconUrl: "/ethereum.svg",
-      },
-      {
-        id: "solana-mainnet",
-        name: "Solana",
-        type: ChainType.Solana,
-        testnet: false,
-        iconUrl: "/solana.svg",
-      },
-      {
-        id: "solana-devnet",
-        name: "Solana Devnet",
-        type: ChainType.Solana,
-        testnet: true,
-        iconUrl: "/solana.svg",
-      },
-    ]);
-  }, [registerChains]);
 
   return (
     <div className="App min-h-screen bg-gray-100 flex flex-col items-center justify-center">
@@ -59,6 +26,7 @@ function ExampleApp() {
         Multichain Modal Example
       </h1>
       <MultichainConnectButton />
+      <RainbowKitConnectedButton />
       {isConnected && selectedChain && (
         <div className="mt-8 p-4 bg-white rounded shadow">
           <h2 className="text-2xl font-semibold mb-4">
@@ -76,17 +44,30 @@ function ExampleApp() {
 
 function App() {
   const ethereumChains = useMemo(() => [mainnet, goerli], []);
-  const solanaEndpoint = "https://api.mainnet-beta.solana.com"; // Replace with your preferred endpoint
+  const solanaChains = useMemo(
+    () => [
+      {
+        id: "solana-mainnet",
+        name: "Solana",
+        rpcEndpoint: "https://api.mainnet-beta.solana.com",
+        type: ChainType.Solana,
+      },
+      {
+        id: "solana-devnet",
+        name: "Solana Devnet",
+        rpcEndpoint: "https://api.devnet.solana.com",
+        type: ChainType.Solana,
+      },
+    ],
+    []
+  );
 
   return (
-    <MultichainModalProvider>
-      <MultiChainWalletProvider
-        ethereumChains={ethereumChains}
-        solanaEndpoint={solanaEndpoint}
-      >
+    <RainbowKitProvider chains={ethereumChains}>
+      <SolanaWalletProvider chains={solanaChains}>
         <ExampleApp />
-      </MultiChainWalletProvider>
-    </MultichainModalProvider>
+      </SolanaWalletProvider>
+    </RainbowKitProvider>
   );
 }
 

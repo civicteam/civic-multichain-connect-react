@@ -8,7 +8,11 @@ import {
 import { useAccount, useWalletClient, WagmiProvider } from "wagmi";
 import { Chain } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { ChainType, useMultichainModal } from "@civic/multichain-modal";
+import {
+  ChainType,
+  MultichainProvider,
+  useMultichainModal,
+} from "@civic/multichain-modal";
 import { createContext, useContext, useEffect, useMemo } from "react";
 import { WalletClient } from "viem";
 
@@ -32,15 +36,16 @@ interface WalletProviderProps {
 }
 
 function WalletConnectionManager() {
-  const { selectedChain } = useMultichainModal();
+  const { selectedChain, connectionState } = useMultichainModal();
   const { openConnectModal } = useConnectModal();
-  const { isConnected } = useAccount();
+  const { _forceUpdate } = useMultichainModal();
 
   useEffect(() => {
+    console.log("action selectedChain", selectedChain);
     if (selectedChain?.type === ChainType.Ethereum) {
       openConnectModal?.();
     }
-  }, [selectedChain, isConnected, openConnectModal]);
+  }, [selectedChain, openConnectModal, connectionState, _forceUpdate]);
 
   return null;
 }
@@ -63,6 +68,44 @@ function WalletContextManager({ children }: { children: React.ReactNode }) {
       {children}
     </EthereumWalletContext.Provider>
   );
+}
+
+export function EthereumConnectionManager({ chains }: { chains: Chain[] }) {
+  const { isConnected, isConnecting, isDisconnected, status } = useAccount();
+  const { registerChains, setConnectionState, connectionState } =
+    useMultichainModal();
+
+  useEffect(() => {
+    registerChains(
+      chains.map((chain) => ({
+        id: chain.id.toString(),
+        name: chain.name,
+        type: ChainType.Ethereum,
+        testnet: chain.testnet ?? false,
+        iconUrl: "/ethereum.svg",
+      }))
+    );
+  }, [registerChains, chains]);
+
+  useEffect(() => {
+    if (isConnected) {
+      setConnectionState("connected");
+    }
+  }, [isConnected, setConnectionState]);
+
+  useEffect(() => {
+    if (isConnecting) {
+      setConnectionState("connecting");
+    }
+  }, [isConnected, isConnecting, setConnectionState]);
+
+  useEffect(() => {
+    if (isDisconnected) {
+      setConnectionState("disconnected");
+    }
+  }, [setConnectionState, status]);
+
+  return null;
 }
 
 export function WalletProvider({ children, chains }: WalletProviderProps) {
@@ -90,12 +133,15 @@ export function WalletProvider({ children, chains }: WalletProviderProps) {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider initialChain={chain?.id as unknown as number}>
-          <WalletContextManager>
-            <WalletConnectionManager />
-            {children}
-          </WalletContextManager>
-        </RainbowKitProvider>
+        <MultichainProvider>
+          <RainbowKitProvider initialChain={chain?.id as unknown as number}>
+            <WalletContextManager>
+              <EthereumConnectionManager chains={chains} />
+              <WalletConnectionManager />
+              {children}
+            </WalletContextManager>
+          </RainbowKitProvider>
+        </MultichainProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
