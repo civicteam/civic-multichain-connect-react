@@ -9,6 +9,7 @@ import {
 } from "@civic/multichain-modal";
 import { createContext, useContext, useEffect } from "react";
 import { WalletClient } from "viem";
+import React from "react";
 
 interface EthereumWalletContextType {
   isConnected: boolean;
@@ -48,11 +49,8 @@ function ConnectionManager({ chains }: { chains: Chain[] }) {
   useEffect(() => {
     registerChains(
       chains.map((chain) => ({
-        id: chain.id,
-        name: chain.name,
+        ...chain,
         type: ChainType.Ethereum,
-        testnet: chain.testnet ?? false,
-        iconUrl: "/ethereum.svg",
       }))
     );
   }, [registerChains, chains]);
@@ -95,15 +93,19 @@ function ConnectionManager({ chains }: { chains: Chain[] }) {
   return null;
 }
 
+type RainbowKitProviderProps = React.ComponentProps<typeof RainbowKitProvider>;
+
 export function MultichainRainbowKitProvider({
   children,
   chains,
-}: WalletProviderProps) {
+  ...rainbowKitProps
+}: WalletProviderProps & RainbowKitProviderProps) {
   const { selectedChain } = useMultichainModal();
-  const chain = chains.find((chain) => chain.id === selectedChain?.id);
+  const chain =
+    chains.find((chain) => chain.id === selectedChain?.id) ?? undefined;
 
   return (
-    <RainbowKitProvider initialChain={chain}>
+    <RainbowKitProvider initialChain={chain?.id} {...rainbowKitProps}>
       <ConnectionManager chains={chains} />
       {children}
     </RainbowKitProvider>

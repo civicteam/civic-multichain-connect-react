@@ -10,7 +10,6 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@civic/multichain-modal": "^0.1.0",
     "@civic/multichain-connect-react-core": "workspace:^",
     "@civic/multichain-connect-react-rainbowkit-wallet-adapter": "workspace:^",
     "@civic/multichain-connect-react-solana-wallet-adapter": "workspace:^",

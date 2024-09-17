@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@civic/multichain-modal": "workspace:^",
+    "@civic/multichain-modal-solana": "workspace:^",
+    "@civic/multichain-modal-rainbowkit": "workspace:^",
     "@civic/ui": "^0.0.2",
     "@rainbow-me/rainbowkit": "^2.1.4",
     "@solana/wallet-adapter-base": "^0.9.23",
@@ -27,7 +29,7 @@
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "viem": "2.x",
-    "wagmi": "^2.12.11"
+    "wagmi": "2.12.11"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

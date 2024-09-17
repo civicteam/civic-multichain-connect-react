@@ -11,9 +11,13 @@ import {
   useWalletModal,
 } from "@solana/wallet-adapter-react-ui";
 import { ConnectionProvider } from "@solana/wallet-adapter-react";
+import { Adapter } from "@solana/wallet-adapter-base";
+import { clusterApiUrl } from "@solana/web3.js";
+
+const DEFAULT_RPC_ENDPOINT = clusterApiUrl("mainnet-beta");
 
 export type SolanaChain = {
-  id: string;
+  number: string;
   name: string;
   rpcEndpoint: string;
 } & Chain;
@@ -21,6 +25,7 @@ export type SolanaChain = {
 interface SolanaIntegrationProps {
   children: React.ReactNode;
   chains: SolanaChain[];
+  wallets: Adapter[];
 }
 
 function WalletConnectionManager() {
@@ -60,12 +65,16 @@ function WalletConnectionManager() {
 
   // Set selected chain to Solana when connected
   useEffect(() => {
+    if (selectedChain) {
+      return;
+    }
+
     const chain = chains.find((chain) => chain.type === ChainType.Solana);
 
     if (chain && connected) {
       setSelectedChain(chain);
     }
-  }, [chains, connected, setSelectedChain]);
+  }, [chains, connected, setSelectedChain, selectedChain]);
 
   // This component doesn't render anything, it just manages wallet connection state
   return null;
@@ -74,21 +83,22 @@ function WalletConnectionManager() {
 export function MultichainSolanaProvider({
   children,
   chains,
+  wallets,
 }: SolanaIntegrationProps) {
   const { selectedChain, registerChains } = useMultichainModal();
 
   useEffect(() => {
-    registerChains(chains);
+    registerChains(
+      chains.map((chain) => ({
+        ...chain,
+        type: ChainType.Solana,
+      }))
+    );
   }, [registerChains, chains]);
 
   const endpoint = useMemo(() => {
-    if (chains.length === 0) {
-      throw new Error("No chains provided");
-    }
-    return (selectedChain as SolanaChain)?.rpcEndpoint ?? chains[0].rpcEndpoint;
+    return (selectedChain as SolanaChain)?.rpcEndpoint ?? DEFAULT_RPC_ENDPOINT;
   }, [chains, selectedChain]);
-
-  const wallets = useMemo(() => [], []); // Add your wallet adapters here if needed
 
   return (
     <ConnectionProvider endpoint={endpoint}>
