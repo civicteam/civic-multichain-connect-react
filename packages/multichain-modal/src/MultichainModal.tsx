@@ -151,8 +151,28 @@ export const MultichainModal: React.FC<MultichainModalProps> = ({
     setSelectedChain(null);
   };
 
-  const mainnetChains = chains.filter((chain) => !chain.testnet);
-  const testnetChains = chains.filter((chain) => chain.testnet);
+  // Sort chains based on orderBy property
+  const sortChains = (chainsToSort: Chain[]) => {
+    return chainsToSort.sort((a, b) => {
+      // If both chains have orderBy, compare them
+      if (a.orderBy !== undefined && b.orderBy !== undefined) {
+        return a.orderBy - b.orderBy;
+      }
+      // If only a has orderBy, it should come first
+      if (a.orderBy !== undefined) {
+        return -1;
+      }
+      // If only b has orderBy, it should come first
+      if (b.orderBy !== undefined) {
+        return 1;
+      }
+      // If neither has orderBy, maintain original order
+      return 0;
+    });
+  };
+
+  const mainnetChains = sortChains(chains.filter((chain) => !chain.testnet));
+  const testnetChains = sortChains(chains.filter((chain) => chain.testnet));
 
   if (!isOpen) {
     return null;
