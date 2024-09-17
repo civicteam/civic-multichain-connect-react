@@ -9,7 +9,7 @@ export interface Chain {
   iconUrl?: string;
   testnet?: boolean;
   type: ChainType;
-  orderBy?: number; // Add this line
+  order?: number;
 }
 
 export enum ConnectionState {

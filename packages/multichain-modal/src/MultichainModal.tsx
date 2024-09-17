@@ -155,15 +155,15 @@ export const MultichainModal: React.FC<MultichainModalProps> = ({
   const sortChains = (chainsToSort: Chain[]) => {
     return chainsToSort.sort((a, b) => {
       // If both chains have orderBy, compare them
-      if (a.orderBy !== undefined && b.orderBy !== undefined) {
-        return a.orderBy - b.orderBy;
+      if (a.order !== undefined && b.order !== undefined) {
+        return a.order - b.order;
       }
-      // If only a has orderBy, it should come first
-      if (a.orderBy !== undefined) {
+      // If only a has order, it should come first
+      if (a.order !== undefined) {
         return -1;
       }
-      // If only b has orderBy, it should come first
-      if (b.orderBy !== undefined) {
+      // If only b has order, it should come first
+      if (b.order !== undefined) {
         return 1;
       }
       // If neither has orderBy, maintain original order
