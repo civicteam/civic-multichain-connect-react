@@ -20,7 +20,8 @@ const ModalContent = styled.div`
   background-color: white;
   padding: 30px;
   border-radius: 20px;
-  min-width: 420px;
+  width: 100%; /* Full width on mobile */
+  max-width: 420px;
 `;
 
 const CloseButton = styled.button`
