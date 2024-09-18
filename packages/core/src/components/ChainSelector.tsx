@@ -32,7 +32,7 @@ const ListItemButton = styled.button`
   padding-bottom: 6px;
   cursor: pointer;
   &:hover {
-    background: rgba(255, 107, 78, 0.2);
+    background: rgba(124, 117, 255, 0.2);
   }
 `;
 
@@ -53,6 +53,14 @@ const SelectChainList = styled.ul`
   padding-inline-start: 0px;
   margin-block-start: 0px;
   margin-block-end: 0px;
+  overscroll-behavior: contain;
+  box-sizing: border-box;
+
+  @media (max-width: 560px) {
+    overflow-y: auto; /* Scroll inside the popup if content overflows */
+    height: 100%;
+    max-height: 400px; /* Set a max height to make it scrollable */
+  }
 `;
 
 const StyledTabList = styled(TabList)`
@@ -83,7 +91,7 @@ const StyledTab = styled(Tab)`
     color: black;
     cursor: pointer;
     border-radius: 0;
-    border-bottom: 4px solid #ff6b4e;
+    border-bottom: 4px solid #7c75ff;
   }
 
   &.react-tabs__tab--disabled {

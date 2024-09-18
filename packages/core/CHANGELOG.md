@@ -1,3 +1,8 @@
+#### 0.2.8 (2024-09-18)
+
+- Make chain selector list scrollable on mobile
+- Change selected tab underline colour
+
 #### 0.2.4 (2024-04-03)
 
 - Fix chain selector icon alignment when chain name wraps
