@@ -13,7 +13,7 @@ import React from "react";
 
 interface EthereumWalletContextType {
   isConnected: boolean;
-  walletSigner: WalletClient | null; // Replace 'any' with a more specific type if available
+  walletSigner: WalletClient | null;
   address: string | undefined;
 }
 

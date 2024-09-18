@@ -17,7 +17,6 @@ import { clusterApiUrl } from "@solana/web3.js";
 const DEFAULT_RPC_ENDPOINT = clusterApiUrl("mainnet-beta");
 
 export type SolanaChain = {
-  number: string;
   name: string;
   rpcEndpoint: string;
 } & Chain;
