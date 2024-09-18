@@ -14,11 +14,6 @@ import {
   ConnectionState,
 } from "./types.js";
 
-// Action Types as constants to avoid typos
-const REGISTER_CHAINS = "REGISTER_CHAINS";
-const SET_SELECTED_CHAIN = "SET_SELECTED_CHAIN";
-const SET_WALLET_CONNECTION = "SET_WALLET_CONNECTION";
-
 type WalletConnectionState = {
   [key in ChainType]?: ConnectionState;
 };
@@ -30,11 +25,19 @@ type State = {
   _forceUpdate: number;
 };
 
+// Change action type constants to an enum
+enum ActionType {
+  REGISTER_CHAINS = "REGISTER_CHAINS",
+  SET_SELECTED_CHAIN = "SET_SELECTED_CHAIN",
+  SET_WALLET_CONNECTION = "SET_WALLET_CONNECTION",
+}
+
+// Update the Action type to use the new enum
 type Action =
-  | { type: typeof REGISTER_CHAINS; payload: Chain[] }
-  | { type: typeof SET_SELECTED_CHAIN; payload: Chain | null }
+  | { type: ActionType.REGISTER_CHAINS; payload: Chain[] }
+  | { type: ActionType.SET_SELECTED_CHAIN; payload: Chain | null }
   | {
-      type: typeof SET_WALLET_CONNECTION;
+      type: ActionType.SET_WALLET_CONNECTION;
       payload: { chainType: ChainType; state: ConnectionState };
     };
 
@@ -53,7 +56,7 @@ const MultichainModalContext = createContext<MultichainModalContextType>({
 // Update the reducer
 function reducer(state: State, action: Action): State {
   switch (action.type) {
-    case REGISTER_CHAINS: {
+    case ActionType.REGISTER_CHAINS: {
       const newChains = action.payload.filter(
         (newChain) =>
           !state.chains.some((prevChain) => prevChain.id === newChain.id)
@@ -63,13 +66,13 @@ function reducer(state: State, action: Action): State {
         chains: [...state.chains, ...newChains],
       };
     }
-    case SET_SELECTED_CHAIN:
+    case ActionType.SET_SELECTED_CHAIN:
       return {
         ...state,
         selectedChain: action.payload,
         _forceUpdate: Date.now(),
       };
-    case SET_WALLET_CONNECTION:
+    case ActionType.SET_WALLET_CONNECTION:
       return {
         ...state,
         walletConnections: {
@@ -99,17 +102,17 @@ export const MultichainProvider: React.FC<{ children: ReactNode }> = ({
   });
 
   const registerChains = useCallback((newChains: Chain[]) => {
-    dispatch({ type: REGISTER_CHAINS, payload: newChains });
+    dispatch({ type: ActionType.REGISTER_CHAINS, payload: newChains });
   }, []);
 
   const setSelectedChain = useCallback((chain: Chain | null) => {
-    dispatch({ type: SET_SELECTED_CHAIN, payload: chain });
+    dispatch({ type: ActionType.SET_SELECTED_CHAIN, payload: chain });
   }, []);
 
   const setWalletConnection = useCallback(
     (chainType: ChainType, connectionState: ConnectionState) => {
       dispatch({
-        type: SET_WALLET_CONNECTION,
+        type: ActionType.SET_WALLET_CONNECTION,
         payload: { chainType, state: connectionState },
       });
     },
