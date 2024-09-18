@@ -32,7 +32,7 @@ const ListItemButton = styled.button`
   padding-bottom: 6px;
   cursor: pointer;
   &:hover {
-    background: rgba(255, 107, 78, 0.2);
+    background: rgba(124, 117, 255, 0.2);
   }
 `;
 
