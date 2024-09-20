@@ -106,7 +106,7 @@ function App() {
 
     return getDefaultConfig({
       appName: "Multichain Modal Example",
-      projectId: "YOUR_PROJECT_ID",
+      projectId: `${process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID}`,
       chains: [firstChain, ...restChains],
     });
   }, [ethereumChains]);

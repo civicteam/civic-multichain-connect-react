@@ -1,211 +1,264 @@
-## Multichain Connect React
+# Multichain Modal Library
 
-### Overview
+This library provides a simple way to integrate multichain wallet connections in your React application, supporting both Ethereum (via Rainbow Kit) and Solana wallets.
 
-The Multichain Connect React library is a versatile TypeScript library that simplifies wallet integration for decentralized applications (dApps) by providing a unified interface for connecting to different wallets across multiple blockchains. It includes a React interface for seamless integration with React-based projects. The library allows developers to easily add new wallet adapters and supports customizable chain configurations. Once production ready, the library will consider porting over to the [following](https://github.com/wallet-standard/wallet-standard/tree/master/packages/react/core) Wallet Standard React interface.
+## Project Structure
 
-### Core Functionality:
+This project is a monorepo managed with pnpm, containing the following packages:
 
-The library offers a multi-chain wallet adapter that serves as a bridge between dApps and various wallet providers. It provides a standardized API for wallet interactions, enabling users to connect their preferred wallet across different blockchains seamlessly.
-
-#### React Interface:
-
-Includes a pre-built React interface that simplifies the integration of wallet functionality into React applications. This interface offers intuitive components and hooks that developers can leverage to handle wallet interactions and user authentication with ease.
-
-#### Chain Customization:
-
-Developers can specify the chains they want to support within their application. Multichain Connect React allows for easy configuration of supported chains, such as EVM supported chains, Solana, etc. This flexibility enables dApps to cater to specific blockchain ecosystems while maintaining a consistent user experience.
-
-#### Extensibility:
-
-The library is designed with extensibility in mind. It provides a straightforward mechanism for adding additional wallet adapters, allowing developers to expand the range of supported wallets easily. By following the provided adapter interface and guidelines, new wallet integrations can be seamlessly incorporated into the existing framework. This also gives the user flexibility in which wallet adapters they choose to use.
+- `@civic/multichain-modal`: The core multichain modal component library
+- `@civic/multichain-modal-rainbowkit`: RainbowKit integration for Ethereum wallets
+- `@civic/multichain-modal-solana`: Solana wallet integration
 
 ## Installation
 
-To use the MultiChain Wallet Connect React components, follow these steps:
+Install the necessary packages:
 
-1. Install the package using npm:
-
-   ```shell
-   npm install @civic/multichain-connect-react-core @civic/multichain-connect-react-solana-wallet-adapter @civic/multichain-connect-react-rainbowkit-wallet-adapter wagmi/providers/public @solana/web3.js
-   ```
-
-   or using Yarn:
-
-   ```shell
-   yarn add @civic/multichain-connect-react-core @civic/multichain-connect-react-solana-wallet-adapter @civic/multichain-connect-react-rainbowkit-wallet-adapter wagmi/providers/public @solana/web3.js
-   ```
-
-2. Import the necessary components and dependencies into your code:
-
-   ```javascript
-   import {
-     MultichainWalletProvider,
-     MultichainConnectButton,
-   } from "@civic/multichain-connect-react-core";
-   import {
-     Chain as SolanaChain,
-     SolanaWalletAdapterConfig,
-   } from "@civic/multichain-connect-react-solana-wallet-adapter";
-   import {
-     Chain as EthereumChain,
-     RainbowkitConfig,
-   } from "@civic/multichain-connect-react-rainbowkit-wallet-adapter";
-   import { publicProvider } from "wagmi/providers/public";
-   import { Connection } from "@solana/web3.js";
-   import {
-     mainnet,
-     goerli,
-     polygon,
-     arbitrum,
-     arbitrumGoerli,
-     polygonMumbai,
-   } from "wagmi/chains";
-   ```
-
-   Note: Make sure you have the required dependencies installed, including `@solana/web3.js`.
+```bash
+npm install @civic/multichain-modal @civic/multichain-modal-rainbowkit @civic/multichain-modal-solana @rainbow-me/rainbowkit wagmi viem @solana/wallet-adapter-react @solana/wallet-adapter-react-ui
+```
 
 ## Usage
 
-To use the MultiChain Wallet Connect React components, follow these steps:
+### 1. Import required components and hooks
 
-1. Wrap your application or relevant components with the `MultichainWalletProvider` component:
-
-   ```javascript
-   <MultichainWalletProvider>
-     {/* Your application components */}
-   </MultichainWalletProvider>
-   ```
-
-2. Configure the Solana wallet adapter by using the `SolanaWalletAdapterConfig` component within the `MultichainWalletProvider`:
-
-   ```javascript
-   const solanaChains = [
-     { name: "Solana", rpcEndpoint: clusterEndpoint("mainnet-beta") },
-   ];
-   const solanaTestChains = [
-     { name: "Solana Devnet", rpcEndpoint: clusterEndpoint("devnet") },
-   ];
-
-   <MultichainWalletProvider>
-     <SolanaWalletAdapterConfig
-       chains={solanaChains}
-       testnetChains={solanaTestChains} // These will display unde the testnets tab
-     >
-       {/* Your application components */}
-     </SolanaWalletAdapterConfig>
-   </MultichainWalletProvider>;
-   ```
-
-3. Configure the Rainbowkit wallet adapter by using the `RainbowkitConfig` component within the `MultichainWalletProvider`:
-
-   ```javascript
-   const evmChains = [polygon, mainnet];
-   const evmTestChains = [polygonMumbai, goerli];
-   const initialChain = { ...polygonMumbai, type: SupportedChains.Ethereum };
-
-   <MultichainWalletProvider initialChain={initialChain}>
-     <RainbowkitConfig
-       chains={evmChains}
-       testnetChains={evmTestChains} // These will display unde the testnets tab
-       theme={myCustomTheme}
-       providers={[publicProvider()]}
-       options={{
-         // Rainbowkit relies on WalletConnect which now needs to obtain a projectId from WalletConnect Cloud.
-         walletConnectProjectId: "*YOUR WALLET CONNECT PROJECT ID*",
-       }}
-     >
-       {/* Your application components */}
-     </RainbowkitConfig>
-   </MultichainWalletProvider>;
-   ```
-
-   Replace `initialChain`, `myCustomTheme`, and `publicProvider()` with the appropriate values and configurations for your project.
-
-4. Use the `MultichainConnectButton` component to display the wallet connection button in your application:
-
-   ```javascript
-   <MultichainWalletProvider>
-     <RainbowkitConfig>
-       <SolanaWalletAdapterConfig>
-         <MultichainConnectButton />
-       </SolanaWalletAdapterConfig>
-     </RainbowkitConfig>
-   </MultichainWalletProvider>
-   ```
-
-Customize the placement and appearance of the button as needed in your application's layout.
-
-That's it! You can now integrate MultiChain Wallet Connect React components into your application to enable wallet connectivity and interactions with Solana and Ethereum-based chains.
-
-### Architecture
-
-The architecture can be viewed [here](https://mermaid.live/view#pako:eNqVVE1rwzAM_SvC5-0P5FAoHYzCxmCl9JKLGquNwbEzW17ZSv_77Ngt_abLyUh6T3rPcraisZJEJTx9BTINvShcO-xqA_Gbe3LPo9F8WsFHTwbkuO9LZhrj70GzmrSozMQaQw1XMDWKFWr1S7BR3IIPfW8dk4Qm1fmMvgBGsgVqTTyW2DO5EyJuCXIWSjpzb4aYj3lkaKxZWdcB26E-58AzGolO3m6btM1au0kEKQTLwGzNif4rOsvhDq9PKgbXOitR37PjdpsZ6TTTUHy71zUgW5ed8wPFvuPD_r9hME17hvZn95DZTpAH6Z_EwRlA0Moz2BXgNyqNS01HF0cQYjE0aA7-J59ObDkbrFiSOa4PcMWPMk1pEvUsjvD_9vRxmrPhX4kPQudTiBsLPi6fMusjzrK7N8zd72uBX8DiwpcdHvJS-VKSmuQa8SQ6ch0qGR_-NvWpRZTVUS2qeJS0wiilFrXZxVIMbGc_phEVu0BPIvQSef-fyMHdH73-g1Y).
-
-```mermaid
-sequenceDiagram
-    User->>UI: Open dApp
-    UI->>MultiChainConnect: Initialize with supported chains
-    MultiChainConnect->>WalletAdapter: Initialize the Wallet Adapter with wallets that conform to the wallet standard
-    MultiChainConnect->>UI: Show connect button
-    User->>MultiChainConnect: Connect
-    MultiChainConnect->>User: Open modal with supported chains
-    User->>MultiChainConnect: Select chain
-    MultiChainConnect->>MultiChainConnect: Store the selected chain
-    MultiChainConnect->>WalletAdapter: Launch selected chain's Wallet Adapter
-    WalletAdapter->>User: Return a list of available wallets the user can connect with
-    User->>WalletAdapter: Select wallet
-    WalletAdapter->>MultiChainConnect: Return connected Wallet
-    MultiChainConnect->>MultiChainConnect: Store the connected Wallet
-    MultiChainConnect->>WalletAdapter: Get connect UI for showing the connected wallet
-    WalletAdapter->>UI: Show UI for connected wallet and button for disconnecting wallet
-```
-## Updating Icons and Configurations
-
-When you run `pnpm run geticons` or `npm publish`, icons and configuration files are automatically fetched from our S3 bucket: `s3://civic-evm-config/`. This ensures that you always have the latest versions of these files as part of your setup process.
-
-### Source of Truth
-- The configuration and icon files have been added to `.gitignore` to avoid accidental commits of these files into the repository.
-- **Always treat the S3 bucket (`s3://civic-evm-config/`) as the single source of truth for these files.** Changes should be reflected in the S3 bucket and not within the repository.
-
-### Custom button
-
-1. Creating your own button with custom styling:
-
-```javascript
-import React from "react";
-import styled from "styled-components";
+```typescript
 import {
-  MultichainConnectedButton,
-  useWallet,
-  useModal,
-} from "@civic/multichain-connect-react";
+  ChainType,
+  MultichainConnectButton,
+  useMultichainModal,
+  MultichainProvider,
+} from "@civic/multichain-modal";
+import {
+  useAccount,
+  WagmiProvider,
+  QueryClient,
+  QueryClientProvider,
+  MultichainRainbowKitProvider,
+  RainbowKitConnectedButton,
+} from "@civic/multichain-modal-rainbowkit";
+import {
+  MultichainSolanaProvider,
+  SolanaChain,
+  SolanaWalletConnectedButton,
+} from "@civic/multichain-modal-solana";
+import { getDefaultConfig } from "@rainbow-me/rainbowkit";
+import { mainnet, sepolia, Chain } from "wagmi/chains";
+import { useWallet } from "@solana/wallet-adapter-react";
+```
 
-// Styled component named StyledButton
-const StyledButton = styled.button`
-  display: inline-block;
-  border-radius: 20px;
-  padding: 0.5rem 0;
-  margin: 0.5rem 1rem;
-  width: 11rem;
-  border: 2px solid black;
-  background: white;
-  color: black;
-`;
+### 2. Define your chains
 
-export function MultichainConnectButton(): JSX.Element | null {
-  const { connected } = useWallet();
-  const { openConnectModal } = useModal();
+```typescript
+const ethereumChains: Chain[] = [
+  { ...mainnet, iconUrl: "/ethereum.svg" },
+  { ...sepolia, iconUrl: "/ethereum.svg" },
+];
 
+const solanaChains: SolanaChain[] = [
+  {
+    id: hashString('solana-mainnet') // need to be a unique id,
+    name: "Solana",
+    rpcEndpoint: "https://api.mainnet-beta.solana.com",
+    type: ChainType.Solana,
+    testnet: false,
+    iconUrl: "/solana.svg",
+  },
+  {
+    id: hashString('solana-devnet') // need to be a unique id,
+    name: "Solana Devnet",
+    rpcEndpoint: "https://api.devnet.solana.com",
+    type: ChainType.Solana,
+    testnet: true,
+    iconUrl: "/solana.svg",
+  },
+];
+```
+
+### 3. Configure Wagmi
+
+```typescript
+const wagmiConfig = getDefaultConfig({
+  appName: "Your App Name",
+  projectId: "YOUR_WALLET_CONNECT_PROJECT_ID",
+  chains: ethereumChains,
+});
+
+const queryClient = new QueryClient();
+```
+
+### 4. Set up your app structure
+
+```tsx
+function App() {
   return (
-    <>
-      {!connected && (
-        <StyledButton type="button" onClick={openConnectModal}>
-          Connect
-        </StyledButton>
-      )}
-      <MultichainConnectedButton />
-    </>
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <MultichainProvider>
+          <MultichainRainbowKitProvider
+            modalSize="compact"
+            chains={ethereumChains}
+          >
+            <MultichainSolanaProvider wallets={[]} chains={solanaChains}>
+              <YourAppComponent />
+            </MultichainSolanaProvider>
+          </MultichainRainbowKitProvider>
+        </MultichainProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }
 ```
+
+### 5. Implement your main component
+
+```tsx
+function YourAppComponent() {
+  const { selectedChain, getConnectionState } = useMultichainModal();
+  const ethereumWallet = useAccount();
+  const solanaWallet = useWallet();
+  const connectionState = getConnectionState();
+
+  return (
+    <div>
+      <MultichainConnectButton />
+      <RainbowKitConnectedButton />
+      <SolanaWalletConnectedButton />
+      {connectionState === "connected" && selectedChain && (
+        <div>
+          <h2>Connected to {selectedChain.name}</h2>
+          <p>Chain ID: {selectedChain.id}</p>
+          <p>Chain Type: {selectedChain.type}</p>
+          <p>Testnet: {selectedChain.testnet ? "Yes" : "No"}</p>
+          <p>
+            Address:{" "}
+            {ethereumWallet.address || solanaWallet?.publicKey?.toString()}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+This setup provides a basic integration of the multichain modal library in your React application. You can customize the appearance and behavior of the components as needed.
+
+Remember to replace `"YOUR_WALLET_CONNECT_PROJECT_ID"` with your actual Wallet Connect project ID.
+
+## Development
+
+### Prerequisites
+
+- Node.js >= 16
+- pnpm >= 7
+
+### Setting up the development environment
+
+1. Clone the repository:
+   ```bash
+   git clone git@github.com:civicteam/civic-multichain-connect-react.git
+   cd civic-multichain-connect-react
+   ```
+
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+
+3. Build all packages:
+   ```bash
+   pnpm run build:all
+   ```
+
+### Running the project
+
+To run the project in development mode, you'll need to start each package individually. Navigate to each package directory and run:
+
+```bash
+pnpm run dev
+```
+
+### Scripts
+
+- `pnpm run nuke`: Remove all node_modules and lock files
+- `pnpm run reinstall`: Nuke and reinstall all dependencies
+- `pnpm run clean`: Clean all build artifacts
+- `pnpm run build:all`: Build all packages
+- `pnpm run build:clean`: Clean and rebuild all packages
+- `pnpm run publish:beta`: Publish a beta version of all packages
+- `pnpm run publish:release`: Publish a release version of all packages
+
+## Contributing
+
+We welcome contributions to the Multichain Modal Library! Here's how you can contribute:
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+Please make sure to update tests as appropriate and adhere to the existing coding style.
+
+### Code Style
+
+We use ESLint and Prettier to maintain code quality and consistency. Before submitting a pull request, please run:
+
+```bash
+pnpm run lint
+```
+
+And fix any issues that are reported.
+
+## Quick Start for Developers
+
+To quickly get started with development and see how the library works:
+
+1. Clone the repository:
+   ```bash
+   git clone git@github.com:civicteam/civic-multichain-connect-react.git
+   cd civic-multichain-connect-react
+   ```
+
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+
+3. Start the example project:
+   ```bash
+   cd packages/multichain-modal-example
+   pnpm run start
+   ```
+
+This will start the development server, and you should be able to see the example application running in your browser.
+
+### Making Changes
+
+To make changes to the library and see them reflected in the example:
+
+1. Make your changes in the relevant package (e.g., `packages/multichain-modal`).
+
+2. Rebuild the changed package:
+   ```bash
+   cd packages/multichain-modal
+   pnpm run build
+   ```
+
+3. If the example server is already running, you may need to stop it (Ctrl+C) and start it again to see your changes:
+   ```bash
+   cd ../multichain-modal-example
+   pnpm run start
+   ```
+
+Note: Depending on the changes you've made, you might need to restart the development server to see the updates.
+
+## License
+
+This project is licensed under the MIT License.
+
+## Contact
+
+Civic.com - [@civickey](https://twitter.com/civickey)
+
+Project Link: [https://github.com/civicteam/civic-multichain-connect-react](https://github.com/civicteam/civic-multichain-connect-react)
