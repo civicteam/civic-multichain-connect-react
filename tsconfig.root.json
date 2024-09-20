@@ -1,6 +1,16 @@
 {
     "extends": "./tsconfig.base.json",
     "compilerOptions": {
-        "composite": true
+        "composite": true,
+        "target": "ES2018",
+        "module": "ESNext",
+        "lib": ["DOM", "ESNext"],
+        "jsx": "react-jsx",
+        "declaration": true,
+        "strict": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
     }
 }

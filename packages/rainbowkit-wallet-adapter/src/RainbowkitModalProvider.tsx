@@ -31,8 +31,6 @@ const useWalletConnection = (
     // Introduce a small delay to allow state updates to settle
     // User is disconnected before the selected chain is set to undefined resulting in the modal opening
     const timer = setTimeout(() => {
-      console.log("isConnected", isConnected, "selectedChain", selectedChain);
-
       if (
         !isConnected &&
         type === SupportedChains.Ethereum &&
